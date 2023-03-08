@@ -37,7 +37,7 @@ def getDetailData(url, lasttitle, lastdate):
     response = getRequestResponse(url)
     bs = BeautifulSoup(response.text, "lxml")
 
-    title = bs.select_one('#title_area').text
+    title = bs.select_one('#title_area').text.strip()
     publish_date = bs.select_one('.media_end_head_info_datestamp_time')['data-date-time']
     full_text = bs.select_one('#dic_area').text.strip()
     img_src = ''
@@ -50,7 +50,8 @@ def getDetailData(url, lasttitle, lastdate):
     try:
         img_src = bs.select_one('#img1')['data-src']
     except:
-        print("이미지가 존재하지 않는 기사 : ", url)
+        # print("이미지가 존재하지 않는 기사 : ", url)
+        pass
 
     return title, publish_date, full_text, img_src, False
 
@@ -144,8 +145,9 @@ def main():
 
     for topic in topics.keys():
         sid1 = topics[topic]
+        print(f"[{topic}] : 크롤링 시작...")
         for detail in topic_detail[topic]:
-            print(f"[{topic} - {detail}] : 크롤링 시작...")
+            # print(f"[{topic} - {detail}] : 크롤링 시작...")
 
             json_result = []
             sid2 = topic_detail[topic][detail]
@@ -160,7 +162,7 @@ def main():
 
             newidx = getPostData(response, json_result, topic, detail, lastidx, lasttitle, lastdate)
 
-            print(f"[{topic} - {detail}] : {newidx-lastidx}개 크롤링 완료...")
+            # print(f"[{topic} - {detail}] : {newidx-lastidx}개 크롤링 완료...")
             lastidx = newidx
 
             if json_result:
