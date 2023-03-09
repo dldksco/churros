@@ -17,8 +17,8 @@
     - 네이밍 규칙
 			
       - feature/파트/서비스
-      - feature/fe/1/로그인
-      - feature/be/1/로그인
+      - feature/fe/로그인
+      - feature/be/로그인
 			- feature/data/naver-news-crawling
 
 ```
@@ -30,7 +30,7 @@
 
 ### 1. 커밋 유형 지정
 
-- 커밋 유형은 영어 대문자로 작성하기’f
+- 커밋 유형은 영어 대문자로 작성하기
     
     
     | 커밋 유형 | 의미 |
