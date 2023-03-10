@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
+import datetime
 
 load_dotenv()
 
@@ -90,10 +91,9 @@ def getDetailData(url, lasttitle, lastdate):
 
     title = bs.select_one('#title_area').text.strip()
     publish_date = bs.select_one('.media_end_head_info_datestamp_time')['data-date-time']
+    publish_date = datetime.datetime.strptime(publish_date, '%Y-%m-%d %H:%M:%S')
     full_text = bs.select_one('#dic_area').text.strip()
     img_src = ''
-
-    # datetime.datetime.strptime(publish_date, '%Y-%m-%d %H:%M:%S')
 
     if publish_date == lastdate and title == lasttitle:
         return title, publish_date, full_text, img_src, True

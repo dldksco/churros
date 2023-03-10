@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
-import json
+import datetime
 
 load_dotenv()
 
@@ -48,7 +48,11 @@ def getDetailData(url, lasttitle, lastdate):
     bs = BeautifulSoup(response.text, "lxml")
 
     title = bs.select_one('.end_tit').text.strip()
-    publish_date = bs.select_one(".article_info > .author").text
+    pd = bs.select_one(".article_info > .author").text.split(' ')
+    publish_date = datetime.datetime.strptime(pd[0].replace('기사입력', '') + pd[2], '%Y.%m.%d.%H:%M')
+    if(pd[1] == '오후'):
+        publish_date += datetime.timedelta(hours=12)
+
     full_text = bs.select_one("#articeBody").text.strip()
     img_src = ''
 
