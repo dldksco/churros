@@ -16,6 +16,57 @@ db = mongo_client['newsdb']
 collection = db['newsCol']
 # collections = (db['politics'], db['social'], db['economy'], db['culture'], db['science'])
 
+topics = {
+    '정치': '100',
+    '경제': '101',
+    '사회': '102',
+    '생활/문화': '103',
+    'IT/과학': '105',
+}
+
+topic_detail = {
+    '정치': {
+        '대통령실': '264',
+        '국회/정당': '265',
+        '북한': '268',
+        '행정': '266',
+        '국방/외교': '267',
+        '정치일반': '269'
+    },
+    '경제': {
+        '금융': '259',
+        '증권': '258',
+        '산업/재계': '261',
+        '증기/벤처': '771',
+        '부동산': '260',
+        '글로벌 경제': '262',
+        '생활경제': '310',
+        '경제 일반': '263'
+    },
+    '사회': {
+        '사건사고': '249',
+        '교육': '250',
+        '노동': '251',
+        '언론': '254',
+        '환경': '252',
+        '지역': '256',
+        '인물': '276',
+        '사회 일반': '257',
+    },
+    '생활/문화': {
+        '생활문화 일반': '245',
+    },
+    'IT/과학': {
+        '모바일': '731',
+        '인터넷/SNS': '226',
+        '통신/뉴미디어': '227',
+        'IT 일반': '230',
+        '보안/해킹': '732',
+        '컴퓨터': '283',
+        '게임/리뷰': '229',
+        '과학 일반': '228'
+    }
+}
 def getRequestResponse(url):
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'}
@@ -85,64 +136,7 @@ def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate):
 
     return cnt
 
-def main():
-    topics = {
-        '정치': '100',
-        '경제': '101',
-        '사회': '102',
-        '생활/문화': '103',
-        'IT/과학': '105',
-    }
-
-    topic_detail = {
-        '정치': {
-            '대통령실': '264',
-            '국회/정당': '265',
-            '북한': '268',
-            '행정': '266',
-            '국방/외교': '267',
-            '정치일반': '269'
-        },
-        '경제': {
-            '금융': '259',
-            '증권': '258',
-            '산업/재계': '261',
-            '증기/벤처': '771',
-            '부동산': '260',
-            '글로벌 경제': '262',
-            '생활경제': '310',
-            '경제 일반': '263'
-        },
-        '사회': {
-            '사건사고': '249',
-            '교육': '250',
-            '노동': '251',
-            '언론': '254',
-            '환경': '252',
-            '지역': '256',
-            '인물': '276',
-            '사회 일반': '257',
-        },
-        '생활/문화': {
-            '생활문화 일반': '245',
-        },
-        'IT/과학': {
-            '모바일': '731',
-            '인터넷/SNS': '226',
-            '통신/뉴미디어': '227',
-            'IT 일반': '230',
-            '보안/해킹': '732',
-            '컴퓨터': '283',
-            '게임/리뷰': '229',
-            '과학 일반': '228'
-        }
-    }
-
-    last = list(collection.find().sort("_idx", -1))
-    lastidx = 0
-    if last:
-        lastidx = last[0]['_idx']
-
+def crawlingGeneralNews(lastidx):
     for topic in topics.keys():
         sid1 = topics[topic]
         print(f"[{topic}] : 크롤링 시작...")
@@ -151,7 +145,11 @@ def main():
 
             json_result = []
             sid2 = topic_detail[topic][detail]
+
             response = getNaverNewsList(sid1, sid2)
+
+            if not response:
+                continue
 
             lasttitle = ''
             lastdate = ''
@@ -171,6 +169,12 @@ def main():
                     result.inserted_ids
                 except BulkWriteError as bwe:
                     print(bwe.details)
+    return lastidx
+
+def main():
+    lastidx = collection.estimated_document_count()
+
+    crawlingGeneralNews(lastidx)
 
 if __name__ == '__main__':
     main()

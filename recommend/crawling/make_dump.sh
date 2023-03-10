@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=$(date +%y%m%d)
-dump_path="/data/mongo-dump/"
+dump_path="/data/db/mongo-dump/"
 host="127.0.0.1"
 port="27017"
 db_name="newsdb"
