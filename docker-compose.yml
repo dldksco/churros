@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  baggu-backend:
+    container_name: churros-backend
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    environment:
+      - LEE_AN_CHAE=1
+    ports:
+      - "9999:9999"
+    restart: always
+networks:
+  default:
+    external:
+      name: cd_network
