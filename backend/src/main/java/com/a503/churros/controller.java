@@ -13,7 +13,7 @@ public class controller {
   @GetMapping("/")
   public String hi() {
 
-    System.out.println("gg");;
+    System.out.println("gg");
     return h;
   }
 }
