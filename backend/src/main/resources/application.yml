@@ -1,1 +1,4 @@
-
+es:
+  host: ${LEE_AN_CHAE}
+server:
+  port: 9999
