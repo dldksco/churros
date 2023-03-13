@@ -25,6 +25,6 @@ services:
       - "3307:3306"
     restart: "no"
 networks:
-  cd_network:
-    external:
-      name: cd_network
+  default:
+    name: cd_network
+    external: true
