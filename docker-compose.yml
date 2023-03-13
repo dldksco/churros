@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       context: ./backend
     environment:
-      - LEE_AN_CHAE=good
+      - LEE_AN_CHAE=goo
     ports:
       - "9999:9999"
     restart: always
