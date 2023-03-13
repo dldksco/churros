@@ -15,6 +15,7 @@ mongo_client = MongoClient(host=mongo_host, port=mongo_port)
 
 db = mongo_client['newsdb']
 collection = db['newsCol']
+index_collection = db['indexCounter']
 # collections = (db['politics'], db['social'], db['economy'], db['culture'], db['science'])
 
 # https://entertain.naver.com/now?sid=221
@@ -111,7 +112,14 @@ def crawlingGeneralNews(lastidx):
 
         lasttitle = ''
         lastdate = ''
-        topic_last_data = list(collection.find({"cat1": "연예", "cat2": topic}).sort("_idx", -1))
+        lastindex = index_collection.find_one({"cat1": "연예", "cat2": topic})
+        topic_last_data = []
+
+        if lastindex:
+            topic_last_data = list(collection.find({"_idx": lastindex['counter']}))
+        else:
+            topic_last_data = list(collection.find({"cat1": "연예", "cat2": topic}).sort("_idx", -1))
+
         if topic_last_data:
             lasttitle = topic_last_data[0]['title']
             lastdate = topic_last_data[0]['publish_date']
@@ -128,6 +136,7 @@ def crawlingGeneralNews(lastidx):
 
         if json_result:
             try:
+                index_collection.insert_one({"cat1": "연예", "cat2": topic, "counter": lastidx})
                 result = collection.insert_many(json_result)
                 result.inserted_ids
             except BulkWriteError as bwe:
