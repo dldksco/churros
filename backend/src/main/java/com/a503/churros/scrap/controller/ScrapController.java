@@ -15,7 +15,7 @@ public class ScrapController {
 
     @GetMapping("/")
     public ResponseEntity<?> getScrap(){
-        System.out.println("test");
+        System.out.println("test");;
         return null;
     }
 }
