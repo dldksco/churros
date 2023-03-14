@@ -1,4 +1,30 @@
-es:
-  host: ${LEE_AN_CHAE}
+#es:
+#  host: ${LEE_AN_CHAE}
 server:
-  port: 9999
+  port: 포트알아서
+
+#로컬
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: 유저내임알아서
+    password: 비밀번호 알아서
+    url: jdbc:mariadb://127.0.0.1:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8
+    sql-script-encoding: UTF-8
+
+
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
+app:
+  auth:
+    tokenSecret: sadfldlsjfwefoiwejfoweijfoewlfjweofajefoqwj3eiofrwweiorjwelrqworewoirjwedsfakjsdflwerfjiwefjwealfweijflewafijalwefliasfjiesalijflsaiejflsae
+    accessTokenExpirationMsec: 200000
+    refreshTokenExpirationMsec: 600000000
+
+
