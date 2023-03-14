@@ -123,8 +123,6 @@ def crawlingGeneralNews(lastcounter):
             lasttitle = topic_last_data[0]['title']
             lastdate = topic_last_data[0]['publish_date']
 
-        print("last title : ", lasttitle, " lastdate : ", lastdate, " lastindex : ", lastindex)
-
         lastcounter = getPostData(response, json_result, '연예', topic, lastcounter, lasttitle, lastdate)
 
         # with open('naver_enter_news.json', 'w', encoding='utf8') as outfile:
