@@ -59,7 +59,7 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://churros-mariadb/churros?serverTimezone=UTC&characterEncoding=utf84&useSSL=false&useUnicode=true
     username: root
-    password: ${MARIADB_PASSWORD}
+    password: ${MARIADB_PASSWORD1}
 
 
 ---
