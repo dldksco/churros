@@ -10,21 +10,7 @@ services:
     ports:
       - "9999:9999"
     restart: always
-  churros-mariadb:
-    container_name: churros-mariadb
-    build:
-      dockerfile: Dockerfile
-      context: ./RDBMS
-    environment:
-      - MARIADB_DATABASE=churros
-      - MARIADB_ROOT_PASSWORD=A503
-    volumes:
-      - ./RDBMS/config:/etc/mysql/conf.d
-      - ./RDBMS/data:/var/lib/mysql
-    ports:
-      - "3307:3306"
-    restart: no
 networks:
   default:
-    external:
-      name: cd_network
+    name: cd_network
+    external: true
