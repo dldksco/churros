@@ -4,7 +4,7 @@ services:
     container_name: churros-backend
     build:
       dockerfile: Dockerfile
-      context: ./backend
+      context: /backend
     environment:
       - MARIADB_PASSWORD=A503
     ports:
