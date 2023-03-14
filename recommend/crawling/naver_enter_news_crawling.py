@@ -99,8 +99,8 @@ def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate):
 
     return cnt
 
-def crawlingGeneralNews(lastidx):
-    for topic in topics.keys():
+def crawlingGeneralNews(lastcounter):
+    for topic in topics:
         print(f"[{topic}] : 크롤링 시작...")
         sid1 = topics[topic]
 
@@ -113,7 +113,6 @@ def crawlingGeneralNews(lastidx):
         lasttitle = ''
         lastdate = ''
         lastindex = index_collection.find_one({"cat1": "연예", "cat2": topic})
-        topic_last_data = []
 
         if lastindex:
             topic_last_data = list(collection.find({"_idx": lastindex['counter']}))
@@ -124,10 +123,9 @@ def crawlingGeneralNews(lastidx):
             lasttitle = topic_last_data[0]['title']
             lastdate = topic_last_data[0]['publish_date']
 
-        newidx = getPostData(response, json_result, '연예', topic, lastidx, lasttitle, lastdate)
+        print("last title : ", lasttitle, " lastdate : ", lastdate, " lastindex : ", lastindex)
 
-        # print(f"[{topic} - {detail}] : {newidx-lastidx}개 크롤링 완료...")
-        lastidx = newidx
+        lastcounter = getPostData(response, json_result, '연예', topic, lastcounter, lasttitle, lastdate)
 
         # with open('naver_enter_news.json', 'w', encoding='utf8') as outfile:
         #     jsonFile = json.dumps(json_result, indent=4, sort_keys=True, ensure_ascii=False)
@@ -136,18 +134,22 @@ def crawlingGeneralNews(lastidx):
 
         if json_result:
             try:
-                index_collection.insert_one({"cat1": "연예", "cat2": topic, "counter": lastidx})
+                if lastindex:
+                    index_collection.update_one({"cat1": "연예", "cat2": topic}, {"$set":{"counter": lastcounter}})
+                else:
+                    index_collection.insert_one({"cat1": "연예", "cat2": topic, "counter" : lastcounter})
+
                 result = collection.insert_many(json_result)
                 result.inserted_ids
             except BulkWriteError as bwe:
                 print(bwe.details)
-    return lastidx
+    return lastcounter
 
 def main():
-    lastidx = collection.estimated_document_count()
+    lastcounter = collection.estimated_document_count()
 
     try:
-        crawlingGeneralNews(lastidx)
+        crawlingGeneralNews(lastcounter)
     except Exception as e:
             print("크롤링 중 예외 발생 : ", e)
 

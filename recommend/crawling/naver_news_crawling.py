@@ -173,7 +173,10 @@ def crawlingGeneralNews(lastidx):
 
             if json_result:
                 try:
-                    index_collection.insert_one({"cat1": topic, "cat2": detail, "counter" : lastidx})
+                    if lastindex:
+                        index_collection.update_one({"cat1": topic, "cat2": detail}, {"$set": {"counter": lastidx}})
+                    else:
+                        index_collection.insert_one({"cat1": topic, "cat2": detail, "counter" : lastidx})
                     result = collection.insert_many(json_result)
                     result.inserted_ids
                 except BulkWriteError as bwe:
