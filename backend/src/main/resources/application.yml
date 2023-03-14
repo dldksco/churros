@@ -1,4 +1,21 @@
 es:
-  host: ${LEE_AN_CHAE}
+  host: LEE_AN_CHAE
 server:
   port: 9999
+
+
+  error:
+    whitelabel:
+      enabled=false:
+
+springdoc:
+  swagger-ui:
+    path=/swagger-ui:
+      html:
+
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
