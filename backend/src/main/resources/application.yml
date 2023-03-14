@@ -68,6 +68,9 @@ spring:
   config:
     activate:
       on-profile: "common"
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 server:
   port: 9999
   tomcat:
@@ -83,9 +86,4 @@ springdoc:
     path=/swagger-ui:
       html:
 
-
-spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 
