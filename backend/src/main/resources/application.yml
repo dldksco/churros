@@ -72,3 +72,20 @@ server:
   port: 9999
   tomcat:
     uri-encoding: utf-8
+
+
+  error:
+    whitelabel:
+      enabled=false:
+
+springdoc:
+  swagger-ui:
+    path=/swagger-ui:
+      html:
+
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
