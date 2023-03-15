@@ -22,7 +22,7 @@ services:
       - ./RDBMS/config:/etc/mysql/conf.d
       - my_new_volume:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3309:3305"
     restart: always
 
 volumes:
