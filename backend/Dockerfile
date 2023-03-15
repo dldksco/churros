@@ -24,4 +24,4 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 9999
 
 # java -jar app.jar을 이용해서 빌드한 파일을 실행한다.
-CMD ["java", "-jar", "-Dspring.profiles.active=devenv", "app.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=default", "app.jar"]
