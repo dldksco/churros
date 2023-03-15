@@ -9,7 +9,7 @@ services:
       - MARIADB_PASSWORD=A503
     ports:
       - "9999:9999"
-    restart: "on-failure"
+    restart: "no"
 networks:
   default:
     name: cd_network
