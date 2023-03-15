@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  churros-backend:
+    container_name: churros-backend
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    environment:
+      - MARIADB_PASSWORD=A503
+    ports:
+      - "9999:9999"
+    restart: always
+networks:
+  default:
+    name: cd_network
+    external: true
