@@ -11,9 +11,12 @@ load_dotenv()
 # mongoDB 설정
 mongo_host = os.environ.get('MongoHost')
 mongo_port = int(os.environ.get('MongoPort'))
-mongo_client = MongoClient(host=mongo_host, port=mongo_port)
+mongo_user = os.environ.get('MongoUser')
+mongo_passwd = os.environ.get('MongoPasswd')
+mongo_db_name = os.environ.get('MongoDbName')
+mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd, authSource=mongo_db_name)
 
-db = mongo_client['newsdb']
+db = mongo_client[mongo_db_name]
 collection = db['newsCol']
 index_collection = db['indexCounter']
 # collections = (db['politics'], db['social'], db['economy'], db['culture'], db['science'])
@@ -107,7 +110,7 @@ def getDetailData(url, lasttitle, lastdate):
 
     return title, publish_date, full_text, img_src, False
 
-def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate):
+def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate, except_count):
     bs = BeautifulSoup(response.text, "lxml")
     flag = False
     for type in ['.type06_headline', '.type06']:
@@ -128,19 +131,19 @@ def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate):
                                     'press': press, 'link': link, 'publish_date': publish_date, 'full_text': full_text,
                                     'img_src': img_src})
             except Exception as e:
-                print("크롤링 중 예외 발생 : ", e)
+                except_count += 1
 
     json_result.reverse()
     for result in json_result:
         cnt += 1
         result['_idx'] = cnt
 
-    return cnt
+    return cnt, except_count
 
-def crawlingGeneralNews(lastidx):
+def crawlingGeneralNews(lastidx, except_count):
     for topic in topics.keys():
         sid1 = topics[topic]
-        print(f"[{topic}] : 크롤링 시작...")
+        # print(f"[{topic}] : 크롤링 시작...")
         for detail in topic_detail[topic]:
             # print(f"[{topic} - {detail}] : 크롤링 시작...")
 
@@ -165,7 +168,7 @@ def crawlingGeneralNews(lastidx):
                 lasttitle = topic_last_data[0]['title']
                 lastdate = topic_last_data[0]['publish_date']
 
-            newidx = getPostData(response, json_result, topic, detail, lastidx, lasttitle, lastdate)
+            newidx, except_count = getPostData(response, json_result, topic, detail, lastidx, lasttitle, lastdate, except_count)
 
 
             # print(f"[{topic} - {detail}] : {newidx-lastidx}개 크롤링 완료...")
@@ -181,12 +184,14 @@ def crawlingGeneralNews(lastidx):
                     result.inserted_ids
                 except BulkWriteError as bwe:
                     print(bwe.details)
-    return lastidx
+    return lastidx, except_count
 
 def main():
     lastidx = collection.estimated_document_count()
-
-    crawlingGeneralNews(lastidx)
+    startidx = lastidx
+    except_count = 0
+    lastidx, except_count = crawlingGeneralNews(lastidx, except_count)
+    print("일반 기사 크롤링 결과 : ", lastidx - startidx, "개 기사 크롤링 완료, ", except_count, "개 기사에서 예외 발생")
 
 if __name__ == '__main__':
     main()
