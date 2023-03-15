@@ -20,10 +20,13 @@ services:
       - MARIADB_ROOT_PASSWORD=A708
     volumes:
       - ./RDBMS/config:/etc/mysql/conf.d
-      - mysql:/var/lib/mysql
+      - my_new_volume:/var/lib/mysql
     ports:
       - "3307:3306"
     restart: always
+
+volumes:
+  my_new_volume:
 networks:
   default:
     name: cd_network
