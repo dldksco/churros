@@ -7,6 +7,7 @@ WORKDIR /app
 # 모든 소스코드 (현재 폴더에 있는 소스코드) 를 작업 디렉토리에 복사한다.
 COPY . .
 
+ 
 # gradlew을 사용하여 build한다.
 RUN chmod +x gradlew
 RUN ./gradlew -x compileTestJava build
@@ -23,4 +24,4 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 9999
 
 # java -jar app.jar을 이용해서 빌드한 파일을 실행한다.
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=dev", "app.jar"]

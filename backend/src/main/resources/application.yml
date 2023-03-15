@@ -1,30 +1,109 @@
-#es:
-#  host: ${LEE_AN_CHAE}
-server:
-  port: 포트알아서
+#임시로컬
 
-#로컬
+# server:
+#   port: 포트알아서
+# spring:
+#   datasource:
+#     driver-class-name: org.mariadb.jdbc.Driver
+#     username: 유저내임알아서
+#     password: 비밀번호 알아서
+#     url: jdbc:mariadb://127.0.0.1:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8
+#     sql-script-encoding: UTF-8
+
+#   jpa:
+#     open-in-view: false
+#     generate-ddl: true
+#     show-sql: true
+#     hibernate:
+#       ddl-auto: update
+
+
+
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: 유저내임알아서
-    password: 비밀번호 알아서
-    url: jdbc:mariadb://127.0.0.1:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8
-    sql-script-encoding: UTF-8
+  profiles:
+    group:
+      "default": "local,common"
+      "devenv": "dev,common"
 
-
+---
+spring:
+  config:
+    activate:
+      on-profile: "local"
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   jpa:
-    open-in-view: false
-    generate-ddl: true
-    show-sql: true
     hibernate:
+      #      create : 매번 테이블 새롭게 생성
+      #      update : 변경 필요한 경우에만 alter, 테이블 없을 경우 create
+      #      create-drop : 매번 테이블 생성 후 작업 종류 직전 생성 테이블 삭제
+      #      validate : 테이블에 대한 유효성 검사
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+    #      open-in-view: false
+    defer-datasource-initialization: false
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/churros?serverTimezone=UTC&characterEncoding=utf84&useSSL=false&useUnicode=true
+    username: root
+    password: A708
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  jpa:
+    hibernate:
+      #      create : 매번 테이블 새롭게 생성
+      #      update : 변경 필요한 경우에만 alter, 테이블 없을 경우 create
+      #      create-drop : 매번 테이블 생성 후 작업 종류 직전 생성 테이블 삭제
+      #      validate : 테이블에 대한 유효성 검사
       ddl-auto: update
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+    #      open-in-view: false
+    defer-datasource-initialization: false
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://churros-mariadb/churros?serverTimezone=UTC&characterEncoding=utf84&useSSL=false&useUnicode=true
+    username: root
+    password: ${MARIADB_PASSWORD}
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+server:
+  port: 9999
+  tomcat:
+    uri-encoding: utf-8
 
+  error:
+    whitelabel:
+      enabled=false:
 
+springdoc:
+  swagger-ui:
+    path=/swagger-ui:
+      html:
+
+# jwt 토큰
 app:
   auth:
     tokenSecret: sadfldlsjfwefoiwejfoweijfoewlfjweofajefoqwj3eiofrwweiorjwelrqworewoirjwedsfakjsdflwerfjiwefjwealfweijflewafijalwefliasfjiesalijflsaiejflsae
-    accessTokenExpirationMsec: 200000
+    accessTokenExpirationMsec: 2000000
     refreshTokenExpirationMsec: 600000000
-
-
