@@ -1,11 +1,13 @@
 package com.a503.churros.service.user;
 
+import com.a503.churros.dto.user.response.MessageResponse;
 import com.a503.churros.entity.user.Token;
 import com.a503.churros.entity.user.User;
 import com.a503.churros.entity.user.mapping.TokenMapping;
 import com.a503.churros.dto.user.request.SignInRequest;
 import com.a503.churros.dto.user.request.SignUpRequest;
 import com.a503.churros.dto.user.response.AuthResponse;
+import com.a503.churros.repository.user.TokenRepository;
 import com.a503.churros.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+    private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -50,7 +53,7 @@ public class UserService {
                 .userEmail(tokenMapping.getUserEmail())
                 .build();
         // mariadb database에 refreshToken 저장
-//        tokenRepository.save(token);
+       tokenRepository.save(token);
 
         // 로그인 할때, 액세스토큰과 , 리프레시토큰을 반환
         AuthResponse authResponse = AuthResponse.builder().accessToken(tokenMapping.getAccessToken()).refreshToken(token.getRefreshToken()).build();
@@ -58,7 +61,7 @@ public class UserService {
         return ResponseEntity.ok(authResponse);
     }
 
-    public void signup(SignUpRequest signUpRequest){
+    public ResponseEntity<?> signup(SignUpRequest signUpRequest){
 //        DefaultAssert.isTrue(!userRepository.existsByEmail(signUpRequest.getEmail()), "해당 이메일이 존재하지 않습니다.");
 
         User user = User.builder()
@@ -75,8 +78,9 @@ public class UserService {
 //                .fromCurrentContextPath().path("/auth/")
 //                .buildAndExpand(user.getId()).toUri();
 //        ApiResponse apiResponse = ApiResponse.builder().check(true).information(Message.builder().message("회원가입에 성공하였습니다.").build()).build();
-
+        MessageResponse messageResponse = MessageResponse.builder().result("success").msg("회원가입에 성공하였습니다.").build();
 //        return ResponseEntity.created(location).body(apiResponse);
-        return;
+        // 여기 create 해야 할텐데
+        return ResponseEntity.ok().body(messageResponse);
     }
 }

@@ -36,20 +36,23 @@ public class CustomTokenProviderService {
         Date refreshTokenExpiresIn = new Date(now.getTime() + oAuth2Config.getAuth().getRefreshTokenExpirationMsec());
 
         String secretKey = oAuth2Config.getAuth().getTokenSecret();
-        log.info(secretKey);
-        log.info(oAuth2Config.getAuth().toString());
+//        log.info(secretKey);
+//        log.info(oAuth2Config.getAuth().toString());
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         log.info(Arrays.toString(keyBytes));
         Key key = Keys.hmacShaKeyFor(keyBytes);
+
         log.info("bbb");
         // Long.toString(userPrincipal.getId())
+
+        // sub 엔 유저 id, iat엔 시작시점, exp 엔 만료되는 시점
         String accessToken = Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
-
+        // refreshtoken엔 exp 만료되는 시점만 , 추후 변경 가능
         String refreshToken = Jwts.builder()
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
