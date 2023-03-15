@@ -5,6 +5,6 @@ ENV MYSQL_ROOT_PASSWORD=A503
 
 COPY ./config /etc/mysql/conf.d
 
-EXPOSE 3305
+EXPOSE 3306
 
 CMD ["mysqld"]
