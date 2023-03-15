@@ -1,3 +1,24 @@
+#임시로컬
+
+# server:
+#   port: 포트알아서
+# spring:
+#   datasource:
+#     driver-class-name: org.mariadb.jdbc.Driver
+#     username: 유저내임알아서
+#     password: 비밀번호 알아서
+#     url: jdbc:mariadb://127.0.0.1:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8
+#     sql-script-encoding: UTF-8
+
+#   jpa:
+#     open-in-view: false
+#     generate-ddl: true
+#     show-sql: true
+#     hibernate:
+#       ddl-auto: update
+
+
+
 spring:
   profiles:
     group:
@@ -5,7 +26,6 @@ spring:
       "devenv": "dev,common"
 
 ---
-
 spring:
   config:
     activate:
@@ -33,7 +53,6 @@ spring:
     username: root
     password: A708
 ---
-
 spring:
   config:
     activate:
@@ -60,10 +79,7 @@ spring:
     url: jdbc:mariadb://churros-mariadb/churros?serverTimezone=UTC&characterEncoding=utf84&useSSL=false&useUnicode=true
     username: root
     password: ${MARIADB_PASSWORD}
-
-
 ---
-
 spring:
   config:
     activate:
@@ -76,7 +92,6 @@ server:
   tomcat:
     uri-encoding: utf-8
 
-
   error:
     whitelabel:
       enabled=false:
@@ -86,4 +101,9 @@ springdoc:
     path=/swagger-ui:
       html:
 
-
+# jwt 토큰
+app:
+  auth:
+    tokenSecret: sadfldlsjfwefoiwejfoweijfoewlfjweofajefoqwj3eiofrwweiorjwelrqworewoirjwedsfakjsdflwerfjiwefjwealfweijflewafijalwefliasfjiesalijflsaiejflsae
+    accessTokenExpirationMsec: 2000000
+    refreshTokenExpirationMsec: 600000000
