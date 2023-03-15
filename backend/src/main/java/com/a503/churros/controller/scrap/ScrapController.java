@@ -1,5 +1,7 @@
-package com.a503.churros.scrap.controller;
+package com.a503.churros.controller.scrap;
 
+
+import com.a503.churros.service.scrap.ScrapService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ScrapController {
 
+    private ScrapService ss;
     @GetMapping("/")
-    public ResponseEntity<?> getScrap(){
+    public ResponseEntity<?> getScrap(
+//            String token
+    ){
+
         System.out.println("test");
         return null;
     }
