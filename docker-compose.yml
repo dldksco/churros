@@ -10,6 +10,20 @@ services:
     ports:
       - "9999:9999"
     restart: always
+  churros-database-test:
+    container_name: churros-database-test
+    build:
+      dockerfile: Dockerfile
+      context: ./RDBMS
+    environment:
+      - MARIADB_DATABASE=baggu
+      - MARIADB_ROOT_PASSWORD=A708
+    volumes:
+      - ./RDBMS/config:/etc/mysql/conf.d
+      - mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    restart: always
 networks:
   default:
     name: cd_network
