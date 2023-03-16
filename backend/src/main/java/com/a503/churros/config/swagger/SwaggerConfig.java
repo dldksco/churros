@@ -31,7 +31,6 @@ public class SwaggerConfig {
                             // Predicate<String> predicate,
                             String basePackage) {
 
-        System.out.println(basePackage);
         return new Docket(DocumentationType.OAS_30).groupName(groupName)
                 .useDefaultResponseMessages(defaultResponseMessage) // Swagger 에서 제공해주는 기본 응답 코드 표시 여부
                 .apiInfo(apiInfo()) // apiInfo정보
@@ -62,7 +61,6 @@ public class SwaggerConfig {
     // DEVELOPTING
     @Bean
     public Docket scarp() {
-        System.out.println("asdasdasdasdasdasdasdasdasdasdasdasdasd");
         return getDocket("SCARP", true, "scrap");
     }
 
