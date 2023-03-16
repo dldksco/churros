@@ -40,10 +40,5 @@ public class UserController {
 
 
 
-    @GetMapping("/aaa")
-    public ResponseEntity<?> aaa(@CurrentUser UserPrincipal userPrincipal){
-        log.info(userPrincipal.toString());
-        Optional<User> user = userRepository.findById(userPrincipal.getId());
-        return ResponseEntity.ok(user);
-    }
+
 }
