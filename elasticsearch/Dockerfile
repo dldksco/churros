@@ -6,3 +6,5 @@ COPY ./config/jvm.options /usr/share/elasticsearch/config/
 
 # Elasticsearch 플러그인 설치
 RUN elasticsearch-plugin install analysis-nori
+RUN /usr/share/elasticsearch/bin/elasticsearch-keystore create
+RUN echo "A503!23" | /usr/share/elasticsearch/bin/elasticsearch-keystore add -x 'bootstrap.password'
