@@ -1,13 +1,13 @@
-package com.a503.churros.service.user;
+package com.a503.churros.service.auth;
 
-import com.a503.churros.config.user.UserPrincipal;
+import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.entity.user.User;
 import com.a503.churros.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
-
+public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     private final UserRepository userRepository;
 
     @Override
@@ -38,5 +37,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return UserPrincipal.create(user.get());
     }
-
 }

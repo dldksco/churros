@@ -1,4 +1,4 @@
-package com.a503.churros.entity.user.mapping;
+package com.a503.churros.entity.auth.mapping;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
-package com.a503.churros.config.user;
+package com.a503.churros.config.security;
 
-import com.a503.churros.service.user.CustomUserDetailsService;
+import com.a503.churros.service.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

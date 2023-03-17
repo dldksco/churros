@@ -1,4 +1,4 @@
-package com.a503.churros.dto.user.response;
+package com.a503.churros.dto.auth.response;
 
 
 import lombok.Builder;

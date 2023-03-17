@@ -1,4 +1,4 @@
-package com.a503.churros.dto.user.request;
+package com.a503.churros.dto.auth.request;
 
 
 import lombok.Data;
