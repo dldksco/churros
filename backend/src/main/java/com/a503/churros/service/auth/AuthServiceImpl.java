@@ -1,13 +1,12 @@
-package com.a503.churros.service.user;
-
-import com.a503.churros.dto.user.response.MessageResponse;
-import com.a503.churros.entity.user.Token;
+package com.a503.churros.service.auth;
+import com.a503.churros.dto.auth.response.MessageResponse;
+import com.a503.churros.entity.auth.Token;
 import com.a503.churros.entity.user.User;
-import com.a503.churros.entity.user.mapping.TokenMapping;
-import com.a503.churros.dto.user.request.SignInRequest;
-import com.a503.churros.dto.user.request.SignUpRequest;
-import com.a503.churros.dto.user.response.AuthResponse;
-import com.a503.churros.repository.user.TokenRepository;
+import com.a503.churros.entity.auth.mapping.TokenMapping;
+import com.a503.churros.dto.auth.request.SignInRequest;
+import com.a503.churros.dto.auth.request.SignUpRequest;
+import com.a503.churros.dto.auth.response.AuthResponse;
+import com.a503.churros.repository.auth.TokenRepository;
 import com.a503.churros.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +18,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class AuthServiceImpl implements AuthService {
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
 
@@ -53,7 +53,7 @@ public class UserService {
                 .userEmail(tokenMapping.getUserEmail())
                 .build();
         // mariadb database에 refreshToken 저장
-       tokenRepository.save(token);
+        tokenRepository.save(token);
 
         // 로그인 할때, 액세스토큰과 , 리프레시토큰을 반환
         AuthResponse authResponse = AuthResponse.builder().accessToken(tokenMapping.getAccessToken()).refreshToken(token.getRefreshToken()).build();
@@ -83,4 +83,5 @@ public class UserService {
         // 여기 create 해야 할텐데
         return ResponseEntity.ok().body(messageResponse);
     }
+
 }

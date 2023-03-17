@@ -1,6 +1,6 @@
-package com.a503.churros.repository.user;
+package com.a503.churros.repository.auth;
 
-import com.a503.churros.entity.user.Token;
+import com.a503.churros.entity.auth.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

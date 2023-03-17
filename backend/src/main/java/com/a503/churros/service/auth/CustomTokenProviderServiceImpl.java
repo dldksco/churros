@@ -1,8 +1,8 @@
-package com.a503.churros.service.user;
+package com.a503.churros.service.auth;
 
-import com.a503.churros.config.user.OAuth2Config;
-import com.a503.churros.config.user.UserPrincipal;
-import com.a503.churros.entity.user.mapping.TokenMapping;
+import com.a503.churros.config.security.OAuth2Config;
+import com.a503.churros.config.security.UserPrincipal;
+import com.a503.churros.entity.auth.mapping.TokenMapping;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -17,9 +17,10 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Date;
 
+
 @Slf4j
 @Service
-public class CustomTokenProviderService {
+public class CustomTokenProviderServiceImpl implements CustomTokenProviderService{
 
     @Autowired
     private OAuth2Config oAuth2Config;

@@ -1,4 +1,4 @@
-package com.a503.churros.entity.user;
+package com.a503.churros.entity.auth;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
