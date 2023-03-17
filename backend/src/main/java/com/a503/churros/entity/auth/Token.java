@@ -1,4 +1,4 @@
-package com.a503.churros.entity.user;
+package com.a503.churros.entity.auth;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +11,8 @@ import lombok.Getter;
 @Getter
 @Table(name="token")
 @Entity
-public class Token extends DefaultTime {
-
+public class Token  {
+    // 만약, createdTime, modifiedTime 넣고 싶으면 extends DefaultTime
     @Id
     @Column(name = "user_email", length = 255 , nullable = false)
     private String userEmail;

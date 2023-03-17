@@ -1,4 +1,4 @@
-package com.a503.churros.config.user;
+package com.a503.churros.config.security;
 
 import com.a503.churros.entity.user.User;
 import org.springframework.security.core.GrantedAuthority;
