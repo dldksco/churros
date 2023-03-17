@@ -1,0 +1,19 @@
+cluster.name: churros
+network.host: 0.0.0.0
+
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: Authorization,X-Requested-With,Content-Length,Content-Type
+
+
+#Elastic search secure setting
+discovery.type: single-node
+
+xpack.license.self_generated.type: trial
+xpack.security.enabled: true
+xpack.monitoring.collection.enabled: true
+
+# Elasticsearch 클러스터의 내부 사용자 계정을 생성합니다.
+# 초깃값으로 'elastic' 사용자 계정이 생성됩니다.
+# elasticsearch-users 명령어를 사용하여 비밀번호를 설정할 수 있습니다.
+bootstrap.password: "A503!23"
