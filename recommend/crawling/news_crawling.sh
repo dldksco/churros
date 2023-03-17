@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "[$(/usr/bin/date)] : crawling start!!"
+echo "$(/usr/bin/date "+%Y-%m-%d %H:%M:%S %a") INFO start crawling"
 
-sudo /usr/bin/python3 /home/ubuntu/docker_mongo/naver_news_crawling.py
-sudo /usr/bin/python3 /home/ubuntu/docker_mongo/naver_enter_news_crawling.py
+/usr/bin/python3 /home/sohee/crawling/naver_news_crawling.py
+/usr/bin/python3 /home/sohee/crawling/naver_enter_news_crawling.py
 
-echo "[$(/usr/bin/date)] : crawling done!!"
+echo "$(/usr/bin/date "+%Y-%m-%d %H:%M:%S %a") INFO finish crawling"

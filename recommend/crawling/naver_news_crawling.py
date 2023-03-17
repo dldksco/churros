@@ -72,6 +72,15 @@ topic_detail = {
         '과학 일반': '228'
     }
 }
+
+weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+def make_log(level, msg):
+    now = datetime.datetime.now()
+    weeknum = now.weekday()
+    log_date = now.strftime("%Y-%m-%d %H:%M:%S ") + weekdays[weeknum] + " " + level + " " + msg
+    return log_date
+
 def getRequestResponse(url):
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'}
@@ -89,7 +98,7 @@ def getNaverNewsList(sid1, sid2):
 
     return getRequestResponse(url)
 
-def getDetailData(url, lasttitle, lastdate):
+def getDetailData(url):
     response = getRequestResponse(url)
     bs = BeautifulSoup(response.text, "lxml")
 
@@ -99,18 +108,15 @@ def getDetailData(url, lasttitle, lastdate):
     full_text = bs.select_one('#dic_area').text.strip()
     img_src = ''
 
-    if publish_date == lastdate and title == lasttitle:
-        return title, publish_date, full_text, img_src, True
-
     try:
         img_src = bs.select_one('#img1')['data-src']
     except:
         # print("이미지가 존재하지 않는 기사 : ", url)
         pass
 
-    return title, publish_date, full_text, img_src, False
+    return title, publish_date, full_text, img_src
 
-def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate, except_count):
+def getPostData(response, json_result, cat1, cat2, cnt, lastlink, except_count):
     bs = BeautifulSoup(response.text, "lxml")
     flag = False
     for type in ['.type06_headline', '.type06']:
@@ -121,16 +127,18 @@ def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate, exc
                 press = news.select_one('dd').select_one('.writing').text
                 link = news.select_one('dt').select_one('a')['href']
 
-                title, publish_date, full_text, img_src, is_duplicate = getDetailData(link, lasttitle, lastdate)
-
-                if is_duplicate:
+                if lastlink == link:
                     flag = True
                     break
+
+                title, publish_date, full_text, img_src = getDetailData(link)
 
                 json_result.append({'_idx': 0, 'cat1': cat1, 'cat2': cat2, 'title': title, 'description': description,
                                     'press': press, 'link': link, 'publish_date': publish_date, 'full_text': full_text,
                                     'img_src': img_src})
             except Exception as e:
+                msg = "CRAWLING " + cat1 + " " + cat2 + " " + link
+                print(make_log("ERROR", msg), e)
                 except_count += 1
 
     json_result.reverse()
@@ -140,12 +148,18 @@ def getPostData(response, json_result, cat1, cat2, cnt, lasttitle, lastdate, exc
 
     return cnt, except_count
 
-def crawlingGeneralNews(lastidx, except_count):
+def crawlingGeneralNews(lastcounter):
     for topic in topics.keys():
         sid1 = topics[topic]
         # print(f"[{topic}] : 크롤링 시작...")
+        start_time = datetime.datetime.now()
+        startcounter = lastcounter
+        except_count = 0
+
         for detail in topic_detail[topic]:
             # print(f"[{topic} - {detail}] : 크롤링 시작...")
+            # start_time = datetime.datetime.now()
+            # start_count = lastcounter
 
             json_result = []
             sid2 = topic_detail[topic][detail]
@@ -155,43 +169,46 @@ def crawlingGeneralNews(lastidx, except_count):
             if not response:
                 continue
 
-            lasttitle = ''
-            lastdate = ''
+            lastlink = ''
             lastindex = index_collection.find_one({"cat1" : topic, "cat2" : detail})
-            topic_last_data = []
+
             if lastindex:
                 topic_last_data = list(collection.find({"_idx": lastindex['counter']}))
             else :
                 topic_last_data = list(collection.find({"cat1": topic, "cat2": detail}).sort("_idx", -1))
 
             if topic_last_data:
-                lasttitle = topic_last_data[0]['title']
-                lastdate = topic_last_data[0]['publish_date']
+                lastlink = topic_last_data[0]['link']
 
-            newidx, except_count = getPostData(response, json_result, topic, detail, lastidx, lasttitle, lastdate, except_count)
+            lastcounter, except_count = getPostData(response, json_result, topic, detail, lastcounter, lastlink, except_count)
 
 
             # print(f"[{topic} - {detail}] : {newidx-lastidx}개 크롤링 완료...")
-            lastidx = newidx
 
             if json_result:
                 try:
                     if lastindex:
-                        index_collection.update_one({"cat1": topic, "cat2": detail}, {"$set": {"counter": lastidx}})
+                        index_collection.update_one({"cat1": topic, "cat2": detail}, {"$set": {"counter": lastcounter}})
                     else:
-                        index_collection.insert_one({"cat1": topic, "cat2": detail, "counter" : lastidx})
+                        index_collection.insert_one({"cat1": topic, "cat2": detail, "counter" : lastcounter})
                     result = collection.insert_many(json_result)
                     result.inserted_ids
+                    # print(make_log("INFO", "start " + topic + " " + detail + " " + start_time.strftime("%H:%M:%S")))
+                    # print(make_log("INFO", "success " + topic + " " + detail + " " + str(lastcounter - start_count)))
+                    # print(make_log("INFO", "fail " + topic + " " + detail + " " + str(except_count)))
                 except BulkWriteError as bwe:
-                    print(bwe.details)
-    return lastidx, except_count
+                    print(make_log("ERROR", "DB " + topic + " " + detail + " Duplicate ID"), bwe.details)
+                except Exception as e:
+                    print(make_log("ERROR", "DB 연예 " + topic), e)
+
+        print(make_log("INFO", "start " + topic + " " + start_time.strftime("%H:%M:%S")))
+        print(make_log("INFO", "success " + topic + " " + str(lastcounter - startcounter)))
+        print(make_log("INFO", "fail " + topic + " " + str(except_count)))
+    return lastcounter
 
 def main():
-    lastidx = collection.estimated_document_count()
-    startidx = lastidx
-    except_count = 0
-    lastidx, except_count = crawlingGeneralNews(lastidx, except_count)
-    print("일반 기사 크롤링 결과 : ", lastidx - startidx, "개 기사 크롤링 완료, ", except_count, "개 기사에서 예외 발생")
+    lastcounter = collection.estimated_document_count()
+    lastcounter = crawlingGeneralNews(lastcounter)
 
 if __name__ == '__main__':
     main()
