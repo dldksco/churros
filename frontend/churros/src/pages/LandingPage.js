@@ -1,5 +1,5 @@
 import logo from "../churros-logo.svg";
-import ImageCarousel from "../components/ImageCarousel";
+import CardCarousel from "../components/CardCarousel";
 import ImageButton from "../components/ImageButton";
 
 const LandingPage = () => {
@@ -11,12 +11,12 @@ const LandingPage = () => {
     },
     {
       id: 2,
-      src: "/images/btn-naver-login.png",
+      src: "/images/churros.jpg",
       alt: "image",
     },
     {
       id: 3,
-      src: "/images/btn-naver-login.png",
+      src: "/images/newspaper.jpeg",
       alt: "image",
     },
   ];
@@ -26,15 +26,14 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center pt-5 px-10 pt-5 pb-10">
-      <div className="w-3/4 h-full m-3 flex flex-col justify-center items-center">
-        {/* <ImageCarousel images={images} className="h-5/6"/> */}
-        <ImageCarousel
+    <div className="w-screen h-screen flex flex-row justify-center items-center pt-5 pb-10 px-10 bg-stone-100">
+      <div className="w-2/3 h-full m-3 flex flex-col justify-center items-center">
+        <CardCarousel
           images={images}
           className={"w-full h-3/4 flex flex-col justify-center items-center"}
         />
       </div>
-      <div className="h-full flex flex-col justify-center m-3 p-1">
+      <div className="w-1/5 h-full flex flex-col justify-center m-3 p-1">
         <div className="p-1">
           <img src={logo} alt="logo" />
         </div>
