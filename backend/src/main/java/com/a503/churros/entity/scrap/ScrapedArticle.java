@@ -5,23 +5,23 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ScrapFolder")
+@Table(name = "ScrapedArticle")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ScrapFolder {
+public class ScrapedArticle {
     @Id
-    @Column(name = "ScrapFolder_idx")
+    @Column(name = "scrap_idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "user_idx")
-    private long userIdx;
+    @Column(name = "scrapbook_idx")
+    private long scrapbookIdx;
 
-    @Column(name = "scrap_folder_name")
-    private String folderName;
+    @Column(name = "article_idx")
+    private long articleIdx;
 
 }
