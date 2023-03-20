@@ -1,8 +1,11 @@
 package com.a503.churros.controller.auth;
 
 
+import com.a503.churros.config.security.CurrentUser;
+import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.dto.auth.request.SignInRequest;
 import com.a503.churros.dto.auth.request.SignUpRequest;
+import com.a503.churros.entity.user.User;
 import com.a503.churros.repository.user.UserRepository;
 import com.a503.churros.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +23,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService userService;
-    private final UserRepository userRepository;
+
 
     @PostMapping("/signIn")
     public ResponseEntity<?> signin(@Valid @RequestBody SignInRequest signInRequest){
@@ -32,6 +36,8 @@ public class AuthController {
 
         return userService.signup(signUpRequest);
     }
+
+
 
 
 

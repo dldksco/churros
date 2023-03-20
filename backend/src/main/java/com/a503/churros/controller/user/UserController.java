@@ -18,7 +18,15 @@ import java.util.Optional;
 @Slf4j
 @RequestMapping("/user")
 public class UserController {
+
     private final UserRepository userRepository;
 
+    @GetMapping("")
+    public ResponseEntity<?> aaa(@CurrentUser UserPrincipal userPrincipal){
+        log.info(userPrincipal.toString());
+        // 서비스에서 가져오도록
+        Optional<User> user = userRepository.findById(userPrincipal.getId());
+        return ResponseEntity.ok(user);
+    }
 
 }
