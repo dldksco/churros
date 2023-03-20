@@ -17,7 +17,10 @@
 #     hibernate:
 #       ddl-auto: update
 
-
+springfox:
+  documentation:
+    swagger:
+      use-model-v3: false
 
 spring:
   profiles:
