@@ -1,5 +1,9 @@
 package com.a503.churros.config.security;
 
+import com.a503.churros.controller.auth.handler.CustomSimpleUrlAuthenticationFailureHandler;
+import com.a503.churros.controller.auth.handler.CustomSimpleUrlAuthenticationSuccessHandler;
+import com.a503.churros.repository.auth.CustomAuthorizationRequestRepository;
+import com.a503.churros.service.auth.CustomDefaultOAuth2UserService;
 import com.a503.churros.service.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +24,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
-//    private final CustomDefaultOAuth2UserService customOAuth2UserService;
-//    private final CustomSimpleUrlAuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-//    private final CustomSimpleUrlAuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-//    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
+    // OAuth2 설정
+
+    private final CustomDefaultOAuth2UserService customOAuth2UserService;
+    private final CustomSimpleUrlAuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final CustomSimpleUrlAuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
 
     @Bean
     public CustomOncePerRequestFilter customOncePerRequestFilter() {
@@ -76,23 +82,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html","/swagger-ui/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
 
-
-//                .and()
-//                .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("/oauth2/authorize")
-//                .authorizationRequestRepository(customAuthorizationRequestRepository)
-//                .and()
-//                .redirectionEndpoint()
-//                .baseUri("/oauth2/callback/*")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(customOAuth2UserService)
-//                .and()
-//                .successHandler(oAuth2AuthenticationSuccessHandler)
-//                .failureHandler(oAuth2AuthenticationFailureHandler);
+            // OAuth 설정
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(customAuthorizationRequestRepository)
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
 
         http.addFilterBefore(customOncePerRequestFilter(), UsernamePasswordAuthenticationFilter.class);
