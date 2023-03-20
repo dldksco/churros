@@ -1,7 +1,7 @@
 package com.a503.churros.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.a503.churros.advice.payload.ErrorCode;
+import com.a503.churros.config.security.advice.payload.ErrorCode;
 import com.a503.churros.service.auth.CustomTokenProviderService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.Data;
