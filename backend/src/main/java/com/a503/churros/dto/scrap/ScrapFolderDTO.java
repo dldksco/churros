@@ -11,14 +11,14 @@ import lombok.*;
 @ToString
 public class ScrapFolderDTO {
 
-    private long folderId;
+    private long folderIdx;
 
-    private String name;
+    private String folderName;
 
     public static ScrapFolderDTO of(ScrapFolder sf){
         return ScrapFolderDTO.builder()
-                .folderId(sf.getId())
-                .name(sf.getName())
+                .folderIdx(sf.getId())
+                .folderName(sf.getFolderName())
                 .build();
     }
 }

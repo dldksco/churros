@@ -52,9 +52,9 @@ spring:
     defer-datasource-initialization: false
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/churros?serverTimezone=UTC&characterEncoding=utf84&useSSL=false&useUnicode=true
+    url: jdbc:mariadb://localhost:3333/churros?serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true
     username: root
-    password: A708
+    password: ssafy
 ---
 spring:
   config:
@@ -79,7 +79,7 @@ spring:
     defer-datasource-initialization: false
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://churros-mariadb/churros?serverTimezone=UTC&characterEncoding=utf84&useSSL=false&useUnicode=true
+    url: jdbc:mariadb://churros-mariadb/churros?serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true
     username: root
     password: ${MARIADB_PASSWORD}
 ---
