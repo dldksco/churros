@@ -14,12 +14,10 @@ const CardCarousel = ({ images, className }) => {
     arrows: false,
   };
 
-  console.log(images);
-
   return (
     <Slider {...settings} className={className}>
       {images.map((image) => (
-        <Card key={image.id}>
+        <Card key={image.id} className={"w-full h-[34rem]"}>
           <img
             src={`${process.env.PUBLIC_URL}${image.src}`}
             alt={image.alt}
