@@ -82,6 +82,7 @@ def recommendation(idx):
     books = df[['_idx','title', 'full_text']]
     with open('data.pickle', 'rb') as f:
         document_embedded = pickle.load(f)
+        # 해당 유저 vector계산
         user_vector = aggregate_vectors (idx,document_embedded)
         user = user_vector.reshape(1,-1)
         sim_scores = cosine_similarity(document_embedded, user).ravel()
