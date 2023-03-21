@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { SIDEBAR_TAB_KEYS as keys } from "./constants";
+import { atom, useRecoilValue } from "recoil";
 
 import LogoTab from "./LogoTab";
 import UserProfileTab from "./UserProfileTab";
@@ -6,10 +8,11 @@ import MainArticleTab from "./MainArticleTab";
 import LikedArticleTab from "./LikedArticleTab";
 import ScrapFolderTab from "./ScrapFolderTab";
 import ScrapFolderListItem from "./ScrapFolderListItem";
+import { showScrapFolderListState } from "../../store/sidebar";
 
 const Sidebar = () => {
-  const [selectedItemId, setSelectedItemId] = useState();
-  const [showScrapFolderList, setShowScrapFolderList] = useState(false);
+  const showScrapFolderList = useRecoilValue(showScrapFolderListState);
+
   const scrapFolderList = [
     {
       title: "IT",
@@ -81,29 +84,28 @@ const Sidebar = () => {
     },
   ];
 
-  const toggleScrapFolderList = () => {
-    setShowScrapFolderList(prev => !prev);
-  }
-
-  const handleItemClick = (id) => {
-    setSelectedItemId(id);
-  };
-
   return (
     <div
       className={`fixed justify-start w-64 h-full overflow-y-auto bg-stone-100`}
     >
-      <LogoTab key={"a"} />
-      <UserProfileTab key={"b"} />
-      <MainArticleTab key={"c"} isSelected={selectedItemId === "c"} onItemClick={handleItemClick}/>
-      <LikedArticleTab key={"d"} isSelected={selectedItemId === "d"} onItemClick={handleItemClick}/>
-      <ScrapFolderTab key={"e"} scrapFolderListHandler={toggleScrapFolderList}/>
+      <LogoTab key={keys.logoTab} />
+
+      <UserProfileTab key={keys.userProfileTab} />
+
+      <MainArticleTab key={keys.mainArticleTab} itemId={keys.mainArticleTab} />
+
+      <LikedArticleTab
+        key={keys.likedArticleTab}
+        itemId={keys.likedArticleTab}
+      />
+
+      <ScrapFolderTab key={keys.scrapFolderTab} />
+
       {showScrapFolderList &&
         scrapFolderList.map((item) => (
           <ScrapFolderListItem
             key={item.folderIdx}
-            isSelected={selectedItemId === item.folderIdx}
-            onItemClick={handleItemClick}
+            itemId={item.folderIdx}
             title={item.title}
             folderIdx={item.folderIdx}
           />
