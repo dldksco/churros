@@ -6,46 +6,21 @@ import {
   IoFolderSharp,
   IoAddOutline,
 } from "react-icons/io5";
+import { SIDEBAR_ITEM_SIZE } from "./constants";
+import ScrapFolderListItem from "./ScrapFolderListItem";
 
-const ScrapFolderSidebarItem = ({ className }) => {
-  const [showScrapFolderList, setShowScrapFolderList] = useState(false);
-
-  // redux로 상태를 관리할 필요가 있다
-  const scrapFolderList = [
-    {
-      title: "folder1",
-      folderIdx: 1,
-    },
-    {
-      title: "folder2",
-      folderIdx: 2,
-    },
-    {
-      title: "folder3",
-      folderIdx: 3,
-    },
-    {
-      title: "folder4",
-      folderIdx: 4,
-    },
-  ];
-
-  const toggleScrapFolderList = () => {
-    console.log("toggle scrap folder list");
-    setShowScrapFolderList((prevState) => !prevState);
-  };
+const ScrapFolderTab = ({key, scrapFolderListHandler}) => {
 
   const addNewScrapFolder = () => {
     console.log("add new scrap folder");
   };
 
   return (
-    <Fragment>
-      <SidebarItem className={className}>
+      <SidebarItem className={`${SIDEBAR_ITEM_SIZE.sm}`}>
         <div className="w-full h-full flex flex-row justify-between items-center">
           <div
-            className="flex flex-row justify-start items-center w-full hover:bg-stone-200"
-            onClick={toggleScrapFolderList}
+            className={`flex flex-row justify-start items-center w-full hover:bg-stone-200`}
+            onClick={scrapFolderListHandler}
           >
             <IoChevronForwardOutline
               className="w-7 pl-2"
@@ -62,21 +37,13 @@ const ScrapFolderSidebarItem = ({ className }) => {
             </div>
           </div>
           <IoAddOutline
-            className="p-2 hover:bg-stone-200"
-            size={40}
+            className="w-10 h-full p-2 hover:bg-stone-200"
             style={{ color: "837F79" }}
             onClick={addNewScrapFolder}
           />
         </div>
       </SidebarItem>
-      {showScrapFolderList && (
-        <div>
-          <h1>folder1</h1>
-          <h1>folder2</h1>
-        </div>
-      )}
-    </Fragment>
   );
 };
 
-export default ScrapFolderSidebarItem;
+export default ScrapFolderTab;
