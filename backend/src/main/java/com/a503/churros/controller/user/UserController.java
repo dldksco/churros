@@ -4,6 +4,7 @@ import com.a503.churros.config.security.CurrentUser;
 import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.entity.user.User;
 import com.a503.churros.repository.user.UserRepository;
+import com.a503.churros.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,16 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserRepository userRepository;
+
+    private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<?> aaa(@CurrentUser UserPrincipal userPrincipal){
-        log.info(userPrincipal.toString());
+    public ResponseEntity<?> myPage(@CurrentUser UserPrincipal userPrincipal){
+//        log.info(userPrincipal.toString());
         // 서비스에서 가져오도록
-        Optional<User> user = userRepository.findById(userPrincipal.getId());
-        return ResponseEntity.ok(user);
+
+
+        return ResponseEntity.ok().body(userService.myPage(userPrincipal));
     }
 
 }

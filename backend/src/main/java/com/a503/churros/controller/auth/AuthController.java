@@ -22,19 +22,19 @@ import java.util.Optional;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService userService;
+    private final AuthService authService;
 
 
     @PostMapping("/signIn")
     public ResponseEntity<?> signin(@Valid @RequestBody SignInRequest signInRequest){
 
-        return userService.signin(signInRequest);
+        return ResponseEntity.ok().body(authService.signin(signInRequest));
     }
 
     @PostMapping("/signUp")
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest){
 
-        return userService.signup(signUpRequest);
+        return ResponseEntity.ok().body(authService.signup(signUpRequest));
     }
 
 

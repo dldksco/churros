@@ -30,38 +30,43 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
 
     private final CustomTokenProviderService customTokenProviderService;
-    public ResponseEntity<?> signin(SignInRequest signInRequest){
+    public AuthResponse signin(SignInRequest signInRequest){
         // 인증과정
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        signInRequest.getEmail(),
-                        signInRequest.getPassword()
-                )
-        );
-        // SecurityContextHolder는 Spring Security에서 사용되는 보안 관련 정보를 저장하는 객체 (주석처리 해도 수행은 되는데?)
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            signInRequest.getEmail(),
+                            signInRequest.getPassword()
+                    )
+            );
+            // 없음먄 BadCredentialsException
+            // SecurityContextHolder는 Spring Security에서 사용되는 보안 관련 정보를 저장하는 객체 (주석처리 해도 수행은 되는데?)
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
 //        log.info(SecurityContextHolder.getContext().getAuthentication().toString());
 
 
-        // 토큰 만드는 과정 customTokenProviderService에서 refreshToken 과 accessToken을 만들어 낸다.
-        TokenMapping tokenMapping = customTokenProviderService.createToken(authentication);
+            // 토큰 만드는 과정 customTokenProviderService에서 refreshToken 과 accessToken을 만들어 낸다.
+            TokenMapping tokenMapping = customTokenProviderService.createToken(authentication);
 
-        // 얘는 DB refreshToken-table 에 저장될 것
-        Token token = Token.builder()
-                .refreshToken(tokenMapping.getRefreshToken())
-                .userEmail(tokenMapping.getUserEmail())
-                .build();
-        // mariadb database에 refreshToken 저장
-        tokenRepository.save(token);
+            // 얘는 DB refreshToken-table 에 저장될 것
+            Token token = Token.builder()
+                    .refreshToken(tokenMapping.getRefreshToken())
+                    .userEmail(tokenMapping.getUserEmail())
+                    .build();
+            // mariadb database에 refreshToken 저장
+            tokenRepository.save(token);
 
-        // 로그인 할때, 액세스토큰과 , 리프레시토큰을 반환
-        AuthResponse authResponse = AuthResponse.builder().accessToken(tokenMapping.getAccessToken()).refreshToken(token.getRefreshToken()).build();
+            // 로그인 할때, 액세스토큰과 , 리프레시토큰을 반환
+            AuthResponse authResponse = AuthResponse.builder().accessToken(tokenMapping.getAccessToken()).refreshToken(token.getRefreshToken()).build();
+            return authResponse;
 
-        return ResponseEntity.ok(authResponse);
+
+
+
     }
 
-    public ResponseEntity<?> signup(SignUpRequest signUpRequest){
+    public MessageResponse signup(SignUpRequest signUpRequest){
 //        DefaultAssert.isTrue(!userRepository.existsByEmail(signUpRequest.getEmail()), "해당 이메일이 존재하지 않습니다.");
 
         User user = User.builder()
@@ -81,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
         MessageResponse messageResponse = MessageResponse.builder().result("success").msg("회원가입에 성공하였습니다.").build();
 //        return ResponseEntity.created(location).body(apiResponse);
         // 여기 create 해야 할텐데
-        return ResponseEntity.ok().body(messageResponse);
+        return messageResponse;
     }
 
 }

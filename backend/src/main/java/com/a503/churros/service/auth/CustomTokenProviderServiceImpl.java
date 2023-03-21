@@ -30,7 +30,8 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
     public TokenMapping createToken(Authentication authentication) {
         // userPrincipal은 spring security의 email 부분
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        log.info(userPrincipal.toString());
+//        log.info("hahahahaahahahahahahah");
+       //  log.info(userPrincipal.toString());
         Date now = new Date();
         // 좀 찍어보자
         Date accessTokenExpiresIn = new Date(now.getTime() + oAuth2Config.getAuth().getAccessTokenExpirationMsec());
@@ -102,13 +103,13 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
     public UsernamePasswordAuthenticationToken getAuthenticationById(String token){
         Long userId = getUserIdFromToken(token);
         UserDetails userDetails = customUserDetailsService.loadUserById(userId);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        return authentication;
+        UsernamePasswordAuthenticationToken authenticationPasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return authenticationPasswordAuthenticationToken;
     }
 
     public UsernamePasswordAuthenticationToken getAuthenticationByEmail(String email){
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        return authentication;
+        UsernamePasswordAuthenticationToken authenticationPasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return authenticationPasswordAuthenticationToken;
     }
 }
