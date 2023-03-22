@@ -1,3 +1,0 @@
-docker build -t churros-mariadb .
-
-docker run -d --name churros-mariadb -p 3307:3306 -v mysql:/var/lib/mysql --network cd_network churros-mariadb
