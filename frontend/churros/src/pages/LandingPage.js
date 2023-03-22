@@ -29,7 +29,7 @@ const LandingPage = () => {
   
     console.log("login button clicked");
 
-    navigate("/main")
+    navigate("/news")
   };
 
   return (
