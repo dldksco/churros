@@ -100,6 +100,7 @@ const Sidebar = () => {
       />
 
       <ScrapFolderTab key={keys.scrapFolderTab} />
+
       <div className="flex-1 overflow-y-auto">
         {showScrapFolderList &&
           scrapFolderList.map((item) => (
