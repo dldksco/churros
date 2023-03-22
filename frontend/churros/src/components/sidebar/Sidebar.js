@@ -85,8 +85,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
-      className={`fixed justify-start w-64 h-full overflow-y-auto bg-stone-100`}
+    <aside
+      className={`flex flex-col justify-start w-64 h-full overflow-y-auto mr-2 bg-stone-100`}
     >
       <LogoTab key={keys.logoTab} />
 
@@ -110,7 +110,7 @@ const Sidebar = () => {
             folderIdx={item.folderIdx}
           />
         ))}
-    </div>
+    </aside>
   );
 };
 
