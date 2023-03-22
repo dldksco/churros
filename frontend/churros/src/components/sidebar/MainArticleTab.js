@@ -1,15 +1,19 @@
 import { SIDEBAR_ITEM_SIZE } from "./constants";
 import { IoBookOutline } from "react-icons/io5";
 import SelectableSidebarItem from "./SelectableSidebarItem";
+import { useNavigate } from "react-router-dom";
 
 const MainArticleTab = ({ itemId }) => {
+  const navigate = useNavigate();
+
   const handleMainArticleTabClicked = () => {
     console.log("main article tab clicked");
+    navigate("feed");
   };
 
   return (
     <SelectableSidebarItem
-      itemId = {itemId}
+      itemId={itemId}
       className={`${SIDEBAR_ITEM_SIZE.sm} hover:bg-stone-300`}
       onClick={handleMainArticleTabClicked}
     >

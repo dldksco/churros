@@ -1,10 +1,14 @@
 import SelectableSidebarItem from "./SelectableSidebarItem";
 import { SIDEBAR_ITEM_SIZE } from "./constants";
 import { FaHeart } from "react-icons/fa/index.esm";
+import { useNavigate } from "react-router-dom";
 
 const LikedArticleTab = ({ itemId }) => {
+  const navigate = useNavigate();
+
   const handleLikedArticleTabClicked = () => {
     console.log("liked article tab clicked");
+    navigate("likes");
   };
 
   return (

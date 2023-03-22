@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Outlet } from "react-router-dom";
 import Section from "../components/section/Section";
 import Sidebar from "../components/sidebar/Sidebar";
 import Topbar from "../components/topbar/Topbar";
@@ -13,9 +14,7 @@ const MainPage = () => {
           <h1>Topbar</h1>
         </Topbar>
         <Section>
-          <h1>This</h1>
-          <h1>is</h1>
-          <h1>a main section</h1>
+            <Outlet/>
         </Section>
       </div>
     </div>
