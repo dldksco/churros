@@ -5,10 +5,14 @@ import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { FaMinus } from "react-icons/fa";
 // components
 import SelectableSidebarItem from "./SelectableSidebarItem";
+import { useNavigate } from "react-router-dom";
 
 const ScrapFolderListItem = ({ title, itemId, folderIdx }) => {
+  const navigate = useNavigate();
+
   const loadScrapFolderPage = () => {
     console.log(`request items of pScrapFolder(${folderIdx})`);
+    navigate(`scraps/${folderIdx}`);
   };
 
   const showActionMenuModal = (event) => {
@@ -29,11 +33,7 @@ const ScrapFolderListItem = ({ title, itemId, folderIdx }) => {
         >
           <div className="block w-7" />
           <div className="flex flex-row justify-start items-center">
-            <FaMinus
-              className="p-2"
-              size={25}
-              style={{ color: "837F79" }}
-            />
+            <FaMinus className="p-2" size={25} style={{ color: "837F79" }} />
             <p className="text-sm text-center mx-2">{title}</p>
           </div>
         </div>
