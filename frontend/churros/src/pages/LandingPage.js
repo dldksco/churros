@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import logo from "../churros-logo.svg";
 import CardCarousel from "../components/CardCarousel";
 import ImageButton from "../components/ImageButton";
@@ -21,8 +22,14 @@ const LandingPage = () => {
     },
   ];
 
-  const loginHandler = () => {
+  const navigate = useNavigate();
+
+  const loginHandler = (event) => {
+    event.preventDefault();
+  
     console.log("login button clicked");
+
+    navigate("/main")
   };
 
   return (
