@@ -54,7 +54,7 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true
     username: root
-    password: A708
+    password: rootpass
     # 네이버 관련 설정
   security:
     oauth2:

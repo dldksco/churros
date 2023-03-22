@@ -38,7 +38,9 @@ public class CustomDefaultOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         DefaultAssert.isAuthentication(!oAuth2UserInfo.getEmail().isEmpty());
-
+        log.info("아아아아아아아아아아앙");
+        log.info(oAuth2UserRequest.toString());
+        log.info(oAuth2User.toString());
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
 

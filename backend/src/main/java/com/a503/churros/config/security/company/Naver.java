@@ -58,4 +58,6 @@ public class Naver extends OAuth2UserInfo {
     public String getProvider(){
         return Provider.naver.toString();
     }
+
+
 }
