@@ -53,8 +53,10 @@ dependencies {
 	// SQL 실행 파라미터 표현 라이브러리
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 
-
-
+//	//elasticsearch
+//	implementation 'co.elastic.clients:elasticsearch-java:7.17.9'
+//	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+//	implementation 'org.springframework.data:spring-data-elasticsearch'
 
 
 	// for swagger
