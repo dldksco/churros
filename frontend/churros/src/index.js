@@ -5,13 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 
 import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
