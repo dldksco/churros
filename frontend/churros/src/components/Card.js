@@ -1,10 +1,9 @@
-const Card = (props) => {
+const Card = ({className, children}) => {
   return (
     <div
-      className="flex justify-center items-center"
-      style={{ width: "100%", height: "67vh" }}
+      className={`flex justify-center items-center ${className}`}
     >
-      {props.children}
+      {children}
     </div>
   );
 };

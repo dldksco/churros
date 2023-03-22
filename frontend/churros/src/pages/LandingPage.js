@@ -26,7 +26,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-row justify-center items-center pt-5 pb-10 px-10 bg-stone-100">
+    <div className="w-screen h-screen flex flex-row justify-center items-center pt-5 pb-10 px-10 bg-stone-50">
       <div className="w-2/3 h-full m-3 flex flex-col justify-center items-center">
         <CardCarousel
           images={images}
