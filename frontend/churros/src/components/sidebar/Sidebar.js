@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { SIDEBAR_TAB_KEYS as keys } from "./constants";
-import { atom, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import LogoTab from "./LogoTab";
 import UserProfileTab from "./UserProfileTab";
