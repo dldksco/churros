@@ -4,28 +4,15 @@ import reportWebVitals from "./reportWebVitals";
 
 import "./index.css";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
-import LandingPage from "./pages/LandingPage";
-import MainPage from "./pages/MainPage";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/main",
-    element: <MainPage />,
-  },
-]);
+import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <RecoilRoot>
-      <RouterProvider router={router} />
+      <App/>
     </RecoilRoot>
   </React.StrictMode>
 );
