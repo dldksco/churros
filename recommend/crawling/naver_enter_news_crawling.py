@@ -14,7 +14,8 @@ mongo_port = int(os.environ.get('MongoPort'))
 mongo_user = os.environ.get('MongoUser')
 mongo_passwd = os.environ.get('MongoPasswd')
 mongo_db_name = os.environ.get('MongoDbName')
-mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd, authSource=mongo_db_name)
+mongo_admin_db = os.environ.get('MongoAdminDb')
+mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd, authSource=mongo_admin_db)
 
 db = mongo_client[mongo_db_name]
 collection = db['newsCol']

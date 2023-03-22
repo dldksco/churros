@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "")
+@Table(name = "ScrapFolder")
 @Builder
 @Getter
 @Setter
@@ -18,7 +18,10 @@ public class ScrapFolder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "ScrapFolder_name")
-    private String name;
+    @Column(name = "user_idx")
+    private long userIdx;
+
+    @Column(name = "scrap_folder_name")
+    private String folderName;
 
 }
