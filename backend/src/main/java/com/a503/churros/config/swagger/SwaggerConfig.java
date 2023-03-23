@@ -63,5 +63,14 @@ public class SwaggerConfig {
     public Docket scarp() {
         return getDocket("SCARP", true, "scrap");
     }
+    @Bean
+    public Docket news() {
+        return getDocket("NEWS", true, "news");
+    }
+
+    @Bean
+    public Docket auth() {
+        return getDocket("AUTH", true, "auth");
+    }
 
 }

@@ -50,5 +50,13 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
+    public void updateName(String name){
+        this.name = name;
+    }
+
+    public void updateImageUrl(String imageUrl){
+        this.imageUrl = imageUrl;
+    }
+
 
 }

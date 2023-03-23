@@ -2,7 +2,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 from app.common.crud import read_user
-from dotenv import load_dotenv
+from app.recommend_models.model_LDA import user_recommend
 
 app = FastAPI()
 
@@ -30,8 +30,10 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     print("db_name : ", db_user.user_name)
     for article in db_user.articles:
         print("article : ", article.article_idx)
-
+    
     if not db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
+    
+    recommendations = user_recommend([300])
+    return {"recommendList": recommendations};
 
-    return {"recommendList": [5, 6, 7, 8]};
