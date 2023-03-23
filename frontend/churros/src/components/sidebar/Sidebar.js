@@ -85,8 +85,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
-      className={`fixed justify-start w-64 h-full overflow-y-auto bg-stone-100`}
+    <aside
+      className={`flex flex-col justify-start w-64 h-screen mr-2 bg-stone-100`}
     >
       <LogoTab key={keys.logoTab} />
 
@@ -101,16 +101,18 @@ const Sidebar = () => {
 
       <ScrapFolderTab key={keys.scrapFolderTab} />
 
-      {showScrapFolderList &&
-        scrapFolderList.map((item) => (
-          <ScrapFolderListItem
-            key={item.folderIdx}
-            itemId={item.folderIdx}
-            title={item.title}
-            folderIdx={item.folderIdx}
-          />
-        ))}
-    </div>
+      <div className="flex-1 overflow-y-auto">
+        {showScrapFolderList &&
+          scrapFolderList.map((item) => (
+            <ScrapFolderListItem
+              key={item.folderIdx}
+              itemId={item.folderIdx}
+              title={item.title}
+              folderIdx={item.folderIdx}
+            />
+          ))}
+      </div>
+    </aside>
   );
 };
 

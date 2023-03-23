@@ -6,7 +6,7 @@ export const SIDEBAR_ITEM_SIZE = {
 export const SIDEBAR_TAB_KEYS = {
   logoTab: "tab-logo",
   userProfileTab: "tab-user-profile",
-  mainArticleTab: "tab-main-article",
-  likedArticleTab: "tab-liked-article",
+  mainArticleTab: "feed",
+  likedArticleTab: "likes",
   scrapFolderTab: "tab-scrap-folder",
 };
