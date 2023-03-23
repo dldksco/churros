@@ -1,14 +1,18 @@
+// react
 import React from "react";
-import { SIDEBAR_TAB_KEYS as keys } from "./constants";
+// recoil
 import { useRecoilValue } from "recoil";
-
+// constants
+import { SIDEBAR_TAB_KEYS as keys } from "./sidebar-constants";
+// global state
+import { showScrapFolderListState } from "../../store/sidebar-global-state";
+// components
 import LogoTab from "./LogoTab";
 import UserProfileTab from "./UserProfileTab";
 import MainArticleTab from "./MainArticleTab";
 import LikedArticleTab from "./LikedArticleTab";
 import ScrapFolderTab from "./ScrapFolderTab";
 import ScrapFolderListItem from "./ScrapFolderListItem";
-import { showScrapFolderListState } from "../../store/sidebar";
 
 const Sidebar = () => {
   const showScrapFolderList = useRecoilValue(showScrapFolderListState);
@@ -106,7 +110,6 @@ const Sidebar = () => {
           scrapFolderList.map((item) => (
             <ScrapFolderListItem
               key={item.folderIdx}
-              itemId={item.folderIdx}
               title={item.title}
               folderIdx={item.folderIdx}
             />

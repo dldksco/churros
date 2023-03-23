@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Section from "../components/section/Section";
 import Sidebar from "../components/sidebar/Sidebar";
