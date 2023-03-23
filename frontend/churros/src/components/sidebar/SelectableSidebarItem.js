@@ -1,20 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { selectedSidebarItemIdState } from "../../store/sidebar";
 
 const SelectableSidebarItem = ({ navigateTo, itemId, className, children, onClick }) => {
-  const [selectedSidebarItemId, setSelectedSidebarItemId] = useRecoilState(
-    selectedSidebarItemIdState
-  );
-
-  const handleItemClick = () => {
-    setSelectedSidebarItemId((prevItemId) => {
-      if (prevItemId != itemId && onClick) {
-        onClick();
-      }
-      return itemId;
-    });
-  };
 
   return (
     <NavLink
