@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const SelectableSidebarItem = ({ navigateTo, itemId, className, children, onClick }) => {
+const SidebarNavLink = ({ navigateTo, itemId, className, children, onClick }) => {
 
   return (
     <NavLink
@@ -12,4 +12,4 @@ const SelectableSidebarItem = ({ navigateTo, itemId, className, children, onClic
   );
 };
 
-export default SelectableSidebarItem;
+export default SidebarNavLink;
