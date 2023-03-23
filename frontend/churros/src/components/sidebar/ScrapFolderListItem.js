@@ -1,35 +1,27 @@
 // constants
-import { SIDEBAR_ITEM_SIZE } from "./constants";
+import { SIDEBAR_ITEM_SIZE } from "./sidebar-constants";
 // icons
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { FaMinus } from "react-icons/fa";
 // components
-import SelectableSidebarItem from "./SelectableSidebarItem";
-import { useNavigate } from "react-router-dom";
+import SidebarNavLink from "./SidebarNavLink";
 
-const ScrapFolderListItem = ({ title, itemId, folderIdx }) => {
-  const navigate = useNavigate();
-
-  const loadScrapFolderPage = () => {
-    console.log(`request items of pScrapFolder(${folderIdx})`);
-    navigate(`scraps/${folderIdx}`);
-  };
-
-  const showActionMenuModal = (event) => {
+const ScrapFolderListItem = ({ title, folderIdx }) => {
+  const showActingOptionMenu = (event) => {
     event.stopPropagation();
     console.log(`show action menu modal of ScrapFolder(${folderIdx})`);
   };
 
+  const navigateTo = `/news/scraps/${folderIdx}`;
+
   return (
-    <SelectableSidebarItem
-      itemId={itemId}
+    <SidebarNavLink
+      navigateTo={navigateTo}
       className={`${SIDEBAR_ITEM_SIZE.sm}`}
-      onClick={loadScrapFolderPage}
     >
       <div className="w-full h-full flex flex-row justify-between items-center">
         <div
           className={`flex flex-row justify-start items-center w-full h-full hover:bg-stone-300`}
-          onClick={loadScrapFolderPage}
         >
           <div className="block w-7" />
           <div className="flex flex-row justify-start items-center">
@@ -40,10 +32,10 @@ const ScrapFolderListItem = ({ title, itemId, folderIdx }) => {
         <IoEllipsisHorizontalSharp
           className="w-10 h-full p-2 hover:bg-stone-300"
           style={{ color: "837F79" }}
-          onClick={showActionMenuModal}
+          onClick={showActingOptionMenu}
         />
       </div>
-    </SelectableSidebarItem>
+    </SidebarNavLink>
   );
 };
 
