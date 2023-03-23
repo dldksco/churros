@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSetRecoilState } from "recoil";
 import SidebarItem from "./SidebarItem";
 import {
@@ -6,8 +6,8 @@ import {
   IoFolderSharp,
   IoAddOutline,
 } from "react-icons/io5";
-import { SIDEBAR_ITEM_SIZE } from "./constants";
-import { showScrapFolderListState } from "../../store/sidebar";
+import { SIDEBAR_ITEM_SIZE } from "./sidebar-constants";
+import { showScrapFolderListState } from "../../store/sidebar-global-state";
 
 const ScrapFolderTab = () => {
   const setShowScrapFolderList = useSetRecoilState(showScrapFolderListState);
