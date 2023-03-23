@@ -1,9 +1,12 @@
 package com.a503.churros.service.news;
 
+import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.entity.article.Article;
 import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.Read;
 import com.a503.churros.entity.scrap.ScrapedArticle;
+import com.a503.churros.repository.article.ArticleRepository;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
@@ -26,15 +29,17 @@ public class NewsServiceImpl implements NewsService{
     private final ReadRepository rr;
     private final LikeRepository lr;
     private final DisLikeRepository dr;
+    private final ArticleRepository ar;
 
     @Autowired
-    public NewsServiceImpl(ReadRepository rr , LikeRepository lr , DisLikeRepository dr) {
+    public NewsServiceImpl(ReadRepository rr , LikeRepository lr , DisLikeRepository dr , ArticleRepository ar) {
         this.wc = WebClient.builder()
-                .baseUrl("http://localhost:8080")
+                .baseUrl("http://13.124.111.131:8080")
                 .build();
         this.rr = rr;
         this.lr = lr;
         this.dr = dr;
+        this.ar = ar;
     }
 
     public List<String> sendRecommend(long userId){
@@ -114,5 +119,23 @@ public class NewsServiceImpl implements NewsService{
                 .articleIdx(articleId)
                 .build();
         dr.save(dis);
+    }
+
+    @Override
+    public ArticleDTO getArticleInfo(long userId , long articleId) {
+        Article article = ar.findByIdx(articleId).orElse(null);
+        if(article == null){
+            return null;
+        }
+        ArticleDTO dto = new ArticleDTO().of(article);
+        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(like != null){
+            dto.setLike(true);
+        }
+        return dto;
+
+//        if(article != null){
+//            System.out.println(article.getName());
+//        }
     }
 }
