@@ -9,8 +9,8 @@ def token(article):
     text = clean(full_text)
     text = clean_str(text)
     word_tokens = kom.pos(text, join="/")
-    stemming_result = stemming_text(word_tokens)
-    result = delete_stop_words(stemming_result)
+    stop_words_none = delete_stop_words(word_tokens)
+    result = stemming_text(stop_words_none)
     # 이 결과값이 token된 값
     return result
 
@@ -111,7 +111,8 @@ def stemming_text(text):
 # 불용어 제거
 word_file = open("stopwords.txt", "r", encoding="utf-8")
 words = word_file.read()
-stop_words = list(words.split('\n'))
+stop_words = set(words.split('\n'))
+lemmatization = {"VV","VX","NNG","NNP","NNB","XSV","XSA","SL","XR","SN","SH","SW","MAG","NF"}
 def delete_stop_words(text):
-    result = [word for word in text if not word[0] in stop_words]
+    result =  [word for word in text if (not (word.split('/')[0] in stop_words) and word.split('/')[1] in lemmatization)]
     return result
