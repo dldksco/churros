@@ -1,5 +1,6 @@
 package com.a503.churros.controller.news;
 
+import com.a503.churros.dto.article.ArticleDTO;
 import com.a503.churros.service.news.NewsService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -40,14 +41,18 @@ public class NewsController {
 
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
+//            String token
+            long userId,
             @PathVariable(value = "articleId") long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         // mongoDb와 연결해서 기사 정보를 가져오기
+        ArticleDTO dto = ns.getArticleInfo(userId , articleId);
         // DTO 와 ENTITY 만들기
 
         resultMap.put("result", SUCCESS);
+        resultMap.put("article" , dto);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 

@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import javax.validation.valueextraction.UnwrapByDefault;
 
-@Document(collection = "articles")
+@Document(collection = "newsCol")
 @Builder
 @Getter
 @Setter
@@ -15,5 +15,11 @@ import javax.validation.valueextraction.UnwrapByDefault;
 public class Article {
 
     @Id
-    private long id;
+    private String id;
+    private long _idx;
+    private String title;
+    private String description;
+    private String link;
+    private String img_src;
+    private String publish_date;
 }
