@@ -1,5 +1,5 @@
 import SidebarItem from "./SidebarItem";
-import { SIDEBAR_ITEM_SIZE } from "./sidebar-constants";
+import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants";
 import { FaUserCircle } from "react-icons/fa";
 
 const UserProfileTab = () => {
