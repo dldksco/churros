@@ -1,12 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Optional
-from sqlalchemy.orm import Session, sessionmaker
-import sqlalchemy.orm.session
-
-from app.models.models import User
+from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 from app.common.crud import read_user
+from dotenv import load_dotenv
 
 app = FastAPI()
 
