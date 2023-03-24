@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import logo from "../churros-logo.svg";
 import CardCarousel from "../components/CardCarousel";
-import NaverLoginButton from "../components/NaverLoginButton";
+import ImageButton from "../components/ImageButton";
+import api from "../axios-instance/api";
+
+// import NaverLoginButton from "../components/NaverLoginButton";
 
 const LandingPage = () => {
   const images = [
@@ -22,14 +24,17 @@ const LandingPage = () => {
     },
   ];
 
-  const navigate = useNavigate();
-
-  const loginHandler = (event) => {
+  const handleKakaoLogin = async (event) => {
     event.preventDefault();
-  
+
     console.log("login button clicked");
 
-    navigate("/news")
+    try {
+      const response = await api.get("/auth/kakao");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,7 +57,11 @@ const LandingPage = () => {
           <p className="text-7xl font-bold text-right">츄러스</p>
         </div>
         <div className="flex justify-center p-1">
-          <NaverLoginButton/>
+          <ImageButton
+            src={"/images/kakao_login_medium_narrow.png"}
+            alt={"카카오 로그인 버튼"}
+            onClick={handleKakaoLogin}
+          />
         </div>
       </div>
     </div>
