@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import javax.validation.valueextraction.UnwrapByDefault;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "newsCol")
 @Builder
@@ -16,10 +17,13 @@ public class Article {
 
     @Id
     private String id;
-    private long _idx;
+    @Field("_idx")
+    private long idx;
     private String title;
     private String description;
     private String link;
-    private String img_src;
-    private String publish_date;
+    @Field("img_src")
+    private String imgSrc;
+    @Field("publish_date")
+    private String publishDate;
 }

@@ -6,8 +6,8 @@ import com.a503.churros.entity.news.Like;
 import java.util.List;
 
 public interface NewsService {
-    List<String> sendRecommend(long userId);
-    List<String> sendSample();
+    List<Long> sendRecommend(long userId);
+    List<Long> sendSample();
     void saveReadArti(long userId, long articleId);
     void recordLike(long userId, long articleId, long like);
     List<Long> getLikeList(long userIdx);

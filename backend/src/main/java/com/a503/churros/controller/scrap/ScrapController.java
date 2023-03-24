@@ -30,6 +30,7 @@ public class ScrapController {
 
     @GetMapping("/")
     public ResponseEntity<?> getScrap(
+//            @RequestHeader("token")
 //            String token
             long userId
     ){
@@ -53,6 +54,7 @@ public class ScrapController {
 
     @GetMapping("/{scrapbookId}")
     public ResponseEntity<?> getScrap(
+//            @RequestHeader("token")
 //            String token
             long userId ,
             @PathVariable(value = "scrapbookId") long scrapbookId
@@ -73,6 +75,7 @@ public class ScrapController {
 
     @PostMapping("/book")
     public ResponseEntity<?> postScrapBook(
+//            @RequestHeader("token")
 //            String token
             long userId ,
             String folderName
@@ -87,8 +90,9 @@ public class ScrapController {
 
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
-    @PutMapping("/Book")
-    public ResponseEntity<?> putScrapBoot(
+    @PutMapping("/book")
+    public ResponseEntity<?> putScrapBooK(
+//            @RequestHeader("token")
 //            String token
             long userId ,
             String folderName ,
@@ -103,6 +107,7 @@ public class ScrapController {
 
     @DeleteMapping("/book")
     public ResponseEntity<?> deleteScrapBook(
+//            @RequestHeader("token")
 //            String token
             long userId ,
             long folderIdx
@@ -117,6 +122,7 @@ public class ScrapController {
 
     @PutMapping("/article")
     public ResponseEntity<?> putScrapArticle(
+//            @RequestHeader("token")
 //            String token
             long userId ,
             long folderIdx ,
