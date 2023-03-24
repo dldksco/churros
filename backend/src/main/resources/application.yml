@@ -65,7 +65,7 @@ spring:
     password: ${MARIADB_PASSWORD}
   data:
     mongodb:
-      uri: mongodb://localhost:27017/newsdb
+      uri: ${MONGODB_URL}
 ---
 springfox:
   documentation:
