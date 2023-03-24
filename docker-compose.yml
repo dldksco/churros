@@ -7,7 +7,7 @@ services:
       context: ./backend
     environment:
       - MARIADB_PASSWORD=A503
-      - MONGODB_URL= mongodb://churros:A503@churros-mongodb:27017
+      - MONGODB_URL= mongodb://churros:A503@churros-mongodb:27017/newsdb
     ports:
       - "9999:9999"
     restart: always
