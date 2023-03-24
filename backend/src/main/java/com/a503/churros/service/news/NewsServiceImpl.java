@@ -123,19 +123,15 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public ArticleDTO getArticleInfo(long userId , long articleId) {
-        Article article = ar.findByIdx(articleId).orElse(null);
-        if(article == null){
+//        Article article = ar.findByIdx(articleId).orElse(null);
+//        if(article == null){
             return null;
-        }
-        ArticleDTO dto = new ArticleDTO().of(article);
-        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
-        if(like != null){
-            dto.setLike(true);
-        }
-        return dto;
-
-//        if(article != null){
-//            System.out.println(article.getName());
 //        }
+//        ArticleDTO dto = new ArticleDTO().of(article);
+//        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+//        if(like != null){
+//            dto.setLike(true);
+//        }
+//        return dto;
     }
 }
