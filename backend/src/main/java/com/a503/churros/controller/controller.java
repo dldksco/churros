@@ -17,7 +17,7 @@ public class controller {
   @GetMapping("/test")
   public String hi() {
     String h = "test";
-    System.out.println("ggg");
+    System.out.println("gggg");
     return h;
   }
 
