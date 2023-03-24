@@ -1,5 +1,5 @@
 import SidebarItem from "./SidebarItem"
-import { SIDEBAR_ITEM_SIZE } from "./sidebar-constants"
+import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants"
 
 const LogoTab = () => {
     return <SidebarItem className={`${SIDEBAR_ITEM_SIZE.lg} bg-stone-200`}>
