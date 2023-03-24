@@ -14,11 +14,11 @@ public class controller {
 //  @Value("${es.host}")
 //  String h;
 //
-//  @GetMapping("/")
-//  public String hi() {
-//
-//    System.out.println("gg");
-//    return h;
-//  }
+  @GetMapping("/test")
+  public String hi() {
+    String h = "test";
+    System.out.println("gg");
+    return h;
+  }
 
 }
