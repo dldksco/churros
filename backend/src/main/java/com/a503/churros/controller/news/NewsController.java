@@ -25,6 +25,7 @@ public class NewsController {
 
     @GetMapping("/")
     public ResponseEntity<?> getNews(
+//            @RequestHeader("token")
 //            String token
             long userId
     ){
@@ -41,6 +42,7 @@ public class NewsController {
 
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
+//            @RequestHeader("token")
 //            String token
             long userId,
             @PathVariable(value = "articleId") long articleId
@@ -48,16 +50,17 @@ public class NewsController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         // mongoDb와 연결해서 기사 정보를 가져오기
-        ArticleDTO dto = ns.getArticleInfo(userId , articleId);
+//        ArticleDTO dto = ns.getArticleInfo(userId , articleId);
         // DTO 와 ENTITY 만들기
 
         resultMap.put("result", SUCCESS);
-        resultMap.put("article" , dto);
+//        resultMap.put("article" , dto);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @GetMapping("/sample")
     public ResponseEntity<?> getNewsSample(
+//            @RequestHeader("token")
 //            String token
             long userId,
             long articleId
@@ -73,6 +76,7 @@ public class NewsController {
 
     @PutMapping("/read")
     public ResponseEntity<?> putRead(
+//            @RequestHeader("token")
 //            String token
             long userId,
             long articleId
@@ -86,6 +90,7 @@ public class NewsController {
 
     @PostMapping("/like")
     public ResponseEntity<?> postLike(
+//            @RequestHeader("token")
 //            String token
             long userId,
             long articleId,
@@ -100,6 +105,7 @@ public class NewsController {
 
     @GetMapping("/like")
     public ResponseEntity<?> getLike(
+//            @RequestHeader("token")
 //            String token
             long userId
     ){
@@ -113,6 +119,7 @@ public class NewsController {
     }
     @PostMapping("/dislike")
     public ResponseEntity<?> postDisLike(
+//            @RequestHeader("token")
 //            String token
             long userId,
             long articleId
