@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../churros-logo.svg";
 import CardCarousel from "../components/CardCarousel";
-import ImageButton from "../components/ImageButton";
+import NaverLoginButton from "../components/NaverLoginButton";
 
 const LandingPage = () => {
   const images = [
@@ -52,12 +52,7 @@ const LandingPage = () => {
           <p className="text-7xl font-bold text-right">츄러스</p>
         </div>
         <div className="flex justify-center p-1">
-          <ImageButton
-            className="w-40"
-            onClick={loginHandler}
-            src="/images/btn-naver-login.png"
-            alt="btn-naver-login"
-          />
+          <NaverLoginButton/>
         </div>
       </div>
     </div>

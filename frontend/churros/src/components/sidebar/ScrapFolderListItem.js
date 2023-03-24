@@ -1,5 +1,5 @@
 // constants
-import { SIDEBAR_ITEM_SIZE } from "./sidebar-constants";
+import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants";
 // icons
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { FaMinus } from "react-icons/fa";
@@ -12,7 +12,7 @@ const ScrapFolderListItem = ({ title, folderIdx }) => {
     console.log(`show action menu modal of ScrapFolder(${folderIdx})`);
   };
 
-  const navigateTo = `/news/scraps/${folderIdx}`;
+  const navigateTo = `/scraps/${folderIdx}`;
 
   return (
     <SidebarNavLink
