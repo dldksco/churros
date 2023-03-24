@@ -30,12 +30,12 @@ public class ArticleDTO {
 
     public ArticleDTO of(Article arti){
         return ArticleDTO.builder()
-                .idx(arti.get_idx())
+                .idx(arti.getIdx())
                 .title(arti.getTitle())
                 .description(arti.getDescription())
                 .url(arti.getLink())
-                .imgUrl(arti.getImg_src())
-                .date(arti.getPublish_date())
+                .imgUrl(arti.getImgSrc())
+                .date(arti.getPublishDate())
                 .like(false)
                 .build();
     }

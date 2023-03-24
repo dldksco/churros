@@ -22,6 +22,8 @@ public class Article {
     private String title;
     private String description;
     private String link;
-    private String img_src;
-    private String publish_date;
+    @Field("img_src")
+    private String imgSrc;
+    @Field("publish_date")
+    private String publishDate;
 }
