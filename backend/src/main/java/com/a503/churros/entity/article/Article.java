@@ -1,11 +1,10 @@
 package com.a503.churros.entity.article;
 
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
-import javax.validation.valueextraction.UnwrapByDefault;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "newsCol")
+//@Document(collection = "newsCol")
 @Builder
 @Getter
 @Setter
