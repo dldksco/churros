@@ -6,7 +6,7 @@ import {
   IoFolderSharp,
   IoAddOutline,
 } from "react-icons/io5";
-import { SIDEBAR_ITEM_SIZE } from "./sidebar-constants";
+import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants";
 import { showScrapFolderListState } from "../../store/sidebar-global-state";
 
 const ScrapFolderTab = () => {
