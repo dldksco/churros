@@ -3,7 +3,7 @@ import React from "react";
 // recoil
 import { useRecoilValue } from "recoil";
 // constants
-import { SIDEBAR_TAB_KEYS as keys } from "./sidebar-constants";
+import { SIDEBAR_TAB_KEYS as keys } from "../../constants/sidebar-constants";
 // global state
 import { showScrapFolderListState } from "../../store/sidebar-global-state";
 // components
