@@ -1,20 +1,21 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Section from "../components/section/Section";
 import Sidebar from "../components/sidebar/Sidebar";
+import Topbar from "../components/topbar/Topbar";
 
 const MainPage = () => {
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
-      <Sidebar/>
+      <Sidebar />
       <div className="flex flex-col justify-start w-full h-full">
-        <div className="flex flex-row justify-between items-center h-14">
+        <Topbar>
           <h1>This is</h1>
-          <h1>Navbar</h1>
-        </div>
-        <div className="flex flex-col justify-start w-full h-full">
-          <h1>This</h1>
-          <h1>is</h1>
-          <h1>a main section</h1>
-        </div>
+          <h1>Topbar</h1>
+        </Topbar>
+        <Section>
+            <Outlet/>
+        </Section>
       </div>
     </div>
   );

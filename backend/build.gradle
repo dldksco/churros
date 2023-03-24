@@ -33,7 +33,8 @@ dependencies {
 
 	// for web client
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
+	// for mongoDb repo
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	
 
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
