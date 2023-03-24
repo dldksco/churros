@@ -3,7 +3,7 @@ import { IoBookOutline } from "react-icons/io5";
 import SidebarNavLink from "./SidebarNavLink";
 
 const MainArticleTab = () => {
-  const navigateTo = "/news/feed"
+  const navigateTo = "/"
 
   return (
     <SidebarNavLink

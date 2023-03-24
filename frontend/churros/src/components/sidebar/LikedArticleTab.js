@@ -3,7 +3,7 @@ import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants";
 import { FaHeart } from "react-icons/fa";
 
 const LikedArticleTab = () => {
-  const navigateTo = "/news/likes";
+  const navigateTo = "/likes";
 
   return (
     <SidebarNavLink

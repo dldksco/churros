@@ -12,7 +12,7 @@ const ScrapFolderListItem = ({ title, folderIdx }) => {
     console.log(`show action menu modal of ScrapFolder(${folderIdx})`);
   };
 
-  const navigateTo = `/news/scraps/${folderIdx}`;
+  const navigateTo = `/scraps/${folderIdx}`;
 
   return (
     <SidebarNavLink
