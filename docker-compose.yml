@@ -11,6 +11,13 @@ services:
     ports:
       - "9999:9999"
     restart: always
+  churros-crs:
+    container_name: churros-crs
+    build:
+      context: ./recommend/pyrecommend-server
+      dockerfile: Dockerfile
+    ports:
+      - "5555:8000"
 networks:
   default:
     name: cd_network
