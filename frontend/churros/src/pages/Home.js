@@ -11,9 +11,8 @@ const Home = () => {
   console.log(accessToken);
 
   const isAuthenticated = accessToken > 0;
-
   // Todo: access token validation
-  if (!isAuthenticated) return <Navigate to="/landing" />;
+  // if (!isAuthenticated) return <Navigate to="/landing" />;
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
