@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/test")
 @Api("TEST API")
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class TestController {
 
     private static final String SUCCESS = "success";
