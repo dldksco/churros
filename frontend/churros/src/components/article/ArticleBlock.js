@@ -3,6 +3,7 @@ import test from "../../axios-instance/test"
 
 const ArticleBlock = ({articleId}) => {
     const [loading, setLoading] = useState(true);
+    console.log(loading);
     const [article, setArticle] = useState({});
 
     const fetchData = async ( articleId ) => {
@@ -22,7 +23,7 @@ const ArticleBlock = ({articleId}) => {
 
     useEffect(() => {
         fetchData(articleId);
-    }, []);
+    });
 
     return <div className="mb-4">
         <p>idx: {article["idx"]}</p>
