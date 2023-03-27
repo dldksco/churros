@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 import datetime
+from tokenizer import tokenstart
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ mongo_user = os.environ.get('MongoUser')
 mongo_passwd = os.environ.get('MongoPasswd')
 mongo_db_name = os.environ.get('MongoDbName')
 mongo_admin_db = os.environ.get('MongoAdminDb')
-mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd, authSource=mongo_admin_db)
+mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd) #, authSource=mongo_admin_db)
 
 db = mongo_client[mongo_db_name]
 collection = db['newsCol']
@@ -209,7 +210,9 @@ def crawlingGeneralNews(lastcounter):
 
 def main():
     lastcounter = collection.estimated_document_count()
-    lastcounter = crawlingGeneralNews(lastcounter)
+    lastcounter_new = crawlingGeneralNews(lastcounter)
+    if lastcounter < lastcounter_new:
+        tokenstart(lastcounter, lastcounter_new)
 
 if __name__ == '__main__':
     main()
