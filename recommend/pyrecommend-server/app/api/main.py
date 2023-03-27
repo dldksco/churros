@@ -4,7 +4,7 @@ from app.db.database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import user_recommend
 
-app = FastAPI()
+app = FastAPI(docs_url="/recommend/docs", redoc_url="/recommend/redoc")
 
 def get_db():
     db = SessionLocal()
