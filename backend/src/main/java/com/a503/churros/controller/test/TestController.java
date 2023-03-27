@@ -2,6 +2,8 @@ package com.a503.churros.controller.test;
 
 import com.a503.churros.dto.article.ArticleDTO;
 import com.a503.churros.dto.scrap.ScrapFolderDTO;
+import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +16,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/test")
+@Api("TEST API")
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class TestController {
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
-    @GetMapping("/scrap/")
+    @GetMapping("/scrap")
     public ResponseEntity<?> getScrap(){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         List<ScrapFolderDTO> folderList = new ArrayList<>();
@@ -96,7 +100,7 @@ public class TestController {
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
-    @GetMapping("/news/")
+    @GetMapping("/news")
     public ResponseEntity<?> getNews(
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();

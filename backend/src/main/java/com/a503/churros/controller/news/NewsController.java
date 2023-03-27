@@ -23,7 +23,7 @@ public class NewsController {
 
     private final NewsService ns;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getNews(
 //            @RequestHeader("token")
 //            String token
