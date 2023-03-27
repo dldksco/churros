@@ -60,7 +60,7 @@ public class AuthController {
     public void KakaoAuthorize(HttpServletResponse response) throws IOException {
 
         String url = "https://kauth.kakao.com/oauth/authorize?client_id="+CLIENT_ID
-                +"&redirect_uri=https://churros.site/api/auth/kakao/callback&response_type=code";
+                +"&redirect_uri=https://www.churros.site/api/auth/kakao/callback&response_type=code";
         // step1 :  1번 oauth/authorize 보내  , 2번은 Kakao Auth Server , 3번은 Client , 4번은 KakaoAuthServer ,5번은 Client
         response.sendRedirect(url);
 
@@ -98,7 +98,7 @@ public class AuthController {
 //        log.info(user.get().getImageUrl().toString());
         // 토큰 생성
         String[] tokens = createJWTToken(user);
-        response.sendRedirect("https://churros.site/kakao/handler?access-token="+tokens[0]+"&refresh-token="+tokens[1]);
+        response.sendRedirect("https://www.churros.site/kakao/handler?access-token="+tokens[0]+"&refresh-token="+tokens[1]);
 
    }
 
@@ -122,7 +122,7 @@ public class AuthController {
                         .path("/oauth/token")
                         .queryParam("grant_type", "authorization_code")
                         .queryParam("client_id", CLIENT_ID)
-                        .queryParam("redirect_uri",  "https://churros.site/api/auth/kakao/callback")
+                        .queryParam("redirect_uri",  "https://www.churros.site/api/auth/kakao/callback")
                         .queryParam("code", code)
                         .build())
                 .retrieve().bodyToMono(JSONObject.class).block();
