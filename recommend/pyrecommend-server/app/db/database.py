@@ -13,7 +13,7 @@ maria_db_name = config.get("MARIA_DB_NAME")
 
 SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{maria_user}:{maria_passwd}@{maria_host}:{maria_port}/{maria_db_name}"
 
-print(SQLALCHEMY_DATABASE_URL)
+print("!!!!!!!!!!!!!!!!!!!!!!!!",SQLALCHEMY_DATABASE_URL)
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
