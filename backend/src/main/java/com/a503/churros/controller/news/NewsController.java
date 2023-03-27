@@ -23,7 +23,7 @@ public class NewsController {
 
     private final NewsService ns;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getNews(
 //            @RequestHeader("token")
 //            String token
@@ -32,7 +32,7 @@ public class NewsController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         // 토큰을 통해 유저 인덱스를 가져오기 - 구현 전
-        List<String> list = ns.sendRecommend(userId);
+        List<Long> list = ns.sendRecommend(userId);
 
         resultMap.put("articles", list);
         resultMap.put("result", SUCCESS);
@@ -67,7 +67,7 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
-        List<String> list = ns.sendSample();
+        List<Long> list = ns.sendSample();
         resultMap.put("result", SUCCESS);
         resultMap.put("articles", list);
 

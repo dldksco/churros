@@ -12,6 +12,7 @@ import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -32,9 +33,10 @@ public class NewsServiceImpl implements NewsService{
     private final ArticleRepository ar;
 
     @Autowired
-    public NewsServiceImpl(ReadRepository rr , LikeRepository lr , DisLikeRepository dr , ArticleRepository ar) {
+    public NewsServiceImpl(ReadRepository rr , LikeRepository lr , DisLikeRepository dr , ArticleRepository ar ,  @Value("${crs.uri}") String url) {
+
         this.wc = WebClient.builder()
-                .baseUrl("http://13.124.111.131:8080")
+                .baseUrl(url)
                 .build();
         this.rr = rr;
         this.lr = lr;
@@ -42,7 +44,7 @@ public class NewsServiceImpl implements NewsService{
         this.ar = ar;
     }
 
-    public List<String> sendRecommend(long userId){
+    public List<Long> sendRecommend(long userId){
         ClientResponse response = wc.get()
                 .uri("/recommend/{userId}", userId)
                 .accept(MediaType.APPLICATION_JSON)
@@ -57,7 +59,7 @@ public class NewsServiceImpl implements NewsService{
         }
     }
 
-    public List<String> sendSample(){
+    public List<Long> sendSample(){
         ClientResponse response = wc.get()
                 .uri("/recommend/sample")
                 .accept(MediaType.APPLICATION_JSON)

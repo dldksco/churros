@@ -28,7 +28,7 @@ public class ScrapController {
     private final ScrapService ss;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getScrap(
 //            @RequestHeader("token")
 //            String token
@@ -90,7 +90,7 @@ public class ScrapController {
 
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
-    @PutMapping("/Book")
+    @PutMapping("/book")
     public ResponseEntity<?> putScrapBooK(
 //            @RequestHeader("token")
 //            String token

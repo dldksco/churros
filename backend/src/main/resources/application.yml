@@ -4,7 +4,6 @@ spring:
     group:
       "default": "local,common"
       "devenv": "dev,common"
-
 ---
 spring:
   config:
@@ -35,7 +34,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/newsdb
-
+crs:
+  uri: http://churros-rcs:8080
 ---
 spring:
   config:
@@ -66,6 +66,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://churros:A503@churros-mongodb:27017/newsdb
+crs:
+  uri: http://churros-rcs:8080
 ---
 springfox:
   documentation:
