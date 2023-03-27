@@ -20,10 +20,11 @@ public class CORSConfig implements WebMvcConfigurer {
 
 
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedOrigins("http://localhost:9999")
-                .allowedOrigins("https://www.churros.site")
-                .allowedOrigins("https://churros.site")
+        .allowedOriginPatterns("*")
+                // .allowedOrigins("http://localhost:3000")
+                // .allowedOrigins("http://localhost:9999")
+                // .allowedOrigins("https://www.churros.site")
+                // .allowedOrigins("https://churros.site")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
