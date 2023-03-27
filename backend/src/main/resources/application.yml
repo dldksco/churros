@@ -120,6 +120,6 @@ app:
     accessTokenExpirationMsec: 2000000
     refreshTokenExpirationMsec: 600000000
   cors:
-    allowedOrigins: http://localhost:3000, http://localhost:9999
+    allowedOrigins: http://localhost:3000, http://localhost:9999, https://www.churros.site, https://www.churros.site/api
   oauth2:
     authorizedRedirectUris: http://localhost:3000/oauth2/redirect
