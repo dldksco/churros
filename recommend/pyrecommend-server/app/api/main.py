@@ -4,7 +4,7 @@ from app.db.database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import user_recommend
 
-app = FastAPI(docs_url="/recommend/docs", redoc_url="/recommend/redoc")
+app = FastAPI(root_path="/recommend")
 
 def get_db():
     db = SessionLocal()
@@ -13,15 +13,15 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/recommend/remodel")
+@app.get("/remodel")
 async def remodel_recommend_model():
     return True;
 
-@app.get("/recommend/login")
+@app.get("/login")
 async def get_sample_articles():
     return {"recommendList":[1, 2, 3, 4]};
 
-@app.get("/recommend/{user_id}")
+@app.get("/{user_id}")
 async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     db_user = read_user(db, user_id)
 
