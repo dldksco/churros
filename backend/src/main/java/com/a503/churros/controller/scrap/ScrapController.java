@@ -28,7 +28,7 @@ public class ScrapController {
     private final ScrapService ss;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getScrap(
 //            @RequestHeader("token")
 //            String token
