@@ -13,6 +13,7 @@ import MainArticleTab from "./MainArticleTab";
 import LikedArticleTab from "./LikedArticleTab";
 import ScrapFolderTab from "./ScrapFolderTab";
 import ScrapFolderListItem from "./ScrapFolderListItem";
+import LogoutButton from "./LogoutButton";
 
 const Sidebar = () => {
   const showScrapFolderList = useRecoilValue(showScrapFolderListState);
@@ -115,6 +116,8 @@ const Sidebar = () => {
             />
           ))}
       </div>
+      
+      <LogoutButton/>
     </aside>
   );
 };
