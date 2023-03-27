@@ -23,6 +23,10 @@ newscollection = db['newsCol']
 tokencollection = db['newsToken']
 
 
+# 절대경로
+project_folder = os.getcwd()
+
+
 # token dataframe 조회
 def token_dataframe():
     data = list(tokencollection.find())
@@ -37,9 +41,9 @@ def doc2bow(df):
 
     dictionary = corpora.Dictionary(df.token)
     dictionary.save(
-        '../pyrecommend-server/app/recommend_models/data/dictionary.pkl')
+        '~/recommend/data/dictionary.pkl')
     corpus = [dictionary.doc2bow(text) for text in df.token]
-    with open('../pyrecommend-server/app/recommend_models/data/corpus.pkl', 'wb') as f:
+    with open('~/recommend/data/corpus.pkl', 'wb') as f:
         pickle.dump(corpus, f)
     return dictionary, corpus
 
@@ -47,7 +51,7 @@ def model_train(dictionary, corpus):
     logging.info('Ending doc2bow')
     NUM_TOPICS = 20
     ldamodel = models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=10)
-    ldamodel.save('../pyrecommend-server/app/recommend_models/data/ldamodels.lda')
+    ldamodel.save('~/recommend/data/ldamodels.lda')
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

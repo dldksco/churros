@@ -79,7 +79,7 @@ def clean_str(text):
 
 
 # 불용어 제거
-word_file = open("recommend\crawling\stopwords.txt", "r", encoding="utf-8")
+word_file = open("~/crawling/stopwords.txt", "r", encoding="utf-8")
 words = word_file.read()
 stop_words = set(words.split('\n'))
 lemmatization = {'Adjective', 'Adverb', 'Alpha', 'Exclamation', 'Foreign', 'Noun', 'Number',  'Unknown', 'Verb'} # 동사와 명사 형용사 및 기타 의미가 존재하는 형태소만을 남김
