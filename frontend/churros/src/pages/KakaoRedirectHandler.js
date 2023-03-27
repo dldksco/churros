@@ -3,7 +3,7 @@ import { accessTokenState, refreshTokenState } from "../store/auth";
 import { useSetRecoilState } from "recoil";
 
 const KakaoRedirectHandler = () => {
-  const params = URLSearchParams(window.location.href);
+  const params = URLSearchParams(window.location.search);
 
   const setAccessToken = useSetRecoilState(accessTokenState);
   setAccessToken(params.get("access-token"));
