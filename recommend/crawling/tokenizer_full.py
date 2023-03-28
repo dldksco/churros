@@ -22,25 +22,27 @@ newscollection = db['newsCol']
 tokencollection = db['newsToken']
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+total_num, point = 0, 0
 
-def tokenstart():
-    logging.info('Starting my_function')
-    data = newscollection.find()
-    data_list = list(data)
-    df = pd.DataFrame(data_list)
+def tokenstart(df,i):
+    global total_num
+    logging.info('Starting slicing token')
     df["token"] = df["full_text"].apply(token)
     df_saving = df[["_idx", "token"]]
     records = df_saving.to_dict("records")
     tokencollection.insert_many(records)
-    logging.info('Ending my_function')
+    logging.info(f'Ending {i} times slicing')
 
 def token(txt):
+    global point
+    point += 1
     okt = Okt()
     # 아무튼 기사 전문을 변수에 저장
-    text = clean(txt)
+    text = clean(str(txt))
     text = clean_str(text)
     word_tokens = okt.pos(text, join="/", stem=True)
     result = delete_stop_words(word_tokens)
+    # logging.info(f'{point} / {total_num} 완료')
     # 이 결과값이 token된 값
     return result
 
@@ -79,7 +81,7 @@ def clean_str(text):
 
 
 # 불용어 제거
-word_file = open("recommend\crawling\stopwords.txt", "r", encoding="utf-8")
+word_file = open("/home/ubuntu/crawling/stopwords.txt", "r", encoding="utf-8")
 words = word_file.read()
 stop_words = set(words.split('\n'))
 lemmatization = {'Adjective', 'Adverb', 'Alpha', 'Exclamation', 'Foreign', 'Noun', 'Number',  'Unknown', 'Verb'} # 동사와 명사 형용사 및 기타 의미가 존재하는 형태소만을 남김
@@ -88,7 +90,13 @@ def delete_stop_words(text):
     return result
 
 def main():
-    tokenstart()
+    global total_num
+    data = newscollection.find()
+    df = pd.DataFrame(data)
+    total_num = len(df)
+    for i in range(0,len(df),300):
+        df_slice = df.loc[i:i+300,:]
+        tokenstart(df_slice, i//300+1)
 
 if __name__ == '__main__':
     main()

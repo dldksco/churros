@@ -24,7 +24,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def tokenstart(startidx, endidx):
-    logging.info('Starting my_function')
+    logging.info('Starting tokenize')
     data = newscollection.find().skip(startidx).limit(endidx-startidx)
     data_list = list(data)
     df = pd.DataFrame(data_list)
@@ -32,7 +32,8 @@ def tokenstart(startidx, endidx):
     df_saving = df[["_idx", "token"]]
     records = df_saving.to_dict("records")
     tokencollection.insert_many(records)
-    logging.info('Ending my_function')
+    logging.info('Ending tokenize')
+    logging.info(f'{startidx}부터 {endidx}까지 총 {len(df)} 개의 기사 토큰화 완료')
 
 def token(txt):
     okt = Okt()
@@ -79,7 +80,7 @@ def clean_str(text):
 
 
 # 불용어 제거
-word_file = open("~/crawling/stopwords.txt", "r", encoding="utf-8")
+word_file = open("/home/ubuntu/crawling/stopwords.txt", "r", encoding="utf-8")
 words = word_file.read()
 stop_words = set(words.split('\n'))
 lemmatization = {'Adjective', 'Adverb', 'Alpha', 'Exclamation', 'Foreign', 'Noun', 'Number',  'Unknown', 'Verb'} # 동사와 명사 형용사 및 기타 의미가 존재하는 형태소만을 남김
