@@ -1,7 +1,7 @@
 import logo from "../churros-logo.svg";
-import ImageButton from "../components/ImageButton";
+import ImageButton from "../components/common/ImageButton";
+import Carousel from "../components/common/Carousel";
 import api from "../axios-instance/api";
-import Carousel from "../components/Carousel";
 
 // import NaverLoginButton from "../components/NaverLoginButton";
 
