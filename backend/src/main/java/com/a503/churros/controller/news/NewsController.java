@@ -33,7 +33,6 @@ public class NewsController {
 
         // 토큰을 통해 유저 인덱스를 가져오기 - 구현 전
         List<Long> list = ns.sendRecommend(userId);
-
         resultMap.put("articles", list);
         resultMap.put("result", SUCCESS);
 
@@ -59,12 +58,7 @@ public class NewsController {
     }
 
     @GetMapping("/sample")
-    public ResponseEntity<?> getNewsSample(
-//            @RequestHeader("token")
-//            String token
-            long userId,
-            long articleId
-    ){
+    public ResponseEntity<?> getNewsSample(){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         List<Long> list = ns.sendSample();

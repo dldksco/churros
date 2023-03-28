@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@org.springframework.cloud.openfeign.FeignClient(name = "client" , url = "http://localhost:8080")
+@org.springframework.cloud.openfeign.FeignClient(name = "FeignClient" , url = "http://localhost:8080/recommend")
 public interface FeignClient {
 
-    @GetMapping("/recommend/{userId}")
+    @GetMapping("/{userId}")
     List<Long> getRecomList(@PathVariable("userId") long userId);
 
     @GetMapping("/sample")
