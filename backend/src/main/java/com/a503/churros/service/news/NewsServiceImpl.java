@@ -24,16 +24,16 @@ public class NewsServiceImpl implements NewsService{
     private final LikeRepository lr;
     private final DisLikeRepository dr;
     private final ArticleRepository ar;
-    private final NewsFeign nf;
+    private final NewsFeign fc;
 
 
     public List<Long> sendRecommend(long userId){
-        List<Long> list = nf.getRecomList(userId);
+        List<Long> list = fc.getRecomList(userId);
         return list;
     }
 
     public List<Long> sendSample(){
-        List<Long> list = nf.getSampleList();
+        List<Long> list = fc.getSampleList();
         return list;
     }
 
