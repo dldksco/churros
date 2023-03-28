@@ -17,7 +17,7 @@ const A1Carousel = ({ slides }) => {
   return (
     <div className="relative flex w-full h-full overflow-hidden">
       <button
-        className="absolute top-1/2 z-10 bg-black bg-opacity-10 text-white text-2xl cursor-pointer p-2 -translate-y-1/2 left-0 h-full w-20"
+        className="absolute top-1/2 z-10 bg-black bg-opacity-10 text-white text-2xl cursor-pointer p-2 -translate-y-1/2 left-0 h-1/4 w-20"
         onClick={prevSlide}
       >
         &larr;
@@ -41,7 +41,7 @@ const A1Carousel = ({ slides }) => {
         </div>
       ))}
       <button
-        className="absolute top-1/2 z-10 bg-black bg-opacity-10 text-white text-2xl cursor-pointer p-2 -translate-y-1/2 right-0 h-full w-20"
+        className="absolute top-1/2 z-10 bg-black bg-opacity-10 text-white text-2xl cursor-pointer p-2 -translate-y-1/2 right-0 h-1/4 w-20"
         onClick={nextSlide}
       >
         &rarr;
