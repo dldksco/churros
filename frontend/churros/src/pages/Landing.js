@@ -26,7 +26,7 @@ const Landing = () => {
 
   const handleKakaoLogin = async (event) => {
     event.preventDefault();
-
+    window.location.href = "http://localhost:9999/auth/kakao";
     try {
       await api.get("/auth/kakao");
     } catch (error) {
