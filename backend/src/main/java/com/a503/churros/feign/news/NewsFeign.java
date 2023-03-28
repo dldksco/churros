@@ -1,14 +1,14 @@
-package com.a503.churros.repository.feign;
+package com.a503.churros.feign.news;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@org.springframework.cloud.openfeign.FeignClient(name = "client" , url = "http://localhost:8080")
-public interface FeignClient {
+@org.springframework.cloud.openfeign.FeignClient(name = "NewsFeign" , url = "${crs.uri}")
+public interface NewsFeign {
 
-    @GetMapping("/recommend/{userId}")
+    @GetMapping("/{userId}")
     List<Long> getRecomList(@PathVariable("userId") long userId);
 
     @GetMapping("/sample")

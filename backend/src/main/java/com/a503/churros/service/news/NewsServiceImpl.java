@@ -5,13 +5,11 @@ import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.Read;
 import com.a503.churros.repository.article.ArticleRepository;
-import com.a503.churros.repository.feign.FeignClient;
+import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,43 +24,17 @@ public class NewsServiceImpl implements NewsService{
     private final LikeRepository lr;
     private final DisLikeRepository dr;
     private final ArticleRepository ar;
-    private final FeignClient fc;
+    private final NewsFeign fc;
 
 
     public List<Long> sendRecommend(long userId){
-
         List<Long> list = fc.getRecomList(userId);
-
-
-//        ClientResponse response = wc.get()
-//                .uri("/recommend/{userId}", userId)
-//                .accept(MediaType.APPLICATION_JSON)
-////                .body(BodyInserters.fromFormData(formData))
-//                .exchange()
-//                .block();
-//
-//        if (response.statusCode().is2xxSuccessful()) {
-//            return response.bodyToMono(List.class).block();
-//        } else {
-//            throw new RuntimeException("Failed to send recommendation: " + response.statusCode());
-//        }
-        return null;
+        return list;
     }
 
     public List<Long> sendSample(){
-//        ClientResponse response = wc.get()
-//                .uri("/recommend/sample")
-//                .accept(MediaType.APPLICATION_JSON)
-////                .body(BodyInserters.fromFormData(formData))
-//                .exchange()
-//                .block();
-//
-//        if (response.statusCode().is2xxSuccessful()) {
-//            return response.bodyToMono(List.class).block();
-//        } else {
-//            throw new RuntimeException("Failed to send recommendation: " + response.statusCode());
-//        }
-        return null;
+        List<Long> list = fc.getSampleList();
+        return list;
     }
 
     @Override
