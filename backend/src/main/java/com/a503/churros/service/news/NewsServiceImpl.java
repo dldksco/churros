@@ -156,6 +156,12 @@ public class NewsServiceImpl implements NewsService{
             .map(this::convertToDto)
             .collect(Collectors.toList());
 
+        if (newsDocumentationDTOs.isEmpty()) {
+            return new SliceImpl<>(newsDocumentationDTOs, pageable, false);
+        }
+
+
+
         boolean hasNext = newsDocumentationDTOs.size() == pageable.getPageSize();
         return new SliceImpl<>(newsDocumentationDTOs, pageable, hasNext);
     }
