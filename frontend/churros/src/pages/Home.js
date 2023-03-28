@@ -6,10 +6,10 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Topbar from "../components/topbar/Topbar";
 import { accessTokenState } from "../store/auth";
 
+
 const Home = () => {
   const accessToken = useRecoilValue(accessTokenState);
   console.log(accessToken);
-
   const isAuthenticated = accessToken > 0;
   // Todo: access token validation
   // if (!isAuthenticated) return <Navigate to="/landing" />;
