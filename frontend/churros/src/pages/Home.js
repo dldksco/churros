@@ -1,13 +1,18 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import Section from "../components/section/Section";
 import Sidebar from "../components/sidebar/Sidebar";
 import Topbar from "../components/topbar/Topbar";
+import { accessTokenState } from "../store/auth";
 
-const MainPage = () => {
-  // Naver Login 인증처리가 완료되면 LocalStorage에 isLoggedIn, accessToken 아이템이 추가될 것이다
-  const isAuthenticated = false;
+const Home = () => {
+  const accessToken = useRecoilValue(accessTokenState);
+  console.log(accessToken);
 
+  const isAuthenticated = accessToken > 0;
+
+  // Todo: access token validation
   if (!isAuthenticated) return <Navigate to="/landing" />;
 
   return (
@@ -26,4 +31,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Home;
