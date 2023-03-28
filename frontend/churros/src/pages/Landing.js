@@ -1,7 +1,7 @@
 import logo from "../churros-logo.svg";
 import CardCarousel from "../components/CardCarousel";
 import ImageButton from "../components/ImageButton";
-import api from "../axios-instance/api";
+// import api from "../axios-instance/api";
 
 // import NaverLoginButton from "../components/NaverLoginButton";
 
@@ -26,7 +26,8 @@ const Landing = () => {
 
   const handleKakaoLogin = async (event) => {
     event.preventDefault();
-    window.location.href = 'https://www.churros.site/api/auth/kakao';
+
+    window.location.href = "https://www.churros.site/api/auth/kakao";
     // try {
     //   await api.get("/auth/kakao");
     // } catch (error) {
