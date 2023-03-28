@@ -1,0 +1,26 @@
+2023-03-28 10:20:01 Tue INFO start crawling
+2023-03-28 10:21:03 Tue INFO finish crawling
+2023-03-28 10:30:01 Tue INFO start crawling
+2023-03-28 10:30:31 Tue INFO start 정치 10:30:01
+2023-03-28 10:30:31 Tue INFO success 정치 120
+2023-03-28 10:30:31 Tue INFO fail 정치 0
+2023-03-28 10:31:10 Tue INFO start 경제 10:30:31
+2023-03-28 10:31:10 Tue INFO success 경제 160
+2023-03-28 10:31:10 Tue INFO fail 경제 0
+2023-03-28 10:31:31 Tue ERROR CRAWLING 사회 환경 https://n.news.naver.com/mnews/article/001/0013841478?sid=102 'NoneType' object has no attribute 'text'
+2023-03-28 10:31:41 Tue ERROR CRAWLING 사회 인물 https://n.news.naver.com/mnews/article/003/0011766715?sid=102 'NoneType' object has no attribute 'text'
+2023-03-28 10:31:42 Tue ERROR CRAWLING 사회 인물 https://n.news.naver.com/mnews/article/003/0011766656?sid=102 'NoneType' object has no attribute 'text'
+2023-03-28 10:31:42 Tue ERROR CRAWLING 사회 인물 https://n.news.naver.com/mnews/article/003/0011766649?sid=102 'NoneType' object has no attribute 'text'
+2023-03-28 10:31:48 Tue INFO start 사회 10:31:10
+2023-03-28 10:31:48 Tue INFO success 사회 148
+2023-03-28 10:31:48 Tue INFO fail 사회 4
+2023-03-28 10:31:51 Tue INFO start 생활/문화 10:31:48
+2023-03-28 10:31:51 Tue INFO success 생활/문화 20
+2023-03-28 10:31:51 Tue INFO fail 생활/문화 0
+2023-03-28 10:32:29 Tue INFO start IT/과학 10:31:51
+2023-03-28 10:32:29 Tue INFO success IT/과학 151
+2023-03-28 10:32:29 Tue INFO fail IT/과학 0
+2023-03-28 10:33:05 Tue INFO start 연예 10:32:29
+2023-03-28 10:33:05 Tue INFO success 연예 125
+2023-03-28 10:33:05 Tue INFO fail 연예 0
+2023-03-28 10:33:05 Tue INFO finish crawling

@@ -1,6 +1,11 @@
+import os
+import sys
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from app.db.database import SessionLocal
+# from app.db.database import SessionLocal
+from app.db.mock_database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import user_recommend
 
@@ -15,11 +20,11 @@ def get_db():
 
 @app.get("/recommend/remodel")
 async def remodel_recommend_model():
-    return True;
+    return {"result" : "true"}
 
 @app.get("/recommend/login")
 async def get_sample_articles():
-    return {"recommendList":[1, 2, 3, 4]};
+    return {"recommendList":[1, 2, 3, 4]}
 
 @app.get("/recommend/{user_id}")
 async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
@@ -35,5 +40,5 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already registered")
     
     recommendations = user_recommend([300])
-    return {"recommendList": recommendations};
+    return {"recommendList": recommendations}
 

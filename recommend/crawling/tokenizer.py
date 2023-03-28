@@ -21,10 +21,10 @@ db = mongo_client[mongo_db_name]
 newscollection = db['newsCol']
 tokencollection = db['newsToken']
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')
 
 def tokenstart(startidx, endidx):
-    logging.info('Starting tokenize')
+    logging.info('start|tokenize')
     data = newscollection.find().skip(startidx).limit(endidx-startidx)
     data_list = list(data)
     df = pd.DataFrame(data_list)
@@ -32,8 +32,8 @@ def tokenstart(startidx, endidx):
     df_saving = df[["_idx", "token"]]
     records = df_saving.to_dict("records")
     tokencollection.insert_many(records)
-    logging.info('Ending tokenize')
-    logging.info(f'{startidx}부터 {endidx}까지 총 {len(df)} 개의 기사 토큰화 완료')
+    logging.info('finish|tokenize')
+    logging.info(f'success|tokenize|{len(df)}')
 
 def token(txt):
     okt = Okt()
