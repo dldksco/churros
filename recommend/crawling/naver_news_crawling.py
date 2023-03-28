@@ -140,7 +140,7 @@ def getPostData(response, json_result, cat1, cat2, cnt, lastlink, except_count):
                                     'img_src': img_src})
             except Exception as e:
                 msg = "CRAWLING " + cat1 + " " + cat2 + " " + link
-                print(make_log("ERROR", msg), e)
+                print(make_log("ERROR", msg), '[', e, ']')
                 except_count += 1
 
     json_result.reverse()
@@ -199,9 +199,9 @@ def crawlingGeneralNews(lastcounter):
                     # print(make_log("INFO", "success " + topic + " " + detail + " " + str(lastcounter - start_count)))
                     # print(make_log("INFO", "fail " + topic + " " + detail + " " + str(except_count)))
                 except BulkWriteError as bwe:
-                    print(make_log("ERROR", "DB " + topic + " " + detail + " Duplicate ID"), bwe.details)
+                    print(make_log("ERROR", "DB " + topic + " " + detail + " BulkWriteError"), '[', bwe.details, ']')
                 except Exception as e:
-                    print(make_log("ERROR", "DB " + topic + " " + detail), e)
+                    print(make_log("ERROR", "DB " + topic + " " + detail), '[', e, ']')
 
         print(make_log("INFO", "start " + topic + " " + start_time.strftime("%H:%M:%S")))
         print(make_log("INFO", "success " + topic + " " + str(lastcounter - startcounter)))

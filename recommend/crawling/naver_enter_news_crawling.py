@@ -100,7 +100,7 @@ def getPostData(response, json_result, cat1, cat2, cnt, lastlink, except_count):
         except Exception as e:
             # print("크롤링 중 예외 발생 : ", e)
             msg = "CRAWLING " + cat1 + " " + cat2 + " " + link
-            print(make_log("ERROR", msg), e)
+            print(make_log("ERROR", msg), '[', e, ']')
             except_count += 1
 
     json_result.reverse()
@@ -153,9 +153,9 @@ def crawlingGeneralNews(lastcounter, except_count):
                 # print(make_log("INFO", "success 연예 " + topic + " " + str(lastcounter - start_count)))
                 # print(make_log("INFO", "fail 연예 " + topic + " " + str(except_count)))
             except BulkWriteError as bwe:
-                print(make_log("ERROR", "DB 연예 " + topic+ " Duplicate ID"), bwe.details)
+                print(make_log("ERROR", "DB 연예 " + topic+ " BulkWriteError"), '[', bwe.details, ']')
             except Exception as e:
-                print(make_log("ERROR", "DB 연예 " + topic), e)
+                print(make_log("ERROR", "DB 연예 " + topic), '[', e, ']')
     return lastcounter, except_count
 
 def main():
@@ -163,15 +163,13 @@ def main():
     lastcounter = collection.estimated_document_count()
     startcounter = lastcounter
     except_count = 0
-    try :
-        lastcounter, except_count = crawlingGeneralNews(lastcounter, except_count)
-        print(make_log("INFO", "start 연예 " + start_time.strftime("%H:%M:%S")))
-        print(make_log("INFO", "success 연예 " + str(lastcounter - startcounter)))
-        print(make_log("INFO", "fail 연예 " + str(except_count)))
-        if startcounter < lastcounter:
-            tokenstart(startcounter, lastcounter)
-    except Exception as e:
-        print(make_log("ERROR", "CRAWLING 연예 "), e)
+
+    lastcounter, except_count = crawlingGeneralNews(lastcounter, except_count)
+    print(make_log("INFO", "start 연예 " + start_time.strftime("%H:%M:%S")))
+    print(make_log("INFO", "success 연예 " + str(lastcounter - startcounter)))
+    print(make_log("INFO", "fail 연예 " + str(except_count)))
+    if startcounter < lastcounter:
+        tokenstart(startcounter, lastcounter)
 
 if __name__ == '__main__':
     main()
