@@ -28,12 +28,18 @@ spring:
     defer-datasource-initialization: false
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true
+    url: jdbc:mariadb://localhost:3306/churros?serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true
     username: root
     password: A708
   data:
     mongodb:
       uri: mongodb://localhost:27017/newsdb
+elasticsearch:
+  host: localhost
+  port: 9200
+  username: elastic
+  password: A503!23
+
 crs:
   uri: http://churros-rcs:8080
 ---
@@ -68,6 +74,11 @@ spring:
       uri: mongodb://churros:A503@churros-mongodb:27017/newsdb
 crs:
   uri: http://churros-rcs:8080
+elasticsearch:
+  host: churros-elasticsearch
+  port: 9200
+  username: ${ELASTICSEARCH_ID}
+  password: ${ELASTICSEARCH_PASSWORD}
 ---
 springfox:
   documentation:

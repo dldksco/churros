@@ -1,8 +1,10 @@
 package com.a503.churros.service.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.dto.news.NewsDocumentationDTO;
 import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
+import com.a503.churros.entity.news.NewsDocumentation;
 import com.a503.churros.entity.news.Read;
 import com.a503.churros.repository.article.ArticleRepository;
 import com.a503.churros.repository.feign.FeignClient;
@@ -10,8 +12,20 @@ import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,6 +42,7 @@ public class NewsServiceImpl implements NewsService{
     private final ArticleRepository ar;
     private final FeignClient fc;
 
+    private final ElasticsearchOperations elasticsearchOperations;
 
     public List<Long> sendRecommend(long userId){
 
@@ -127,4 +142,32 @@ public class NewsServiceImpl implements NewsService{
 //        }
 //        return dto;
     }
+    public Slice<NewsDocumentationDTO> searchByTitleAndDescription(String query, Pageable pageable) {
+        QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(query, "title", "description");
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+            .withQuery(queryBuilder)
+            .withPageable(pageable)
+            .withSort(SortBuilders.scoreSort().order(SortOrder.DESC))
+            .build();
+
+        SearchHits<NewsDocumentation> searchHits = elasticsearchOperations.search(searchQuery, NewsDocumentation.class);
+        List<NewsDocumentationDTO> newsDocumentationDTOs = searchHits.stream()
+            .map(SearchHit::getContent)
+            .map(this::convertToDto)
+            .collect(Collectors.toList());
+
+        boolean hasNext = newsDocumentationDTOs.size() == pageable.getPageSize();
+        return new SliceImpl<>(newsDocumentationDTOs, pageable, hasNext);
+    }
+
+    private NewsDocumentationDTO convertToDto(NewsDocumentation newsDocumentation) {
+        return NewsDocumentationDTO.builder().
+            title(newsDocumentation.getTitle()).
+            description(newsDocumentation.getDescription()).
+            idx(newsDocumentation.getIdx()).
+            link(newsDocumentation.getLink()).
+            imgSrc(newsDocumentation.getImgSrc()).
+            build();
+    }
+
 }
