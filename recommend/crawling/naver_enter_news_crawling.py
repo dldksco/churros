@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 import datetime
+from tokenizer import tokenstart
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ mongo_user = os.environ.get('MongoUser')
 mongo_passwd = os.environ.get('MongoPasswd')
 mongo_db_name = os.environ.get('MongoDbName')
 mongo_admin_db = os.environ.get('MongoAdminDb')
-mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd, authSource=mongo_admin_db)
+mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd,)# authSource=mongo_admin_db)
 
 db = mongo_client[mongo_db_name]
 collection = db['newsCol']
@@ -167,6 +168,8 @@ def main():
         print(make_log("INFO", "start 연예 " + start_time.strftime("%H:%M:%S")))
         print(make_log("INFO", "success 연예 " + str(lastcounter - startcounter)))
         print(make_log("INFO", "fail 연예 " + str(except_count)))
+        if startcounter < lastcounter:
+            tokenstart(startcounter, lastcounter)
     except Exception as e:
         print(make_log("ERROR", "CRAWLING 연예 "), e)
 

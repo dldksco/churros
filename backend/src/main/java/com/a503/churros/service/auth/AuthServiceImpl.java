@@ -10,6 +10,7 @@ import com.a503.churros.repository.auth.TokenRepository;
 import com.a503.churros.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
@@ -88,5 +92,36 @@ public class AuthServiceImpl implements AuthService {
         // 여기 create 해야 할텐데
         return messageResponse;
     }
+
+    public Optional<User> kakaoSignup(JSONObject resp){
+
+        Map<String, Object> map;
+        map = (Map<String, Object>) resp.get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>) map.get("profile");
+        String name = (String) profile.get("nickname");
+        String image_url = (String) profile.get("profile_image_url");
+        String email = (String) map.get("email");
+        Optional<User> testUser = userRepository.findByEmail(email);
+        MessageResponse messageResponse;
+        if(testUser.isEmpty()){
+            User user = User.builder()
+                    .name(name)
+                    .email(email)
+                    .imageUrl(image_url)
+                    .provider(3)
+                    .roles(1)
+                    .build();
+
+            userRepository.save(user);
+            testUser = userRepository.findByEmail(email);
+
+        }else{
+
+        }
+
+        return testUser;
+    }
+
+
 
 }

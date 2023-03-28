@@ -1,10 +1,12 @@
 package com.a503.churros.config.cors;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@RequiredArgsConstructor
 @Configuration
 public class CORSConfig implements WebMvcConfigurer {
 
@@ -18,7 +20,11 @@ public class CORSConfig implements WebMvcConfigurer {
 
 
         registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins)
+        .allowedOriginPatterns("*")
+                // .allowedOrigins("http://localhost:3000")
+                // .allowedOrigins("http://localhost:9999")
+                // .allowedOrigins("https://www.churros.site")
+                // .allowedOrigins("https://churros.site")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)

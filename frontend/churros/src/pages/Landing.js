@@ -27,11 +27,12 @@ const Landing = () => {
   const handleKakaoLogin = async (event) => {
     event.preventDefault();
 
-    try {
-      await api.get("/auth/kakao");
-    } catch (error) {
-      console.log(error);
-    }
+    window.location.href = "https://www.churros.site/api/auth/kakao";
+    // try {
+    //   await api.get("/auth/kakao");
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
