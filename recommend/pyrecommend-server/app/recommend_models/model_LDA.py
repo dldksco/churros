@@ -25,7 +25,7 @@ def user_recommend(user_history:list): # corpus, dictionary 필요
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
     # 상위 N개의 기사 추천
-    N = 5
+    N = 12
     top_n_indices = [i[0] for i in sim_scores[0:N+1]]
     
     print(f"Top {N} recommended articles based on user history:")
