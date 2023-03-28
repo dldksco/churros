@@ -67,7 +67,7 @@ const Main = () => {
 
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
-      <div className="block w-full h-[28rem]">
+      <div className="block w-full h-[34rem]">
         {loading && <h1>로딩 중...</h1>}
         {!loading && (
           <A1Carousel slides={testArticles} />
