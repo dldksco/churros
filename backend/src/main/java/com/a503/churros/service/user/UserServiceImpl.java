@@ -1,7 +1,5 @@
 package com.a503.churros.service.user;
 
-import com.a503.churros.config.security.CurrentUser;
-import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.dto.user.response.MyPageResponse;
 import com.a503.churros.entity.user.User;
 import com.a503.churros.repository.user.UserRepository;
@@ -9,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -19,8 +15,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    public MyPageResponse myPage(UserPrincipal userPrincipal){
-        Optional<User> user = userRepository.findById(userPrincipal.getId());
+
+    public MyPageResponse myPage(Long userIdx){
+        Optional<User> user = userRepository.findById(userIdx);
         log.info(user.toString());
 
 

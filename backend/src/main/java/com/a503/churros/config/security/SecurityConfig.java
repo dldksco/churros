@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                 .permitAll()
-                .antMatchers( "/kakao/**","/auth/**", "/oauth2/**")
+                .antMatchers( "/kakao/**","/auth/**", "/oauth2/**","/user/**")
                 .permitAll()
                 .antMatchers("/news/**","/scrap/**","/recommend/**" , "/test/**")
                 .permitAll()
@@ -101,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
 
-        http.addFilterBefore(customOncePerRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(customOncePerRequestFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }
