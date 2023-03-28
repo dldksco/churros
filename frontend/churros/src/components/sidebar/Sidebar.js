@@ -91,7 +91,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`flex flex-col justify-start w-64 h-screen mr-2 bg-stone-100`}
+      className="flex flex-col justify-start w-64 h-screen bg-stone-100"
     >
       <LogoTab key={keys.logoTab} />
 

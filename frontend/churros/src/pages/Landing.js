@@ -1,7 +1,7 @@
 import logo from "../churros-logo.svg";
-import CardCarousel from "../components/CardCarousel";
-import ImageButton from "../components/ImageButton";
-// import api from "../axios-instance/api";
+import ImageButton from "../components/common/ImageButton";
+import Carousel from "../components/common/Carousel";
+import api from "../axios-instance/api";
 
 // import NaverLoginButton from "../components/NaverLoginButton";
 
@@ -38,10 +38,7 @@ const Landing = () => {
   return (
     <div className="w-screen h-screen flex flex-row justify-center items-center pt-5 pb-10 px-10 bg-stone-50">
       <div className="w-2/3 h-full m-3 flex flex-col justify-center items-center">
-        <CardCarousel
-          images={images}
-          className={"w-full h-3/4 flex flex-col justify-center items-center"}
-        />
+        <Carousel slides={images}/>
       </div>
       <div className="w-1/5 h-full flex flex-col justify-center m-3 p-1">
         <div className="p-1">

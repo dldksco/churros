@@ -34,7 +34,7 @@ const ScrapFolderTab = () => {
           />
           <div className="flex flex-row justify-start items-center">
             <IoFolderSharp
-              className="p-2 hover:bg-stone-200"
+              className="p-2"
               size={35}
               style={{ color: "FFB240" }}
             />
