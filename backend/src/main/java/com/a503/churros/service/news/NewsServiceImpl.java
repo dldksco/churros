@@ -5,7 +5,7 @@ import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.Read;
 import com.a503.churros.repository.article.ArticleRepository;
-import com.a503.churros.repository.feign.FeignClient;
+import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
@@ -24,16 +24,16 @@ public class NewsServiceImpl implements NewsService{
     private final LikeRepository lr;
     private final DisLikeRepository dr;
     private final ArticleRepository ar;
-    private final FeignClient fc;
+    private final NewsFeign nf;
 
 
     public List<Long> sendRecommend(long userId){
-        List<Long> list = fc.getRecomList(userId);
+        List<Long> list = nf.getRecomList(userId);
         return list;
     }
 
     public List<Long> sendSample(){
-        List<Long> list = fc.getSampleList();
+        List<Long> list = nf.getSampleList();
         return list;
     }
 
