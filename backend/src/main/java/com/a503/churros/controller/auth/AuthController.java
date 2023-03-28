@@ -1,12 +1,9 @@
 package com.a503.churros.controller.auth;
 
 
-import com.a503.churros.config.security.CurrentUser;
-import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.dto.auth.request.SignInRequest;
 import com.a503.churros.dto.auth.request.SignUpRequest;
 import com.a503.churros.entity.user.User;
-import com.a503.churros.repository.user.UserRepository;
 import com.a503.churros.service.auth.AuthService;
 import com.a503.churros.service.auth.GetKakaoInfo;
 import com.a503.churros.service.auth.GetKakaoToken;
@@ -15,24 +12,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Key;
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
