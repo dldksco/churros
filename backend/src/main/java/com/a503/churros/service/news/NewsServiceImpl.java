@@ -5,6 +5,7 @@ import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.Read;
 import com.a503.churros.repository.article.ArticleRepository;
+import com.a503.churros.repository.feign.FeignClient;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
@@ -25,9 +26,14 @@ public class NewsServiceImpl implements NewsService{
     private final LikeRepository lr;
     private final DisLikeRepository dr;
     private final ArticleRepository ar;
+    private final FeignClient fc;
 
 
     public List<Long> sendRecommend(long userId){
+
+        List<Long> list = fc.getRecomList(userId);
+
+
 //        ClientResponse response = wc.get()
 //                .uri("/recommend/{userId}", userId)
 //                .accept(MediaType.APPLICATION_JSON)
