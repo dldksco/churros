@@ -8,6 +8,8 @@ services:
     environment:
       - MARIADB_PASSWORD=A503
       - MONGODB_URL= "mongodb://churros:A503@churros-mongodb:27017/newsdb"
+      - ELASTICSEARCH_PASSWORD=A503!23
+      - ELASTICSEARCH_ID=elastic
     ports:
       - "9999:9999"
     restart: always
