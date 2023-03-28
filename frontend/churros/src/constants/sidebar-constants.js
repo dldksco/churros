@@ -9,4 +9,5 @@ export const SIDEBAR_TAB_KEYS = {
   mainArticleTab: "feed",
   likedArticleTab: "likes",
   scrapFolderTab: "tab-scrap-folder",
+  logoutButton: "button-logout"
 };

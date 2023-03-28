@@ -1,11 +1,11 @@
 import logo from "../churros-logo.svg";
 import CardCarousel from "../components/CardCarousel";
 import ImageButton from "../components/ImageButton";
-import api from "../axios-instance/api";
+// import api from "../axios-instance/api";
 
 // import NaverLoginButton from "../components/NaverLoginButton";
 
-const LandingPage = () => {
+const Landing = () => {
   const images = [
     {
       id: 1,
@@ -27,14 +27,12 @@ const LandingPage = () => {
   const handleKakaoLogin = async (event) => {
     event.preventDefault();
 
-    console.log("login button clicked");
-
-    try {
-      const response = await api.get("/auth/kakao");
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    window.location.href = "https://www.churros.site/api/auth/kakao";
+    // try {
+    //   await api.get("/auth/kakao");
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
@@ -68,4 +66,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default Landing;
