@@ -11,14 +11,13 @@ const Home = () => {
   console.log(accessToken);
 
   const isAuthenticated = accessToken > 0;
-
   // Todo: access token validation
-  if (!isAuthenticated) return <Navigate to="/landing" />;
+  // if (!isAuthenticated) return <Navigate to="/landing" />;
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
       <Sidebar />
-      <div className="flex flex-col justify-start w-full h-full">
+      <div className="flex flex-1 flex-col justify-start w-full h-full overflow-auto">
         <Topbar>
           <h1>This is</h1>
           <h1>Topbar</h1>
