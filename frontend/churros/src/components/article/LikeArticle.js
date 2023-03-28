@@ -3,9 +3,9 @@ import { useState } from "react";
 const LikeArticle = () => {
 
   return (
-      <div className="max-w-md w-full lg:flex">
+      <div className="max-w w-full lg:flex place-content-center">
         <div
-          className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+          className="h-80 xl:h-64 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
           style={{ "backgroundImage": "url('https://tailwindcss.com/img/card-left.jpg')" }}
           title="Woman holding a mug"
         ></div>
@@ -20,7 +20,8 @@ const LikeArticle = () => {
               exercitationem praesentium nihil.
             </p>
           </div>
-          <div className="flex items-center">
+          {/* 기자 정보 출력 */}
+          {/* <div className="flex items-center">
             <img
               className="w-10 h-10 rounded-full mr-4"
               src="https://pbs.twimg.com/profile_images/885868801232961537/b1F6H4KC_400x400.jpg"
@@ -31,7 +32,7 @@ const LikeArticle = () => {
               <p className="text-grey-dark">Aug 18</p>
             </div>
             
-          </div>
+          </div> */}
         </div>
       </div>
   );

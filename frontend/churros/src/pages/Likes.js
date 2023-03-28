@@ -10,13 +10,25 @@ const LikesPage = () => {
     setArticleList([
       { title: "First Article", text: "Text" },
       { title: "Second Article", text: "Text2" },
+      { title: "Third Article", text: "Text3" },
+      { title: "Fourth Article", text: "Text4" },
+      { title: "Fifth Article", text: "Text5" },
+      { title: "Second Article", text: "Text6" },
     ]);
   }, []);
   return (
-    <div>
-      {articleList.map((article, idx) => {
-        return <LikeArticle key={idx} article={article} />;
-      })}
+    <div className="grid grid-cols-2 gap-4 p-5">
+      {/* 첫 번째 기사 */}
+      <div className="col-span-full place-content-center">
+        <LikeArticle/>
+      </div>
+
+      {/* 나머지 기사들 */}
+      {articleList.slice(1).map((article, idx) => (
+        <div key={idx} className="col-span-1">
+          <LikeArticle />
+        </div>
+      ))}
     </div>
   );
 };
