@@ -6,7 +6,7 @@ import Topbar from "../components/topbar/Topbar";
 
 const MainPage = () => {
   // Naver Login 인증처리가 완료되면 LocalStorage에 isLoggedIn, accessToken 아이템이 추가될 것이다
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   if (!isAuthenticated) return <Navigate to="/landing" />;
 
