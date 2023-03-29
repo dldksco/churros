@@ -106,9 +106,13 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
         return Long.parseLong(claims.getSubject());
     }
     public UsernamePasswordAuthenticationToken getAuthenticationById(String token){
+
         Long userId = getUserIdFromToken(token);
+
         UserDetails userDetails = customUserDetailsService.loadUserById(userId);
+
         UsernamePasswordAuthenticationToken authenticationPasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
         return authenticationPasswordAuthenticationToken;
     }
 

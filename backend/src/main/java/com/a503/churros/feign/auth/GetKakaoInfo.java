@@ -1,4 +1,4 @@
-package com.a503.churros.service.auth;
+package com.a503.churros.feign.auth;
 
 import feign.Headers;
 import net.minidev.json.JSONObject;

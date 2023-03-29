@@ -7,14 +7,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ControllerSupport {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity errorHandler(){
-        return ResponseEntity.badRequest().body( new HashMap<String,String>(){{
-            put("message","그냥 오류입니다.");
+        return ResponseEntity.badRequest().body( new HashMap<String,Object>(){{
+            put("code",500);
+            put("message","No value");
         }});
     }
 }

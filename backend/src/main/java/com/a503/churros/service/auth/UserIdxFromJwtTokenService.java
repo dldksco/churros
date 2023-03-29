@@ -1,4 +1,4 @@
-package com.a503.churros.etc;
+package com.a503.churros.service.auth;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ public class UserIdxFromJwtTokenService {
     private  String secretKey = "ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser";
 
     public Long extractIdxFromToken(String accessToken){
-
+        accessToken = accessToken.substring(7, accessToken.length());
 
         Jws<Claims> jws = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken);
         Long userIdx = Long.parseLong( jws.getBody().get("sub",String.class));

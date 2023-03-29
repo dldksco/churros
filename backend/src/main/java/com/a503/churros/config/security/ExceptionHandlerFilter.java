@@ -1,11 +1,16 @@
 package com.a503.churros.config.security;
 
 import com.a503.churros.config.security.advice.payload.ErrorCode;
+import com.a503.churros.service.auth.CustomTokenProviderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,19 +24,26 @@ import java.io.IOException;
 
 @Slf4j
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
-
+    @Autowired
+    private CustomTokenProviderService customTokenProviderService;
     private  String secretKey = "ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser";
     private String accessToken ;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        accessToken = request.getHeader("token");
-        log.info(accessToken);
-        if(StringUtils.hasText(accessToken)){
+        String bearerToken = request.getHeader("Authorization");
+
+
+        if(StringUtils.hasText(bearerToken)){
+            accessToken = bearerToken.substring(7, bearerToken.length());
             try {
 
                 Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken);
-
+                log.info("호우오");
+                UsernamePasswordAuthenticationToken authentication = customTokenProviderService.getAuthenticationById(accessToken);
+                log.info("아앙앙");
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (io.jsonwebtoken.security.SecurityException ex) {
                 log.error("1. 잘못된 JWT 서명입니다.");
                 setErrorResponse(response, ErrorCode.INVALID_TOKEN);
@@ -54,6 +66,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
                 return;
             }catch(Exception ex){
                 log.error("6. JWT 토큰이 잘못되었습니다. ");
+
                 setErrorResponse(response, ErrorCode.INVALID_TOKEN);
                 return;
             }
