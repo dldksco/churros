@@ -37,7 +37,7 @@ def token_dataframe():
 
 
 def doc2bow(df):
-    logging.info('Ending dataframe')
+    logging.info('start|doc2bow')
 
     dictionary = corpora.Dictionary(df.token)
     dictionary.save(
@@ -48,20 +48,23 @@ def doc2bow(df):
     return dictionary, corpus
 
 def model_train(dictionary, corpus):
-    logging.info('Ending doc2bow')
+    logging.info('finish|doc2bow')
     NUM_TOPICS = 20
     ldamodel = models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=10)
     ldamodel.save('~/recommend/ldamodels.lda')
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')
 
 def main():
-    logging.info('Starting my_function')
-    df = token_dataframe()
-    dictionary, corpus = doc2bow(df)
-    model_train(dictionary, corpus)
-    logging.info('Ending my_function')
+    try:
+        logging.info('start|model_train')
+        df = token_dataframe()
+        dictionary, corpus = doc2bow(df)
+        model_train(dictionary, corpus)
+        logging.info('finish|model_train')
+    except Exception as e:
+        logging.error(f'MODELING{e}')
 
 
 if __name__ == '__main__':
