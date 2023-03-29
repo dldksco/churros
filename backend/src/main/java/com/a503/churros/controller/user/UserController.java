@@ -5,11 +5,9 @@ import com.a503.churros.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 @RestController
@@ -22,18 +20,16 @@ public class UserController {
     private final UserService userService;
     private final UserIdxFromJwtTokenService userIdxFromJwtTokenService;
     @GetMapping("")
-    public ResponseEntity<?> myPage(@RequestHeader("token") String token){
+    public ResponseEntity<?> myPage(@RequestHeader("token") String token) throws Exception {
 //        log.info(userPrincipal.toString());
         // 서비스에서 가져오도록
-        if(userIdxFromJwtTokenService.isTokenValidate(token)){
+
         return ResponseEntity.ok().body(userService.myPage(userIdxFromJwtTokenService.extractIdxFromToken(token)));
 
-        }else{
-            return ResponseEntity.ok().body(new HashMap<String,String>(){{
-                put("fail", "유효하지 않은 토큰입니다.");
-            }});
-        }
+
 
     }
+
+
 
 }

@@ -116,7 +116,7 @@ springdoc:
 # jwt 토큰
 app:
   auth:
-    tokenSecret: sadfldlsjfwefoiwejfoweijfoewlfjweofajefoqwj3eiofrwweiorjwelrqworewoirjwedsfakjsdflwerfjiwefjwealfweijflewafijalwefliasfjiesalijflsaiejflsae
+    tokenSecret: ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser
     accessTokenExpirationMsec: 2000000
     refreshTokenExpirationMsec: 600000000
   cors:

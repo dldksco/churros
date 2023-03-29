@@ -70,14 +70,14 @@ public class AuthController {
 
 
         JSONObject accessTokenKakao =  getKakaoToken.getKakaoToken("authorization_code",CLIENT_ID,
-                "https://www.churros.site/api/auth/kakao/callback",code);
+                "https://churros.site/api/auth/kakao/callback",code);
         JSONObject resp = getKakaoInfo.getKakaoInfo((String)accessTokenKakao.get("token_type")+" "+(String)accessTokenKakao.get("access_token"));
         //  회원 가입
         Optional<User> user = authService.kakaoSignup(resp);
 
         // 토큰 생성
         String[] tokens = createJWTToken(user);
-        response.sendRedirect("https://www.churros.site/kakao/handler?access-token="+tokens[0]+"&refresh-token="+tokens[1]);
+        response.sendRedirect("https://churros.site/kakao/handler?access-token="+tokens[0]+"&refresh-token="+tokens[1]);
 
    }
 

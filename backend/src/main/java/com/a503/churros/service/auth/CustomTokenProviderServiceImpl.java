@@ -5,6 +5,7 @@ import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.entity.auth.mapping.TokenMapping;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.IOException;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,20 +76,24 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
         } catch (io.jsonwebtoken.security.SecurityException ex) {
             log.error("1. 잘못된 JWT 서명입니다.");
             log.info(ex.toString());
+            throw new io.jsonwebtoken.security.SecurityException("잘못");
         } catch (MalformedJwtException ex) {
             log.error("2. 잘못된 JWT 서명입니다.");
             log.info(ex.toString());
+            throw new IOException("2222");
         } catch (ExpiredJwtException ex) {
             log.error("3. 만료된 JWT 토큰입니다.");
             log.info(ex.toString());
             // 여기에 access-token 갱신
-            return true;
+            throw new IOException("3333");
         } catch (UnsupportedJwtException ex) {
             log.error("4. 지원되지 않는 JWT 토큰입니다.");
+            throw new IOException("4444");
         } catch (IllegalArgumentException ex) {
             log.error("5. JWT 토큰이 잘못되었습니다.");
+            throw new IOException("5555");
         }
-        return false;
+
     }
 
     public Long getUserIdFromToken(String token) {
