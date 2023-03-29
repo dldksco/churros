@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 
 public interface UserService {
 
-    MyPageResponse myPage(UserPrincipal userPrincipal);
+    MyPageResponse myPage(Long userIdx);
 }

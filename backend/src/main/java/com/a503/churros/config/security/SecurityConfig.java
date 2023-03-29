@@ -37,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public ExceptionHandlerFilter exceptionHandlerFilter(){ return new ExceptionHandlerFilter();}
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -81,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html","/swagger-ui/**")
                 .permitAll()
+
                 .anyRequest()
                 .authenticated()
 
@@ -98,10 +101,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
-                .failureHandler(oAuth2AuthenticationFailureHandler);
+                .failureHandler(oAuth2AuthenticationFailureHandler)
+                .and().csrf().disable();
 
 
-        http.addFilterBefore(customOncePerRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(exceptionHandlerFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }
