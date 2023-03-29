@@ -3,12 +3,15 @@ package com.a503.churros.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Table(name="user")
 @Entity
 public class User {
@@ -37,10 +40,12 @@ public class User {
     @Column(name="user_image_url")
     private String imageUrl;
 
+    @Column(name="activate")
+    private Boolean activate;
 
 
     @Builder
-    public User(Long id,String password, String email, String name, Integer provider, Integer roles, String imageUrl) {
+    public User(Long id,String password, String email, String name, Integer provider, Integer roles, String imageUrl,Boolean activate) {
         this.id = id;
         this.password = password;
         this.email = email;
@@ -48,6 +53,7 @@ public class User {
         this.provider = provider;
         this.roles = roles;
         this.imageUrl = imageUrl;
+        this.activate = activate;
     }
 
     public void updateName(String name){
