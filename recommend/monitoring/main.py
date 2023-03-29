@@ -20,11 +20,11 @@ db = mongo_client[mongo_db_name]
 collection = db['crawlingLog']
 
 # 로그 파일 읽기
-with open("cron.log", "r", encoding='utf-8') as file:
+with open("crawling.log", "r", encoding='utf-8') as file:
     # 파일의 각 줄을 읽어들여 MongoDB에 저장
     for line in file:
         # 로그 데이터를 딕셔너리 형태로 저장
-        words = line.strip().split(' ')
+        words = line.strip().split('|')
         date = ''
         time = ''
         day_of_week = ''
@@ -39,13 +39,12 @@ with open("cron.log", "r", encoding='utf-8') as file:
         error_msg2 = ''
 
         try:
-
-            date = datetime.datetime.strptime(words[0], '%Y-%m-%d')
-            time = datetime.datetime.strptime(words[1], '%H:%M:%S')
-            day_of_week = words[2]
-            level = words[3]
-            state = words[4]
-            cagegory = words[5]
+            date_time = words[0].split(' ')
+            date = datetime.datetime.strptime(date_time[0], '%Y-%m-%d')
+            time = datetime.datetime.strptime(date_time[1], '%H:%M:%S,%f')
+            level = words[1]
+            state = words[2]
+            cagegory = words[3]
 
             if level == 'INFO':
                 if state == 'start':
@@ -68,8 +67,10 @@ with open("cron.log", "r", encoding='utf-8') as file:
                         error_msg2 = re.findall(r'\[.*?\]', line)[0]
                     else:
                         error_msg = re.findall(r'\[.*?\]', line)[0]
+                elif state == 'ETC':
+                    pass
 
-            result = {'date':date, 'time':time, 'day_of_week': day_of_week, 'level':level, 'state':state,
+            result = {'date':date, 'time':time, 'level':level, 'state':state,
                       'category':category, 'sub_cateogory':sub_cateogory, 'running_time':running_time,
                       'cnt':cnt, 'link':link, 'error_msg':error_msg, 'error_msg2':error_msg2}
             print(result)
