@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
-      {!userInfo?.isUserInterestsInitialized && <SurveyModal />}
+      {/* {!userInfo?.isUserInterestsInitialized && <SurveyModal />} */}
       <Sidebar />
       <div className="flex flex-1 flex-col justify-start w-full h-full overflow-auto">
         <Topbar>
