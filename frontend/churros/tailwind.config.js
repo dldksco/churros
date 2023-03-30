@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js, jsx, ts, tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        cooper: ['cooper-black-std', 'serif'],
+      },
       spacing: {
         "10vh": "10vh",
         "10%": "10%",
