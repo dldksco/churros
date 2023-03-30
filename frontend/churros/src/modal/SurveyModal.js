@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState, useResetRecoilState } from "recoil";
+import { accessTokenState } from "../store/auth";
 import { userInfoState } from "../store/user";
+import SampleArticle from "../components/article/SampleArticle";
 
 const SurveyBackdrop = () => {
   return (
@@ -12,13 +14,48 @@ const SurveyBackdrop = () => {
 };
 
 const SurveyContent = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [submitButtonActive, setSubmitButtonActive] = useState(false);
-  const [selectCount, setSelectCount] = useState(0);
-
+  // Recoil state
   const setUserInfo = useSetRecoilState(userInfoState);
+  const resetAccessToken = useResetRecoilState(accessTokenState);
 
+  // state
+  const [isOpen, setIsOpen] = useState(false);
+  const [sampleArticles, setSampleArticles] = useState([]);
+  const [submitButtonActive, setSubmitButtonActive] = useState(false);
+
+  const fetchSampleArticles = async () => {
+    try {
+      const response = await test.get("/news/sample");
+      const { result, articleIds } = response.data;
+
+      console.log(result);
+      console.log(articleIds);
+
+      setSampleArticles(
+        articleIds.map((id, idx) => ({
+          index: idx,
+          articleId: id,
+          selected: false,
+        }))
+      );
+      console.log(sampleArticles);
+    } catch ({ response, message }) {
+      
+      const { status, statusText } = response;
+
+      console.log(
+        `ErrCode: ${status}\nStatusText: ${statusText}\nMessage: ${message}`
+      );
+
+      switch (status) {
+        case 401:
+          resetAccessToken();
+          break;
+        default:
+          break;
+      }
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -34,10 +71,28 @@ const SurveyContent = () => {
     }, 600);
   };
 
+  // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
+  // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
+    fetchSampleArticles();
     setIsOpen(true);
-  }, [])
+  }, []);
 
+  useEffect(() => {
+    const count = sampleArticles.filter(({ selected }) => selected).length;
+
+    if (count > 0) setSubmitButtonActive(true);
+    else setSubmitButtonActive(false);
+  }, [sampleArticles]);
+
+  const updateSelectedSampleArticles = (idx) => {
+    setSampleArticles((prev) => {
+      return prev.map((item) => {
+        if (item.idx !== idx) return item;
+        return { ...item, selected: !item.selected };
+      });
+    });
+  };
   return (
     <div
       className={`fixed top-[10%] left-[25%] w-1/2 h-4/5 z-50 ${
@@ -54,27 +109,26 @@ const SurveyContent = () => {
           </p>
         </header>
         <section className="flex-1 grid grid-cols-3 gap-4 mt-2 mb-2 px-8 py-4">
-          <div key="1">
-            Sample Article
-          </div>
-          <div key="2">
-            Sample Article
-          </div>
-          <div key="3">
-            Sample Article
-          </div>
-          <div key="4">
-            Sample Article
-          </div>
-          <div key="5">
-            Sample Article
-          </div>
-          <div key="6">
-            Sample Article
-          </div>
+          {sampleArticles.map(({ idx, articleId, selected }) => (
+            <div
+              key={idx}
+              onClick={() => updateSelectedSampleArticles(idx)}
+              className={`${selected ? "bg-stone-500" : "bg-white"}`}
+            >
+              <SampleArticle articleId={articleId} />
+            </div>
+          ))}
         </section>
         <footer className="flex flex-row justify-end items-center mt-2 p-4">
-          <button onClick={handleSubmit} className="w-32 h-16">
+          <button
+            onClick={handleSubmit}
+            className={`w-32 h-16 text-xl rounded-2xl ${
+              submitButtonActive
+                ? "text-gray-500 bg-stone-300 pointer-events-none"
+                : "text-white bg-orange-400"
+            }`}
+            style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
+          >
             완료
           </button>
         </footer>
