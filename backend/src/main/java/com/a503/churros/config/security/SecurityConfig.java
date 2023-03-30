@@ -1,10 +1,10 @@
 package com.a503.churros.config.security;
 
-import com.a503.churros.controller.auth.handler.CustomSimpleUrlAuthenticationFailureHandler;
-import com.a503.churros.controller.auth.handler.CustomSimpleUrlAuthenticationSuccessHandler;
+import com.a503.churros.controller.user.handler.CustomSimpleUrlAuthenticationFailureHandler;
+import com.a503.churros.controller.user.handler.CustomSimpleUrlAuthenticationSuccessHandler;
 import com.a503.churros.repository.auth.CustomAuthorizationRequestRepository;
-import com.a503.churros.service.auth.CustomDefaultOAuth2UserService;
-import com.a503.churros.service.auth.CustomUserDetailsService;
+import com.a503.churros.service.user.CustomDefaultOAuth2UserService;
+import com.a503.churros.service.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,13 +77,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                 .permitAll()
-                .antMatchers( "/kakao/**","/auth/**", "/oauth2/**")
+                .antMatchers( "/kakao/**","/user/**", "/oauth2/**")
                 .permitAll()
                 .antMatchers("/news/**","/scrap/**","/recommend/**" , "/test/**")
                 .permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html","/swagger-ui/**")
                 .permitAll()
-
                 .anyRequest()
                 .authenticated()
 

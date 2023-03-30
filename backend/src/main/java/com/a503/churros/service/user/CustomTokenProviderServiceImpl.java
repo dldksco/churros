@@ -1,6 +1,6 @@
-package com.a503.churros.service.auth;
+package com.a503.churros.service.user;
 
-import com.a503.churros.config.security.OAuth2Config;
+import com.a503.churros.config.security.JwtConfig;
 import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.entity.auth.mapping.TokenMapping;
 import io.jsonwebtoken.*;
@@ -24,7 +24,7 @@ import java.util.Date;
 public class CustomTokenProviderServiceImpl implements CustomTokenProviderService{
 
     @Autowired
-    private OAuth2Config oAuth2Config;
+    private JwtConfig jwtConfig;
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -35,10 +35,10 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
        //  log.info(userPrincipal.toString());
         Date now = new Date();
         // 좀 찍어보자
-        Date accessTokenExpiresIn = new Date(now.getTime() + oAuth2Config.getAuth().getAccessTokenExpirationMsec());
-        Date refreshTokenExpiresIn = new Date(now.getTime() + oAuth2Config.getAuth().getRefreshTokenExpirationMsec());
+        Date accessTokenExpiresIn = new Date(now.getTime() + jwtConfig.getAuth().getAccessTokenExpirationMsec());
+        Date refreshTokenExpiresIn = new Date(now.getTime() + jwtConfig.getAuth().getRefreshTokenExpirationMsec());
 
-        String secretKey = oAuth2Config.getAuth().getTokenSecret();
+        String secretKey = jwtConfig.getAuth().getTokenSecret();
 //        log.info(secretKey);
 //        log.info(oAuth2Config.getAuth().toString());
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -71,7 +71,7 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
     public boolean validateToken(String token) {
         try {
             //log.info("bearerToken = {} \n oAuth2Config.getAuth()={}", token, oAuth2Config.getAuth().getTokenSecret());
-            Jwts.parserBuilder().setSigningKey(oAuth2Config.getAuth().getTokenSecret()).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(jwtConfig.getAuth().getTokenSecret()).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException ex) {
             log.error("1. 잘못된 JWT 서명입니다.");
@@ -98,7 +98,7 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
 
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(oAuth2Config.getAuth().getTokenSecret())
+                .setSigningKey(jwtConfig.getAuth().getTokenSecret())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
