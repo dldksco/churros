@@ -23,14 +23,9 @@ const Landing = () => {
     },
   ];
 
-  const handleKakaoLogin = async (event) => {
+  const handleKakaoLogin = (event) => {
     event.preventDefault();
-
-    try {
-      window.location.href = "https://www.churros.site/api/user/kakao";
-    } catch (error) {
-      console.log(error);
-    }
+    window.location.href = "https://www.churros.site/api/user/kakao";
   };
 
   return (
