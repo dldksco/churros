@@ -1,8 +1,16 @@
 import axios from "axios";
 //  axios instances
 // to api server
-const api = axios.create({
+export const api = axios.create({
   baseURL: "https://churros.site/api",
 });
 
-export default api;
+api.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+  return config;
+});
+
+export const test = axios.create({
+  baseURL: "https://churros.site/api/test",
+});

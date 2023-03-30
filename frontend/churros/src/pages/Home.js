@@ -27,9 +27,11 @@ const Home = () => {
     setSearchOn(false);
   };
 
+  if (!accessToken) return <Navigate to={"/landing"} />;
+
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
-      {/* {!userInfo?.isUserInterestsInitialized && <SurveyModal />} */}
+      {!userInfo?.activate && <SurveyModal />}
       {searchOn && (
         <SearchModal
           searchOnClick={searchOnClick}

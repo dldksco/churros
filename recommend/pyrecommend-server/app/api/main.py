@@ -59,4 +59,3 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
             break
 
     return {"recommendList": recommendations[:12]}
-
