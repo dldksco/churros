@@ -2,7 +2,6 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Date
 from sqlalchemy.orm import relationship, backref
 
 from app.db.database import Base
-# from app.db.mock_database import Base
 
 class User(Base):
     __tablename__ = "User"
