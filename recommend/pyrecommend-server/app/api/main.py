@@ -34,7 +34,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=400, detail="user 정보가 존재하지 않습니다.")
 
-    dislikes = set(db_user.dislikes.likes_idx)
+    dislikes = set(re.likes_idx for re in db_user.dislikes)
     logging.info(f"user_id조회 결과 : [idx : {db_user.user_idx}, email : {db_user.user_email}, name : {db_user.user_name}]")
     for article in db_user.articles:
         print("article : ", article.article_idx)
