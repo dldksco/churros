@@ -14,7 +14,7 @@ class User(Base):
     user_image_url = Column(String)
 
 class ReadArticle(Base):
-    __tablename__ = "read-article"
+    __tablename__ = "read_article"
 
     read_idx = Column(Integer, primary_key=True, index=True)
     user_idx = Column(Integer, ForeignKey('User.user_idx'))
@@ -32,7 +32,7 @@ class LikedArticle(Base):
     article_idx = Column(Integer)
 
 class DislikedArticle(Base):
-    __tablename__ = "disliked_article"
+    __tablename__ = "dis_liked_article"
 
     dislikes_idx = Column(Integer, primary_key=True, index=True)
     user_idx = Column(Integer, ForeignKey('User.user_idx'))
