@@ -6,6 +6,7 @@ import { useRecoilValue, useSetRecoilState, useResetRecoilState } from "recoil";
 import { accessTokenState } from "../store/auth";
 import { userInfoState } from "../store/user";
 import SampleArticle from "../components/article/SampleArticle";
+import { test } from "../axios-instance/api";
 
 const SurveyBackdrop = () => {
   return (
@@ -23,10 +24,21 @@ const SurveyContent = () => {
   const [sampleArticles, setSampleArticles] = useState([]);
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
 
+  const fetchDummySampleArticles = () => {
+    const articles = [1, 1, 1, 1, 1, 1];
+    setSampleArticles(
+      articles.map((articleId, index) => ({
+        index: index,
+        articleId: articleId,
+        selected: false,
+      }))
+    );
+  };
+
   const fetchSampleArticles = async () => {
     try {
-      const response = await test.get("/news/sample");
-      const { result, articleIds } = response.data;
+      const res = await test.get("/news/sample");
+      const { result, articleIds } = res.data;
 
       console.log(result);
       console.log(articleIds);
@@ -40,7 +52,6 @@ const SurveyContent = () => {
       );
       console.log(sampleArticles);
     } catch ({ response, message }) {
-      
       const { status, statusText } = response;
 
       console.log(
@@ -60,9 +71,11 @@ const SurveyContent = () => {
     event.preventDefault();
 
     // axios request shoud be send
+    console.log(sampleArticles.filter(({ selected }) => selected));
 
     setIsOpen(false);
 
+    // 모달 transition이 종료된 후 userInfo를 갱신하여 Survey 모달을 언마운트한다
     setTimeout(() => {
       setUserInfo((prev) => ({
         ...prev,
@@ -74,57 +87,59 @@ const SurveyContent = () => {
   // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
-    fetchSampleArticles();
+    fetchDummySampleArticles();
+    // fetchSampleArticles();
     setIsOpen(true);
   }, []);
 
+  // 샘플 기사가 변경될 때마다 SubmitButtonActive 상태가 갱신된다
   useEffect(() => {
     const count = sampleArticles.filter(({ selected }) => selected).length;
 
-    if (count > 0) setSubmitButtonActive(true);
+    if (count >= 2) setSubmitButtonActive(true);
     else setSubmitButtonActive(false);
-
   }, [sampleArticles]);
 
   const updateSelectedSampleArticles = (idx) => {
     setSampleArticles((prev) => {
       return prev.map((item) => {
-        if (item.idx !== idx) return item;
+        if (item.index !== idx) return item;
         return { ...item, selected: !item.selected };
       });
     });
   };
+
   return (
     <div
       className={`fixed top-[10%] left-[25%] w-1/2 h-4/5 z-50 ${
         isOpen ? "" : "translate-y-[1080px]"
       } transition delay-300 ease-in-out`}
     >
-      <div className="flex flex-col w-full h-full justify-start bg-white">
-        <header className="inline-block w-full h-fit mt-4 mb-2 p-4">
+      <div className="flex flex-col w-full h-full justify-start bg-white rounded-2xl">
+        <header className="inline-block w-full h-fit p-4">
           <p
-            className="left-10 text-5xl p-1"
+            className="text-4xl p-4"
             style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
           >
             관심있는 기사를 모두 선택해주세요
           </p>
         </header>
-        <section className="flex-1 grid grid-cols-3 gap-4 mt-2 mb-2 px-8 py-4">
-          {sampleArticles.map(({ idx, articleId, selected }) => (
+        <section className="flex-1 grid grid-cols-3 gap-4 px-8 py-4">
+          {sampleArticles.map(({ index, articleId, selected }) => (
             <div
-              key={idx}
-              onClick={() => updateSelectedSampleArticles(idx)}
+              key={index}
+              onClick={() => updateSelectedSampleArticles(index)}
               className={`${selected ? "bg-stone-500" : "bg-white"}`}
             >
               <SampleArticle articleId={articleId} />
             </div>
           ))}
         </section>
-        <footer className="flex flex-row justify-end items-center mt-2 p-4">
+        <footer className="flex flex-row justify-end items-center p-4">
           <button
             onClick={handleSubmit}
             className={`w-32 h-16 text-xl rounded-2xl ${
-              submitButtonActive
+              !submitButtonActive
                 ? "text-gray-500 bg-stone-300 pointer-events-none"
                 : "text-white bg-orange-400"
             }`}
