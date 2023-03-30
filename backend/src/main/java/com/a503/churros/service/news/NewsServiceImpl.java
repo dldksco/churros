@@ -12,6 +12,7 @@ import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,15 +56,17 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void recordLike(long userId, long articleId, long like) {
-        if(like == 1L){
-            Like data = Like.builder()
+    @Transactional
+    public void recordLike(long userId, long articleId) {
+        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(like == null){
+            like = Like.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
                     .build();
-            lr.save(data);
+            lr.save(like);
         }else{
-            lr.deleteByUserIdxAndArticleIdx(userId , articleId);
+            lr.delete(like);
         }
     }
 
