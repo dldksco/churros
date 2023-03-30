@@ -50,7 +50,7 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public Long insertFolderName(long userIdx, String folderName) {
-        if(sfr.findByFolderName(folderName).orElse(null) != null){
+        if(sfr.findByFolderNameAndUserIdx(folderName , userIdx).orElse(null) != null){
             throw new ScrapFolderInsertException("이미 존재하는 폴더입니다");
         }
         ScrapFolder sf = ScrapFolder.builder()
@@ -63,7 +63,7 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public void saveArticle(long userIdx, long folderIdx, long articleIdx) {
-        if(sfr.findByIdAndUserIdx(userIdx , folderIdx).orElse(null) == null){
+        if(sfr.findByIdAndUserIdx(folderIdx , userIdx).orElse(null) == null){
             throw new ScrapFolderInsertException("폴더가 존재하지 않습니다.");
         }
         ScrapedArticle sa = sar.findByScrapbookIdxAndArticleIdx(folderIdx , articleIdx).orElse(null);
@@ -80,7 +80,7 @@ public class ScrapServiceImpl implements ScrapService{
     @Override
     @Transactional
     public void deleteFolder(long userIdx, long folderIdx) {
-        if(sfr.findByIdAndUserIdx(userIdx , folderIdx).orElse(null) == null){
+        if(sfr.findByIdAndUserIdx(folderIdx , userIdx).orElse(null) == null){
             throw new ScrapFolderInsertException("폴더가 존재하지 않습니다.");
         }
         sfr.deleteById(folderIdx);
