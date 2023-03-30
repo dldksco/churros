@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userInfoState } from "../store/user";
-import styles from "./SurveyModal.module.css"
 
 const SurveyBackdrop = () => {
   return (
@@ -13,20 +12,38 @@ const SurveyBackdrop = () => {
 };
 
 const SurveyContent = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [submitButtonActive, setSubmitButtonActive] = useState(false);
   const [selectCount, setSelectCount] = useState(0);
 
   const setUserInfo = useSetRecoilState(userInfoState);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setUserInfo((prev) => ({
-      ...prev,
-      isUserInterestsInitialized: true,
-    }));
+
+    // axios request shoud be send
+
+    setIsOpen(false);
+
+    setTimeout(() => {
+      setUserInfo((prev) => ({
+        ...prev,
+        isUserInterestsInitialized: true,
+      }));
+    }, 600);
   };
 
+  useEffect(() => {
+    setIsOpen(true);
+  }, [])
+
   return (
-    <div className="fixed left-[10%] w-4/5 h-4/5 z-50 translate-y-[1080px] transition transform delay-300 ease-in-out">
+    <div
+      className={`fixed top-[10%] left-[25%] w-1/2 h-4/5 z-50 ${
+        isOpen ? "" : "translate-y-[1080px]"
+      } transition delay-300 ease-in-out`}
+    >
       <div className="flex flex-col w-full h-full justify-start bg-white">
         <header className="inline-block w-full h-fit mt-4 mb-2 p-4">
           <p
@@ -37,15 +54,29 @@ const SurveyContent = () => {
           </p>
         </header>
         <section className="flex-1 grid grid-cols-3 gap-4 mt-2 mb-2 px-8 py-4">
-          <div key="1" className="bg-red-300">Sample Article</div>
-          <div key="2" className="bg-red-300">Sample Article</div>
-          <div key="3" className="bg-red-300">Sample Article</div>
-          <div key="4" className="bg-red-300">Sample Article</div>
-          <div key="5" className="bg-red-300">Sample Article</div>
-          <div key="6" className="bg-red-300">Sample Article</div>
+          <div key="1">
+            Sample Article
+          </div>
+          <div key="2">
+            Sample Article
+          </div>
+          <div key="3">
+            Sample Article
+          </div>
+          <div key="4">
+            Sample Article
+          </div>
+          <div key="5">
+            Sample Article
+          </div>
+          <div key="6">
+            Sample Article
+          </div>
         </section>
         <footer className="flex flex-row justify-end items-center mt-2 p-4">
-          <button onClick={handleSubmit} className="w-32 h-16">제출하기</button>
+          <button onClick={handleSubmit} className="w-32 h-16">
+            완료
+          </button>
         </footer>
       </div>
     </div>
