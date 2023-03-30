@@ -2,7 +2,6 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 from pymongo import MongoClient
-import pickle
 from gensim import corpora, models, similarities
 
 
@@ -29,8 +28,10 @@ project_folder = os.getcwd()
 
 # token dataframe 조회
 def token_dataframe():
+    logging.info('token_dataframe recall start')
     data = list(tokencollection.find())
     df = pd.DataFrame(data)
+    logging.info('token_dataframe recall end')
     return df
 
 # doc2bow 실시 (dictionary, doc2bow저장)
@@ -38,20 +39,24 @@ def token_dataframe():
 
 def doc2bow(df):
     logging.info('start|doc2bow')
-
     dictionary = corpora.Dictionary(df.token)
-    dictionary.save(
-        '~/recommend/data/dictionary.pkl')
     corpus = [dictionary.doc2bow(text) for text in df.token]
-    with open('~/recommend/data/corpus.pkl', 'wb') as f:
-        pickle.dump(corpus, f)
+    logging.info('Saving corpus start')
+    # corpora.MmCorpus.serialize('home/ubuntu/recommend/data/corpus.mm', corpus)
+    corpora.MmCorpus.serialize('./corpus.mm', corpus)
+    logging.info('Saving corpus end')
     return dictionary, corpus
 
 def model_train(dictionary, corpus):
     logging.info('finish|doc2bow')
     NUM_TOPICS = 20
-    ldamodel = models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=10)
-    ldamodel.save('~/recommend/data/ldamodels.lda')
+    # num topics, passes 추후 수정
+    ldamodel = models.ldamulticore.LdaMulticore(corpus, num_topics=NUM_TOPICS, random_state=42, chunksize=10000,passes=1,eta='auto',id2word=dictionary, workers=4, minimum_probability=0.01)
+    # ldamodel.save('home/ubuntu/recommend/data/ldamodels.lda')
+    ldamodel.save('./ldamodels.lda')
+    index = similarities.MatrixSimilarity(ldamodel[corpus],num_features=NUM_TOPICS)
+    # index.save('home/ubuntu/recommend/data/ldaindex.sim')
+    index.save('./ldaindex.sim')
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')

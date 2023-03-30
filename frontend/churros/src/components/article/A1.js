@@ -7,6 +7,7 @@ const A1 = ({ articleId, url, imgUrl, title, description, onClose }) => {
     const handleArticleDetail = (event) => {
         event.preventDefault();
         event.stopPropagation();
+        
     }
 
   return (

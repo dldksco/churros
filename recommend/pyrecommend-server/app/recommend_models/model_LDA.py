@@ -1,16 +1,15 @@
 import os
 import numpy as np
 
-from gensim import models, similarities
-import pickle
+from gensim import models, similarities, corpora
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 class LDAmodel():
     def __init__(self):
         project_folder = os.getcwd()
-        self.lda_model = models.LdaModel.load(project_folder+'/app/recommend_models/data/ldamodels.lda')
-        self.index = similarities.MatrixSimilarity.load('app/recommend_models/data/ldaindex.sim')
-        self.corpus = pickle.load(open('app/recommend_models/data/corpus.pkl','rb'))
+        self.lda_model = models.LdaModel.load(project_folder+'/data/ldamodels.lda')
+        self.index = similarities.MatrixSimilarity.load(project_folder+'/data/ldaindex.sim')
+        self.corpus = corpora.MmCorpus(project_folder+'/data/corpus.mm')
 
 
     def user_recommend(self,user_history:list,dislikes:list, N:int): # corpus, dictionary 필요
