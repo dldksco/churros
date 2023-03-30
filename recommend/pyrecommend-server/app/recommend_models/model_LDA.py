@@ -7,9 +7,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class LDAmodel():
     def __init__(self):
         project_folder = os.getcwd()
-        self.lda_model = models.LdaModel.load(project_folder+'/app/recommend_models/data/ldamodels.lda')
-        self.index = similarities.MatrixSimilarity.load('app/recommend_models/data/ldaindex.sim')
-        self.corpus = corpora.MmCorpus('app/recommend_models/data/corpus.mm')
+        self.lda_model = models.LdaModel.load(project_folder+'data/ldamodels.lda')
+        self.index = similarities.MatrixSimilarity.load('data/ldaindex.sim')
+        self.corpus = corpora.MmCorpus('data/corpus.mm')
 
 
     def user_recommend(self,user_history:list,dislikes:list, N:int): # corpus, dictionary 필요
