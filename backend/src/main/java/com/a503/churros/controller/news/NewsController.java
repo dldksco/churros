@@ -135,6 +135,15 @@ public class NewsController {
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
+
+    /**
+     *
+     * 현재 저장된 news의 검색결과를 반환합니다
+     *
+     * @author Lee an chae
+     * @param newsSearchRequest 뉴스 서치에 필요한 요청값
+     * @return 검색된 결과와 상태코드
+     */
     @PostMapping("/search")
     public ResponseEntity<?> newsSearch(@RequestBody NewsSearchRequest newsSearchRequest) {
         String text = newsSearchRequest.getText();
@@ -142,7 +151,6 @@ public class NewsController {
         int size = newsSearchRequest.getSize();
         Pageable pageable = PageRequest.of(page, size);
         Slice<NewsDocumentationDTO> news = ns.searchByTitleAndDescription(text, pageable);
-
         return ResponseEntity.ok(news);
     }
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 @EqualsAndHashCode
@@ -12,8 +13,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class NewsDocumentationDTO {
-  public NewsDocumentationDTO() {}
   private String title;
 
   private String description;
@@ -23,5 +24,6 @@ public class NewsDocumentationDTO {
   private String link;
 
   private String imgSrc;
+
 
 }

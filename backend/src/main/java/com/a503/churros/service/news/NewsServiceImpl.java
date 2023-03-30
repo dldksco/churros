@@ -11,6 +11,7 @@ import com.a503.churros.repository.feign.FeignClient;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -33,9 +34,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class NewsServiceImpl implements NewsService{
-
     private final ReadRepository rr;
     private final LikeRepository lr;
     private final DisLikeRepository dr;
@@ -142,8 +142,18 @@ public class NewsServiceImpl implements NewsService{
 //        }
 //        return dto;
     }
+
+    /**
+     * 문장을 통해 검색 요청했을 경우 요청 페이지에 대한 검색 결과를 리턴함
+     *
+     * @author Lee an chae
+     * @param query 검색시 필요한 문장
+     * @param pageable 검색시 반환하는 사이즈 size와 어떤 페이지를 반환해야되는지에 대한 정보를 담고있음 page
+     * @return 검색 결과와 요청 받은 page 값들 리턴
+     */
     public Slice<NewsDocumentationDTO> searchByTitleAndDescription(String query, Pageable pageable) {
         QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(query, "title", "description");
+//        QueryBuilder queryBuilder = QueryBuilders.matchQuery("title", query);
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
             .withQuery(queryBuilder)
             .withPageable(pageable)
@@ -165,6 +175,14 @@ public class NewsServiceImpl implements NewsService{
         boolean hasNext = newsDocumentationDTOs.size() == pageable.getPageSize();
         return new SliceImpl<>(newsDocumentationDTOs, pageable, hasNext);
     }
+
+
+    /**
+     * NewsDocumentation Entity를 NewsDocumentationDTO로 변환
+     * @author Lee an chae
+     * @param newsDocumentation NewsDocumentation Entity
+     * @return 변환된 NewsDocumentationDTO
+     */
 
     private NewsDocumentationDTO convertToDto(NewsDocumentation newsDocumentation) {
         return NewsDocumentationDTO.builder().

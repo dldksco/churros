@@ -66,6 +66,10 @@ dependencies {
 	//elasticsearch
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 	implementation 'org.springframework.data:spring-data-elasticsearch:4.4.9'
+	implementation 'org.elasticsearch:elasticsearch:7.17.9'
+	//elasticsearch test container
+	testImplementation "org.testcontainers:elasticsearch:1.15.3"
+
 
 	// for swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
