@@ -1,10 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import HoverBox from "../common/HoverBox"
-const LikeArticle = () => {
-
+import CloseButton from "../common/CloseButton";
+const LikeArticle = (props) => {
+  
   return (
-      <div className="max-w w-full lg:flex place-content-center">
+      <div className="max-w w-90 lg:flex place-content-center relative">
+        <CloseButton />
         <div
           className="lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
           style={{ "backgroundImage": "url('https://tailwindcss.com/img/card-left.jpg')" }}
@@ -19,9 +21,11 @@ const LikeArticle = () => {
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
               exercitationem praesentium nihil.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Voluptatibus quia, nulla! Maiores et perferendis eaque,
+              exercitationem praesentium nihil.
             </p>
           </div>
-          <HoverBox />
           {/* 기자 정보 출력 */}
           {/* <div className="flex items-center">
             <img
@@ -35,6 +39,7 @@ const LikeArticle = () => {
             </div>
             
           </div> */}
+        <HoverBox />
         </div>
       </div>
   );
