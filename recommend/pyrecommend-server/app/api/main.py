@@ -51,7 +51,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     # 이후 읽은 순서에 따라 우선 탐색...
     recommendations = []
     N = (12//((len(read_idx)//5)+1))
-    if N == 0:
+    if N <= 1:
         N = 2
     for i in range(0, len(read_idx), 5):
         cur_articles = read_idx[0:i+5]

@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Article from "../components/article/Article";
 import axios from "axios";
-const LikesPage = () => {
+const ScrapsPage = () => {
   const [articleList, setArticleList] = useState([]);
   console.log(articleList);
   useEffect(() => {
@@ -26,11 +26,11 @@ const LikesPage = () => {
       {/* 나머지 기사들 */}
       {articleList.slice(1).map((article, idx) => (
         <div key={idx} className="col-span-1 relative">
-          <Article />
+          <Article indiccatpr={2}/>
         </div>
       ))}
     </div>
   );
 };
 
-export default LikesPage;
+export default ScrapsPage;
