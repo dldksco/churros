@@ -35,7 +35,7 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/newsdb
 crs:
-  uri: http://churros-rcs:8080
+  uri: https://churros-rcs:8080
 ---
 spring:
   config:
