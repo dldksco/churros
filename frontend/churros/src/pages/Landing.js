@@ -29,7 +29,7 @@ const Landing = () => {
 
     //window.location.href = "https://www.churros.site/api/auth/kakao";
     try {
-      window.location.href = "https://www.churros.site/api/user/kakao";
+      window.location.href = "https://churros.site/api/user/kakao";
     } catch (error) {
       console.log(error);
     }
