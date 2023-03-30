@@ -9,7 +9,7 @@ public interface NewsService {
     List<Long> sendRecommend(long userId);
     List<Long> sendSample();
     void saveReadArti(long userId, long articleId);
-    void recordLike(long userId, long articleId, long like);
+    void recordLike(long userId, long articleId);
     List<Long> getLikeList(long userIdx);
     void recordDisLike(long userId, long articleId);
 
