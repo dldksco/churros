@@ -77,6 +77,8 @@ spring:
   config:
     activate:
       on-profile: "common"
+  jackson:
+    time-zone: Asia/Seoul
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -93,6 +95,7 @@ spring:
             authorization-grant-type: authorization_code
             scope: nickname,email,profile_image
             client-name: Naver
+
         provider:
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize
@@ -116,10 +119,14 @@ springdoc:
 # jwt 토큰
 app:
   auth:
-    tokenSecret: sadfldlsjfwefoiwejfoweijfoewlfjweofajefoqwj3eiofrwweiorjwelrqworewoirjwedsfakjsdflwerfjiwefjwealfweijflewafijalwefliasfjiesalijflsaiejflsae
-    accessTokenExpirationMsec: 2000000
+    tokenSecret: ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser
+    accessTokenExpirationMsec: 20000000
     refreshTokenExpirationMsec: 600000000
   cors:
     allowedOrigins: http://localhost:3000, http://localhost:9999, https://www.churros.site, https://churros.site
   oauth2:
     authorizedRedirectUris: http://localhost:3000/oauth2/redirect
+
+kakao:
+  client-id: 1a06069f5798412103d829ce3ec3a3a0
+  client-secret: eKmMwAle5wR5XRqWdZDCXpybrhiaZsti
