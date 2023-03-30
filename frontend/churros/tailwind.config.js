@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        cooper: ['cooper-black-std', 'serif'],
+        cooper: ["cooper-black-std", "serif"],
       },
       spacing: {
         "10vh": "10vh",
@@ -16,5 +16,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
