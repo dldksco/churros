@@ -66,7 +66,7 @@ const SurveyContent = () => {
     setTimeout(() => {
       setUserInfo((prev) => ({
         ...prev,
-        isUserInterestsInitialized: true,
+        activate: true,
       }));
     }, 600);
   };
@@ -83,6 +83,7 @@ const SurveyContent = () => {
 
     if (count > 0) setSubmitButtonActive(true);
     else setSubmitButtonActive(false);
+
   }, [sampleArticles]);
 
   const updateSelectedSampleArticles = (idx) => {
