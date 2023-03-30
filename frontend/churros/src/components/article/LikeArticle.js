@@ -5,7 +5,7 @@ const LikeArticle = () => {
   return (
       <div className="max-w w-full lg:flex place-content-center">
         <div
-          className="h-80 xl:h-64 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+          className="lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
           style={{ "backgroundImage": "url('https://tailwindcss.com/img/card-left.jpg')" }}
           title="Woman holding a mug"
         ></div>
