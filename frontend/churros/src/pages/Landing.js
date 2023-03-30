@@ -29,7 +29,7 @@ const Landing = () => {
 
     //window.location.href = "https://www.churros.site/api/auth/kakao";
     try {
-      await api.get("/auth/kakao");
+      window.location.href = "https://www.churros.site/api/auth/kakao";
     } catch (error) {
       console.log(error);
     }
