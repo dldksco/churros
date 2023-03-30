@@ -34,7 +34,7 @@ class LikedArticle(Base):
 class DislikedArticle(Base):
     __tablename__ = "dis_liked_article"
 
-    dislikes_idx = Column(Integer, primary_key=True, index=True)
+    likes_idx = Column(Integer, primary_key=True, index=True)
     user_idx = Column(Integer, ForeignKey('user.user_idx'))
-    user = relationship("User", backref=backref("dislikes", order_by=dislikes_idx))
+    user = relationship("User", backref=backref("dislikes", order_by=likes_idx))
     article_idx = Column(Integer)
