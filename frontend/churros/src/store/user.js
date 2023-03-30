@@ -2,10 +2,7 @@ import { atom } from "recoil";
 
 export const userInfoState = atom({
   key: "userInfoState",
-  default: {
-    userId: null,
-    isUserInterestsInitialized: false,
-  },
+  default: {},
   effects: [
     ({ setSelf }) => {
       const storedUserInfo = localStorage.getItem("userInfo");
@@ -14,10 +11,15 @@ export const userInfoState = atom({
       }
     },
     ({ onSet }) => {
-      onSet(newValue => {
+      onSet((newValue) => {
         localStorage.setItem("userInfo", JSON.stringify(newValue));
-        console.log(`userInfo has set to ${newValue}`)
+        console.log(`userInfo has set to ${newValue}`);
       });
     },
-  ]
+    ({ resetSelf }) => {
+      resetSelf(() => {
+        localStorage.removeItem("userInfo");
+      });
+    },
+  ],
 });
