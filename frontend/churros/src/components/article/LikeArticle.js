@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import HoverBox from "../common/HoverBox"
 const LikeArticle = () => {
 
   return (
@@ -20,6 +21,7 @@ const LikeArticle = () => {
               exercitationem praesentium nihil.
             </p>
           </div>
+          <HoverBox />
           {/* 기자 정보 출력 */}
           {/* <div className="flex items-center">
             <img
