@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        cooper: ['cooper-black-std', 'serif'],
+      },
       spacing: {
         "10vh": "10vh",
         "108px": "108px",
