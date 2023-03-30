@@ -1,13 +1,13 @@
-package com.a503.churros.controller.auth.handler;
+package com.a503.churros.controller.user.handler;
 
-import com.a503.churros.config.security.OAuth2Config;
+import com.a503.churros.config.security.JwtConfig;
 import com.a503.churros.config.security.advice.assertThat.DefaultAssert;
 import com.a503.churros.config.security.util.CustomCookie;
 import com.a503.churros.entity.auth.Token;
 import com.a503.churros.entity.auth.mapping.TokenMapping;
 import com.a503.churros.repository.auth.CustomAuthorizationRequestRepository;
 import com.a503.churros.repository.auth.TokenRepository;
-import com.a503.churros.service.auth.CustomTokenProviderService;
+import com.a503.churros.service.user.CustomTokenProviderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -34,7 +34,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
 
     private final CustomTokenProviderService customTokenProviderService;
 
-    private final OAuth2Config oAuth2Config;
+    private final JwtConfig jwtConfig;
 
     private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
     @Override
@@ -79,7 +79,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
 
-        return oAuth2Config.getOauth2().getAuthorizedRedirectUris()
+        return jwtConfig.getOauth2().getAuthorizedRedirectUris()
                 .stream()
                 .anyMatch(authorizedRedirectUri -> {
                     URI authorizedURI = URI.create(authorizedRedirectUri);

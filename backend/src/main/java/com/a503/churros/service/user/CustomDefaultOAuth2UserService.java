@@ -1,9 +1,8 @@
-package com.a503.churros.service.auth;
+package com.a503.churros.service.user;
 
 import com.a503.churros.config.security.OAuth2UserInfoFactory;
 import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.config.security.advice.assertThat.DefaultAssert;
-import com.a503.churros.config.security.company.Provider;
 import com.a503.churros.config.security.util.OAuth2UserInfo;
 import com.a503.churros.entity.user.User;
 import com.a503.churros.repository.user.UserRepository;
