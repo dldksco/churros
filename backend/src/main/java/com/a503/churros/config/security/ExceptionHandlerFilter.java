@@ -1,7 +1,7 @@
 package com.a503.churros.config.security;
 
 import com.a503.churros.config.security.advice.payload.ErrorCode;
-import com.a503.churros.service.auth.CustomTokenProviderService;
+import com.a503.churros.service.user.CustomTokenProviderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import lombok.Data;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

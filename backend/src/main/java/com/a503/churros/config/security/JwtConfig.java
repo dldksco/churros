@@ -10,7 +10,7 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "app")
-public class OAuth2Config {
+public class JwtConfig {
 
 
     private final Auth auth = new Auth();
