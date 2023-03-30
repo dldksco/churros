@@ -11,7 +11,8 @@ public enum ErrorCode {
     INVALID_CHECK(400, null, "해당 값이 유효하지 않습니다."),
     INVALID_AUTHENTICATION(400, null, "not right authentication."),
 
-    TOKEN_EXPIRED(500,null, "token expired.");
+    TOKEN_EXPIRED(500,null, "token expired."),
+    INVALID_TOKEN(500,null,"invalid token");
 
     private final String code;
     private final String message;

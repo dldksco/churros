@@ -6,12 +6,17 @@ import com.a503.churros.entity.auth.mapping.TokenMapping;
 import com.a503.churros.dto.auth.request.SignInRequest;
 import com.a503.churros.dto.auth.request.SignUpRequest;
 import com.a503.churros.dto.auth.response.AuthResponse;
+import com.a503.churros.feign.auth.GetKakaoInfo;
+import com.a503.churros.feign.auth.GetKakaoToken;
 import com.a503.churros.repository.auth.TokenRepository;
 import com.a503.churros.repository.user.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +24,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.Key;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,7 +42,15 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+    private final GetKakaoToken getKakaoToken;
+
+    private final GetKakaoInfo getKakaoInfo;
+
+//    private final AuthService authService;
     private final CustomTokenProviderService customTokenProviderService;
+
+    private static String CLIENT_ID = "1a06069f5798412103d829ce3ec3a3a0";
+    private static String CLIENT_SECRET = "eKmMwAle5wR5XRqWdZDCXpybrhiaZsti";
     public AuthResponse signin(SignInRequest signInRequest){
         // 인증과정
 
@@ -79,6 +96,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .provider(1)
                 .roles(1)
+                .activate(false)
                 .build();
 
         userRepository.save(user);
@@ -92,7 +110,24 @@ public class AuthServiceImpl implements AuthService {
         // 여기 create 해야 할텐데
         return messageResponse;
     }
+    public void kakaoAuthorize(HttpServletResponse response) throws IOException {
+        String url = "https://kauth.kakao.com/oauth/authorize?client_id="+CLIENT_ID
+                +"&redirect_uri=https://churros.site/api/auth/kakao/callback&response_type=code";
+        // step1 :  1번 oauth/authorize 보내  , 2번은 Kakao Auth Server , 3번은 Client , 4번은 KakaoAuthServer ,5번은 Client
+        response.sendRedirect(url);
+    }
 
+    public void kakaoCallBack(String code, HttpServletResponse response) throws IOException{
+        JSONObject accessTokenKakao =  getKakaoToken.getKakaoToken("authorization_code",CLIENT_ID,
+                "https://churros.site/api/auth/kakao/callback",code);
+        JSONObject resp = getKakaoInfo.getKakaoInfo((String)accessTokenKakao.get("token_type")+" "+(String)accessTokenKakao.get("access_token"));
+        //  회원 가입
+        Optional<User> user = this.kakaoSignup(resp);
+
+        // 토큰 생성
+        String[] tokens = createJWTToken(user);
+        response.sendRedirect("https://churros.site/kakao/handler?access-token="+tokens[0]+"&refresh-token="+tokens[1]);
+    }
     public Optional<User> kakaoSignup(JSONObject resp){
 
         Map<String, Object> map;
@@ -110,6 +145,7 @@ public class AuthServiceImpl implements AuthService {
                     .imageUrl(image_url)
                     .provider(3)
                     .roles(1)
+                    .activate(false)
                     .build();
 
             userRepository.save(user);
@@ -120,6 +156,32 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return testUser;
+    }
+
+    private String[] createJWTToken(Optional<User> user){
+        Date now = new Date();
+        // 좀 찍어보자
+        Date accessTokenExpiresIn = new Date(now.getTime() + 20000000);
+        Date refreshTokenExpiresIn = new Date(now.getTime() + 600000000);
+        String secretKey = "ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser";
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+        // sub 엔 유저 id, iat엔 시작시점, exp 엔 만료되는 시점
+        String accessToken = Jwts.builder()
+                .setSubject(Long.toString(user.get().getId()))
+                .setIssuedAt(new Date())
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+        // refreshtoken엔 exp 만료되는 시점만 , 추후 변경 가능
+        String refreshToken = Jwts.builder()
+                .setExpiration(refreshTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+        String[] tokens = new String[2];
+        tokens[0] = accessToken;
+        tokens[1] = refreshToken;
+        return tokens;
     }
 
 

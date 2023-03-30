@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 // import ArticleList from "../components/article/ArticleList";
 import A1Carousel from "../components/article/A1Carousel";
 import test from "../axios-instance/test";
+import LikeArticle from "../components/article/LikeArticle";
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
@@ -67,18 +68,33 @@ const Main = () => {
 
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
-      <div className="block w-full h-[34rem]">
+      <div className="block w-full h-[34rem] mb-4 shadow-lg">
         {loading && <h1>로딩 중...</h1>}
-        {!loading && (
-          <A1Carousel slides={testArticles} />
-        )}
+        {!loading && <A1Carousel slides={testArticles} />}
       </div>
+      <div className="grid grid-cols-4 gap-4 w-full mb-4">
+        <div className="col-span-2">
+          <LikeArticle />
+        </div>
+        <div className="col-span-1">
+          <LikeArticle />
+        </div>
+      </div>
+      <hr className="bg-black opacity-20 h-1" />
       <div className="block w-full h-[14rem]">Article Row</div>
+      <hr className="bg-black opacity-20 h-1" />
+
       <div className="block w-full h-[14rem]">Article Row</div>
+      <hr className="bg-black opacity-20 h-1" />
+
       <div className="block w-full h-[14rem]">Article Row</div>
+      <hr className="bg-black opacity-20 h-1" />
+
       <div className="block w-full h-[14rem]">Article Row</div>
+      <hr className="bg-black opacity-20 h-1" />
+
       <div className="block w-full h-[14rem]">Article Row</div>
-      <div className="block w-full h-[14rem]">Article Row</div>
+      <hr className="bg-black opacity-20 h-1" />
     </div>
   );
 };

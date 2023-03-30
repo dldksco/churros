@@ -9,6 +9,8 @@ import com.a503.churros.entity.user.User;
 import net.minidev.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 public interface AuthService {
@@ -17,6 +19,10 @@ public interface AuthService {
     public MessageResponse signup(SignUpRequest signUpRequest);
 
     public Optional<User> kakaoSignup(JSONObject resp);
+
+    public void kakaoAuthorize(HttpServletResponse response) throws IOException;
+
+    public void kakaoCallBack(String code, HttpServletResponse response) throws IOException;
 
 
 
