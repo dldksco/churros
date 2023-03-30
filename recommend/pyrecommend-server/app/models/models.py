@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship, backref
 from app.db.database import Base
 
 class User(Base):
-    __tablename__ = "User"
+    __tablename__ = "user"
 
     user_idx = Column(Integer, primary_key=True, index=True)
     user_email = Column(String)
@@ -14,27 +14,27 @@ class User(Base):
     user_image_url = Column(String)
 
 class ReadArticle(Base):
-    __tablename__ = "ReadArticle"
+    __tablename__ = "read-article"
 
     read_idx = Column(Integer, primary_key=True, index=True)
     user_idx = Column(Integer, ForeignKey('User.user_idx'))
-    user = relationship("User", backref=backref("articles", order_by=read_idx))
+    user = relationship("user", backref=backref("articles", order_by=read_idx))
     article_idx = Column(Integer)
     read_date = Column(Date)
     valid_date = Column(Date)
 
 class LikedArticle(Base):
-    __tablename__ = "LikedArticle"
+    __tablename__ = "liked_article"
 
     likes_idx = Column(Integer, primary_key=True, index=True)
     user_idx = Column(Integer, ForeignKey('User.user_idx'))
-    user = relationship("User", backref=backref("likes", order_by=likes_idx))
+    user = relationship("user", backref=backref("likes", order_by=likes_idx))
     article_idx = Column(Integer)
 
 class DislikedArticle(Base):
-    __tablename__ = "DislikedArticle"
+    __tablename__ = "disliked_article"
 
     dislikes_idx = Column(Integer, primary_key=True, index=True)
     user_idx = Column(Integer, ForeignKey('User.user_idx'))
-    user = relationship("User", backref=backref("dislikes", order_by=dislikes_idx))
+    user = relationship("user", backref=backref("dislikes", order_by=dislikes_idx))
     article_idx = Column(Integer)
