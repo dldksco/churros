@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import LikeArticle from "../components/article/LikeArticle";
+import Article from "../components/article/Article";
 import axios from "axios";
 const LikesPage = () => {
   const location = useLocation();
@@ -29,7 +29,7 @@ const LikesPage = () => {
         {/* 검색결과 */}
         {searchList.slice(1).map((article, idx) => (
           <div key={idx} className="col-span-1 relative">
-            <LikeArticle />
+            <Article />
           </div>
         ))}
       </div>
