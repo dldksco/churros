@@ -67,7 +67,7 @@ spring:
     mongodb:
       uri: mongodb://churros:A503@churros-mongodb:27017/newsdb
 crs:
-  uri: http://churros-rcs:8080
+  uri: http://localhost:8000
 ---
 springfox:
   documentation:
