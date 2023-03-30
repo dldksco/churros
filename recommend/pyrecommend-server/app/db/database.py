@@ -1,15 +1,16 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from starlette.config import Config
+import os
+# from dotenv import load_dotenv
+#
+# load_dotenv()
 
-config = Config("app/.env")
-
-maria_user = config.get("MARIA_USER")
-maria_passwd = config.get("MARIA_PASSWD")
-maria_host = config.get("MARIA_HOST")
-maria_port = config.get("MARIA_PORT")
-maria_db_name = config.get("MARIA_DB_NAME")
+maria_user = os.getenv("MARIA_USER")
+maria_passwd = os.getenv("MARIA_PASSWD")
+maria_host = os.getenv("MARIA_HOST")
+maria_port = os.getenv("MARIA_PORT")
+maria_db_name = os.getenv("MARIA_DB_NAME")
 
 SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{maria_user}:{maria_passwd}@{maria_host}:{maria_port}/{maria_db_name}"
 

@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
-# from app.db.mock_database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import LDAmodel
 import logging
