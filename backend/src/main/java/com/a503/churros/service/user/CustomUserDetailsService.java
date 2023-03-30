@@ -1,4 +1,4 @@
-package com.a503.churros.service.auth;
+package com.a503.churros.service.user;
 
 
 import org.springframework.security.core.userdetails.UserDetails;

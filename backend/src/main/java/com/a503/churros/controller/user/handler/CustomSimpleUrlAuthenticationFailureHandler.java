@@ -1,4 +1,4 @@
-package com.a503.churros.controller.auth.handler;
+package com.a503.churros.controller.user.handler;
 
 
 

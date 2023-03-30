@@ -1,4 +1,4 @@
-package com.a503.churros.service.auth;
+package com.a503.churros.service.user;
 
 import com.a503.churros.config.security.UserPrincipal;
 import com.a503.churros.entity.user.User;
