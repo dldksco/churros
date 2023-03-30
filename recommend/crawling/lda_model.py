@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from gensim import corpora, models
+from gensim import corpora, models, similarities
 
 
 load_dotenv()
@@ -40,12 +40,10 @@ def token_dataframe():
 def doc2bow(df):
     logging.info('start|doc2bow')
     dictionary = corpora.Dictionary(df.token)
-    logging.info('Saving dictionary start')
-    dictionary.save('~/recommend/data/dictionary.pkl')
-    logging.info('Saving dictionary end')
     corpus = [dictionary.doc2bow(text) for text in df.token]
     logging.info('Saving corpus start')
-    corpora.MmCorpus.serialize('~/recommend/data/corpus.mm', corpus)
+    # corpora.MmCorpus.serialize('home/ubuntu/recommend/data/corpus.mm', corpus)
+    corpora.MmCorpus.serialize('./corpus.mm', corpus)
     logging.info('Saving corpus end')
     return dictionary, corpus
 
@@ -54,7 +52,11 @@ def model_train(dictionary, corpus):
     NUM_TOPICS = 20
     # num topics, passes 추후 수정
     ldamodel = models.ldamulticore.LdaMulticore(corpus, num_topics=NUM_TOPICS, random_state=42, chunksize=10000,passes=1,eta='auto',id2word=dictionary, workers=4, minimum_probability=0.01)
-    ldamodel.save('~/recommend/data/ldamodels.lda')
+    # ldamodel.save('home/ubuntu/recommend/data/ldamodels.lda')
+    ldamodel.save('./ldamodels.lda')
+    index = similarities.MatrixSimilarity(ldamodel[corpus],num_features=NUM_TOPICS)
+    # index.save('home/ubuntu/recommend/data/ldaindex.sim')
+    index.save('./ldaindex.sim')
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')
