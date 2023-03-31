@@ -2,23 +2,26 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Article from "../components/article/Article";
-import axios from "axios";
-const LikesPage = () => {
+import { api, test } from "../axios-instance/api";
+
+const SearchPage = () => {
   const location = useLocation();
   const searchData = location.state;
-  console.log(searchData);
   const [searchList, setSearchList] = useState([]);
 
+  // 시작과 함께 axios 통신으로 리스트 받아옴
+  const fetchData = async () => {
+    try {
+      const response = await test.post(`/news/search`, {params:{text:searchData, page:1,size:10}});
+      const { result, article } = response.data;
+      console.log(`loading sample search reault ${searchData}: ${result}`);
+      setSearchList({ ...article });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    // 시작과 함께 axios 통신으로 리스트 받아옴
-    setSearchList([
-      { title: "First Article", text: "Text" },
-      { title: "Second Article", text: "Text2" },
-      { title: "Third Article", text: "Text3" },
-      { title: "Fourth Article", text: "Text4" },
-      { title: "Fifth Article", text: "Text5" },
-      { title: "Second Article", text: "Text6" },
-    ]);
+    fetchData();
   }, []);
   return (
     <div>
@@ -29,7 +32,7 @@ const LikesPage = () => {
         {/* 검색결과 */}
         {searchList.slice(1).map((article, idx) => (
           <div key={idx} className="col-span-1 relative">
-            <Article />
+            <Article shape="2" articleIdx={article.idx}/>
           </div>
         ))}
       </div>
@@ -37,4 +40,4 @@ const LikesPage = () => {
   );
 };
 
-export default LikesPage;
+export default SearchPage;
