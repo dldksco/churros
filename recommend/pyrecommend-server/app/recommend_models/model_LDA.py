@@ -6,18 +6,24 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 class LDAmodel():
     def __init__(self):
+        logging.info(f'LDAmodel init...')
+        self.change_model_files()
+        logging.info(f'LDAmodel init 완료!')
+        
+    def change_model_files(self):
+        logging.info(f'파일 읽기 시작')
         project_folder = os.getcwd()
-        logging.info(f"project_folder : {project_folder}")
-        self.lda_model = models.LdaModel.load(project_folder+'/data/ldamodels.lda')
-        self.index = similarities.MatrixSimilarity.load(project_folder+'/data/ldaindex.sim')
-        with open(project_folder+'/data/corpus.pkl', "rb") as fi:
+        logging.debug(f"project_folder : {project_folder}")
+        self.lda_model = models.LdaModel.load(project_folder + '/data/ldamodels.lda')
+        self.index = similarities.MatrixSimilarity.load(project_folder + '/data/ldaindex.sim')
+        with open(project_folder + '/data/corpus.pkl', "rb") as fi:
             self.corpus = pickle.load(fi)
-
-
+        logging.info(f'파일 읽기 종료')
 
     def user_recommend(self,user_history:list,dislikes:list, N:int): # corpus, dictionary 필요
         logging.info(f"Start user recommendation process.")
         corpus_lda_model = self.lda_model[self.corpus]
+
         # 유저 기록의 주제 관련 평균 계산
         user_topics = np.zeros(20)
         for i in user_history:
@@ -39,7 +45,6 @@ class LDAmodel():
         top_n_indices = []
         while len(top_n_indices) < N:
             top_n_indices.extend([i[0] for i in sim_scores[0:N+1] if i[0] not in set(user_history) and i[0] not in dislikes])
-            
         
         logging.debug(f"Top {N} recommended article indices: {top_n_indices[:N]}")
         logging.info(f"User recommendation process completed.")
