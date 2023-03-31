@@ -102,6 +102,6 @@ public class ScrapServiceImpl implements ScrapService{
             throw new ScrapFolderInsertException("폴더가 존재하지 않습니다.");
         }
         sf.setFolderName(folderName);
-
+        sfr.save(sf);
     }
 }
