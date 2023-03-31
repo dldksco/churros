@@ -49,7 +49,7 @@ def doc2bow(df):
 
 def model_train(dictionary, corpus):
     logging.info('finish|doc2bow')
-    NUM_TOPICS = 20
+    NUM_TOPICS = 30
     # num topics, passes 추후 수정
     ldamodel = models.ldamulticore.LdaMulticore(corpus, num_topics=NUM_TOPICS, random_state=42, chunksize=10000,passes=1,eta='auto',id2word=dictionary, workers=4, minimum_probability=0.01)
     # ldamodel.save('home/ubuntu/recommend/data/ldamodels.lda')

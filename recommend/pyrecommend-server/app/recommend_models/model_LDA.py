@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class LDAmodel():
     def __init__(self):
         logging.info(f'LDAmodel init...')
-        self.TOPIC_NUM = 20
+        self.TOPIC_NUM = 30
         self.change_model_files()
         logging.info(f'LDAmodel init 완료!')
         

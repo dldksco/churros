@@ -30,7 +30,7 @@ df = pd.DataFrame([])
 dictionary = corpora.Dictionary(df.token) # 전체 단어 모음집 (labeling)
 corpus = [dictionary.doc2bow(text) for text in df.token] # 기사 encoding 진행
 
-NUM_TOPICS = 40 # 40개의 토픽
+NUM_TOPICS = 30 # 40개의 토픽
 project_folder = os.getcwd()
 def model_training(): # dictionary, corpus 필요
     models.LdaModel(corpus, num_topics=NUM_TOPICS, random_state=42, update_every=1, passes=10, id2word=dictionary)
