@@ -68,6 +68,13 @@ public class UserController {
         return ResponseEntity.ok().body(result);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token){
+        Long userIdx = userIdxFromJwtTokenService.extractIdxFromToken(token);
+        MessageResponse messageResponse = userService.logout(userIdx);
+        return ResponseEntity.ok().body(messageResponse);
+    }
+
 
 
 

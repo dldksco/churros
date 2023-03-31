@@ -31,4 +31,6 @@ public interface UserService {
 
     public HashMap<String,String> refresh(String refreshToken);
 
+    public MessageResponse logout(Long userIdx);
+
 }

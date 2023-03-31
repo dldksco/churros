@@ -194,7 +194,22 @@ public class UserServiceImpl implements UserService {
         }};
     }
 
-    ;
+    @Override
+    public MessageResponse logout(Long userIdx) {
+
+        Optional<User> user = userRepository.findById(userIdx);
+        Optional<Token> optionalToken = tokenRepository.findByUserEmail(user.get().getEmail());
+        if(optionalToken.isPresent()){
+            Token token = Token.builder().userEmail(optionalToken.get().getUserEmail()).refreshToken(optionalToken.get().getRefreshToken())
+                    .createdDate(optionalToken.get().getCreatedDate()).expireDate(optionalToken.get().getExpireDate()).build();
+            tokenRepository.delete(token);
+        }
+
+        MessageResponse messageResponse = MessageResponse.builder().result("success").msg("로그아웃 했습니다.").build();
+        return messageResponse;
+    }
+
+
     public Optional<User> kakaoSignup(JSONObject resp){
 
         Map<String, Object> map;
