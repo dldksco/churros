@@ -167,8 +167,7 @@ public class TestController {
 
     @PutMapping("/news/like")
     public ResponseEntity<?> postLike(
-            long articleId,
-            long like
+            long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("result", SUCCESS);
