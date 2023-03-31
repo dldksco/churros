@@ -24,7 +24,9 @@ def get_db():
 
 @app.get("/recommend/remodel")
 async def remodel_recommend_model():
-    return {"result" : "true"}
+    remodel.change_model_files()
+
+    return {"result" : "success"}
 
 @app.get("/recommend/login")
 async def get_sample_articles():
