@@ -47,14 +47,14 @@ const Article = ({ shape, articleIdx }) => {
       ></div>
       <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal relative">
         <div className="mb-8">
-          <CloseButton />
+          <CloseButton articleIdx={articleIdx} />
           <div className="text-black font-bold text-xl mb-2">
             {content.title}
           </div>
           <p className="text-grey-darker text-base line-clamp line-clamp-5 ">
             {content.description}
           </p>
-          <HoverBox />
+          <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
     </div>
