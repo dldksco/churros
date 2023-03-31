@@ -4,14 +4,21 @@ import HoverBox from "../common/HoverBox";
 const A1 = ({ articleId, url, imgUrl, title, description, onClose }) => {
   console.log(articleId);
 
-    const handleArticleDetail = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        
-    }
+  const handleArticleDetail = (event) => {
+    event.preventDefault();
+
+    console.log("show article detail");
+    const regex = /article\/(.*?)\?/;
+    const articleLocation = url.match(regex);
+
+    console.log(articleLocation);
+  };
 
   return (
-    <div className="flex flex-col w-full h-full justify-start" onClick={handleArticleDetail}>
+    <div
+      className="flex flex-col w-full h-full justify-start"
+      onClick={handleArticleDetail}
+    >
       {/* 기사 썸네일 */}
       <div className="relative w-full h-3/4 overflow-hidden">
         <img

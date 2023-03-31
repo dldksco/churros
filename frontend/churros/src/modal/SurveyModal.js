@@ -55,7 +55,7 @@ const SurveyContent = () => {
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
 
   const fetchDummySampleArticles = () => {
-    const articles = [1, 1, 1, 1, 1, 1];
+    const articles = [169937, 169936, 169935, 169934, 169933, 169932];
     setSampleArticles(
       articles.map((articleId, index) => ({
         index: index,
@@ -127,8 +127,8 @@ const SurveyContent = () => {
   // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
-    //fetchDummySampleArticles();
-    fetchSampleArticles();
+    fetchDummySampleArticles();
+    // fetchSampleArticles();
     setIsOpen(true);
   }, []);
 
@@ -187,7 +187,7 @@ const SurveyContent = () => {
   );
 };
 
-const SurveyModal = (props) => {
+const SurveyModal = () => {
   return (
     <Fragment>
       {ReactDOM.createPortal(
