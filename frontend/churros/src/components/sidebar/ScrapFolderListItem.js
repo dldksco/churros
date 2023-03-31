@@ -7,9 +7,12 @@ import { FaMinus } from "react-icons/fa";
 import SidebarNavLink from "./SidebarNavLink";
 
 const ScrapFolderListItem = ({ title, folderIdx }) => {
-  const showActingOptionMenu = (event) => {
-    event.stopPropagation();
+  const showEditMenu = (event) => {
+    event.preventDefault();
+
     console.log(`show action menu modal of ScrapFolder(${folderIdx})`);
+
+    // show scrap folder edit menu
   };
 
   const navigateTo = `/scraps/${folderIdx}`;
@@ -32,7 +35,7 @@ const ScrapFolderListItem = ({ title, folderIdx }) => {
         <IoEllipsisHorizontalSharp
           className="w-10 h-full p-2 hover:bg-stone-300"
           style={{ color: "837F79" }}
-          onClick={showActingOptionMenu}
+          onClick={showEditMenu}
         />
       </div>
     </SidebarNavLink>

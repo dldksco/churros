@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ScrapFolderRepository extends JpaRepository<ScrapFolder , Long> {
     Optional<List<ScrapFolder>> findByUserIdx(long userIdx);
     Optional<ScrapFolder> findByIdAndUserIdx(long id , long userIdx);
-    Optional<ScrapFolder> findByFolderName(String folderName);
+    Optional<ScrapFolder> findByFolderNameAndUserIdx(String folderName , long userIdx);
 }

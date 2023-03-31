@@ -13,6 +13,7 @@ import MainArticleTab from "./MainArticleTab";
 import LikedArticleTab from "./LikedArticleTab";
 import ScrapFolderTab from "./ScrapFolderTab";
 import ScrapFolderListItem from "./ScrapFolderListItem";
+import LogoutButton from "./LogoutButton";
 
 const Sidebar = () => {
   const showScrapFolderList = useRecoilValue(showScrapFolderListState);
@@ -90,7 +91,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`flex flex-col justify-start w-64 h-screen mr-2 bg-stone-100`}
+      className="flex flex-col justify-start w-64 h-screen bg-stone-100"
     >
       <LogoTab key={keys.logoTab} />
 
@@ -115,6 +116,8 @@ const Sidebar = () => {
             />
           ))}
       </div>
+      
+      <LogoutButton/>
     </aside>
   );
 };
