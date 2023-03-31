@@ -85,11 +85,14 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void recordDisLike(long userId, long articleId) {
-        DisLike dis = DisLike.builder()
-                .userIdx(userId)
-                .articleIdx(articleId)
-                .build();
-        dr.save(dis);
+        DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(dis == null){
+            dis = DisLike.builder()
+                    .userIdx(userId)
+                    .articleIdx(articleId)
+                    .build();
+            dr.save(dis);
+        }
     }
 
     @Override

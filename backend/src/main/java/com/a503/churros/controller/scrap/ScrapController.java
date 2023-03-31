@@ -18,6 +18,7 @@ import java.util.Map;
 @RequestMapping("/scrap")
 @Api("SCRAP API")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ScrapController {
 
     private static final String SUCCESS = "success";
@@ -33,21 +34,15 @@ public class ScrapController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            List<ScrapFolderDTO> folderList = ss.getFolderList(userId);
-            if(folderList == null){
-                resultMap.put("empty" , true);
-            }else{
-                resultMap.put("empty" , false);
-                resultMap.put("folder" , folderList);
-            }
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
+        List<ScrapFolderDTO> folderList = ss.getFolderList(userId);
+        if(folderList == null){
+            resultMap.put("empty" , true);
+        }else{
+            resultMap.put("empty" , false);
+            resultMap.put("folder" , folderList);
         }
-        // 토큰을 통해 유저 인덱스를 가져오기 - 구현 전
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @GetMapping("/{scrapbookId}")
@@ -58,20 +53,15 @@ public class ScrapController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            List<Long> articleList = ss.getArticleList(userId, userId);
-            if(articleList == null){
-                resultMap.put("empty" , true);
-            }else {
-                resultMap.put("empty", false);
-                resultMap.put("articles" , articleList);
-            }
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
+        List<Long> articleList = ss.getArticleList(userId, userId);
+        if(articleList == null){
+            resultMap.put("empty" , true);
+        }else {
+            resultMap.put("empty", false);
+            resultMap.put("articles" , articleList);
         }
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @PostMapping("/book")
@@ -82,15 +72,10 @@ public class ScrapController {
             ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            long folderIdx = ss.insertFolderName(userId , folderName);
-            resultMap.put("folderIdx" , folderIdx);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        long folderIdx = ss.insertFolderName(userId , folderName);
+        resultMap.put("folderIdx" , folderIdx);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
     @PutMapping("/book")
     public ResponseEntity<?> putScrapBooK(
@@ -101,14 +86,9 @@ public class ScrapController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            ss.changeFolderName(userId , folderName , folderIdx);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ss.changeFolderName(userId , folderName , folderIdx);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @DeleteMapping("/book")
@@ -119,14 +99,9 @@ public class ScrapController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            ss.deleteFolder(userId , folderIdx);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ss.deleteFolder(userId , folderIdx);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @PutMapping("/article")
@@ -138,13 +113,8 @@ public class ScrapController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            ss.saveArticle(userId , folderIdx , articleIdx);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ss.saveArticle(userId , folderIdx , articleIdx);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 }
