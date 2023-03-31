@@ -45,14 +45,14 @@ public class NewsController {
 
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
-            @RequestHeader("Authorization")
-                    String token,
+//            @RequestHeader("Authorization")
+//                    String token,
             @PathVariable(value = "articleId") long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        long userId = ts.extractIdxFromToken(token);
+//        long userId = ts.extractIdxFromToken(token);
         try{
-            ArticleDTO dto = ns.getArticleInfo(userId , articleId);
+            ArticleDTO dto = ns.getArticleInfo(/*userId , */articleId);
             resultMap.put("result", SUCCESS);
             resultMap.put("article" , dto);
             return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
