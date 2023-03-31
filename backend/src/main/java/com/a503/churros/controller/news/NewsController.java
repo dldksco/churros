@@ -1,6 +1,7 @@
 package com.a503.churros.controller.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.global.exception.CustomExceptionHandler;
 import com.a503.churros.service.news.NewsService;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequestMapping("/news")
 @Api("NEWS API")
 @RequiredArgsConstructor
+@CrossOrigin
 public class NewsController {
 
     private static final String SUCCESS = "success";
@@ -32,34 +34,23 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
             List<Long> list = ns.sendRecommend(userId);
             resultMap.put("articles", list);
             resultMap.put("result", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
-//            @RequestHeader("Authorization")
-//                    String token,
+            @RequestHeader("Authorization")
+                    String token,
             @PathVariable(value = "articleId") long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-//        long userId = ts.extractIdxFromToken(token);
-//        try{
             ArticleDTO dto = ns.getArticleInfo(/*userId , */articleId);
             resultMap.put("result", SUCCESS);
             resultMap.put("article" , dto);
             return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-//        }catch (Exception e){
-//            resultMap.put("result", FAIL);
-//            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
     }
 
     @GetMapping("/call")
@@ -67,30 +58,19 @@ public class NewsController {
             String url
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        try{
-            String html = ns.callNaver(url);
-            resultMap.put("result", SUCCESS);
-            resultMap.put("html" , html);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+        String html = ns.callNaver(url);
+        resultMap.put("result", SUCCESS);
+        resultMap.put("html" , html);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @GetMapping("/sample")
     public ResponseEntity<?> getNewsSample(){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        try{
-            List<Long> list = ns.sendSample();
-            resultMap.put("result", SUCCESS);
-            resultMap.put("articles", list);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Long> list = ns.sendSample();
+        resultMap.put("result", SUCCESS);
+        resultMap.put("articles", list);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @PutMapping("/read")
@@ -101,14 +81,10 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            ns.saveReadArti(userId , articleId);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ns.saveReadArti(userId , articleId);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+
     }
 
     @PutMapping("/like")
@@ -119,14 +95,9 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            ns.recordLike(userId , articleId);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ns.recordLike(userId , articleId);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @GetMapping("/like")
@@ -136,15 +107,10 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            List<Long> list = ns.getLikeList(userId);
-            resultMap.put("articles" , list);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Long> list = ns.getLikeList(userId);
+        resultMap.put("articles" , list);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
     @PostMapping("/dislike")
     public ResponseEntity<?> postDisLike(
@@ -154,13 +120,8 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        try{
-            ns.recordDisLike(userId , articleId);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ns.recordDisLike(userId , articleId);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 }
