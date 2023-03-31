@@ -1,48 +1,64 @@
 import React from "react";
-import { useState } from "react";
-import HoverBox from "../common/HoverBox"
+import { useState, useEffect } from "react";
+import HoverBox from "../common/HoverBox";
 import CloseButton from "../common/CloseButton";
-const LikeArticle = (props) => {
-  
+import { api, test } from "../../axios-instance/api";
+const Article = ({ shape, articleIdx }) => {
+  let sizename = "max-w w-90 lg:flex place-content-center";
+  console.log(articleIdx);
+  if (shape === "1") {
+    sizename += " h-60";
+  } else {
+    sizename += " h-full";
+  }
+  let picturename = "";
+  if (shape === "3") {
+    picturename =
+      "2xl:h-auto 2xl:w-48 flex-none bg-cover rounded-t 2xl:rounded-t-none 2xl:rounded-l text-center overflow-hidden";
+  } else
+    picturename =
+      "lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden";
+
+  // article content
+  const [content, setContent] = useState({});
+  const fetchData = async () => {
+    try {
+      const response = await test.get(`/news/${articleIdx}`);
+      const { result, article } = response.data;
+      console.log(`loading sample article ${articleIdx}: ${result}`);
+      setContent({ ...article });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(content);
+  useEffect(() => {
+    fetchData();
+  }, [articleIdx]);
+
   return (
-      <div className="max-w w-90 lg:flex place-content-center relative">
-        <CloseButton />
-        <div
-          className="lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
-          style={{ "backgroundImage": "url('https://tailwindcss.com/img/card-left.jpg')" }}
-          title="Woman holding a mug"
-        ></div>
-        <div className="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-          <div className="mb-8">
-            <div className="text-black font-bold text-xl mb-2">
-              Can coffee make you a better developer?
-            </div>
-            <p className="text-grey-darker text-base">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptatibus quia, nulla! Maiores et perferendis eaque,
-              exercitationem praesentium nihil.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptatibus quia, nulla! Maiores et perferendis eaque,
-              exercitationem praesentium nihil.
-            </p>
+    <div className={sizename}>
+      <div
+        className={picturename}
+        style={{
+          backgroundImage: `url(${content.imgUrl})`,
+        }}
+        title="기사 사진"
+      ></div>
+      <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal relative">
+        <div className="mb-8">
+          <CloseButton articleIdx={articleIdx} />
+          <div className="text-black font-bold text-xl mb-2">
+            {content.title}
           </div>
-          {/* 기자 정보 출력 */}
-          {/* <div className="flex items-center">
-            <img
-              className="w-10 h-10 rounded-full mr-4"
-              src="https://pbs.twimg.com/profile_images/885868801232961537/b1F6H4KC_400x400.jpg"
-              alt="Avatar of Jonathan Reinink"
-            />
-            <div className="text-sm">
-              <p className="text-black leading-none">Jonathan Reinink</p>
-              <p className="text-grey-dark">Aug 18</p>
-            </div>
-            
-          </div> */}
-        <HoverBox />
+          <p className="text-grey-darker text-base line-clamp line-clamp-5 ">
+            {content.description}
+          </p>
+          <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
+    </div>
   );
 };
 
-export default LikeArticle;
+export default Article;

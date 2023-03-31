@@ -37,7 +37,7 @@ const Main = () => {
         "진짜 우리가 하고 싶은 일을 재밌게 해보자는 마음으로 시작한 지 23년, 지금도 변함없는 것은 성장의 결실을 직원들과 함께 나누는 것이다.",
     },
   ];
-  
+  // article idx 추가 필요
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
       <div className="block w-full h-[34rem] mb-4 shadow-lg">
@@ -46,10 +46,10 @@ const Main = () => {
       </div>
       <div className="grid grid-cols-4 gap-4 w-full mb-4">
         <div className="col-span-2">
-          <Article />
+          <Article shape="2" articleIdx=""/>
         </div>
-        <div className="col-span-1">
-          <Article />
+        <div className="col-span-1"> 
+          <Article shape="3" articleIdx="" />
         </div>
       </div>
       <hr className="bg-black opacity-20 h-1" />

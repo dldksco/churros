@@ -7,6 +7,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class LDAmodel():
     def __init__(self):
         logging.info(f'LDAmodel init...')
+        self.TOPIC_NUM = 20
         self.change_model_files()
         logging.info(f'LDAmodel init 완료!')
         
@@ -19,13 +20,26 @@ class LDAmodel():
         with open(project_folder + '/data/corpus.pkl', "rb") as fi:
             self.corpus = pickle.load(fi)
         logging.info(f'파일 읽기 종료')
-
+        logging.info(f'기본 추천 용 리스트 생성')
+        corpus_lda = [doc for doc in self.lda_model[self.corpus]]
+        self.top_docs_by_topic = {topic : None for topic in range(self.TOPIC_NUM)}
+        for topic in range(self.TOPIC_NUM):
+            top_prob = 0
+            top_doc = None
+            for doc_idx, doc in enumerate(corpus_lda):
+                for topic_prob in doc:
+                    if topic_prob[0] == topic and topic_prob[1] > top_prob:
+                        top_prob = topic_prob[1]
+                        top_doc = doc_idx
+            self.top_docs_by_topic[topic] = top_doc
+        logging.info(f'추천용 리스트 생성 완료')
+    
     def user_recommend(self,user_history:list,dislikes:list, N:int): # corpus, dictionary 필요
         logging.info(f"Start user recommendation process.")
         corpus_lda_model = self.lda_model[self.corpus]
 
         # 유저 기록의 주제 관련 평균 계산
-        user_topics = np.zeros(20)
+        user_topics = np.zeros(self.TOPIC_NUM)
         for i in user_history:
             single_corpus = corpus_lda_model[i]
             for word in single_corpus:
@@ -49,3 +63,6 @@ class LDAmodel():
         logging.debug(f"Top {N} recommended article indices: {top_n_indices[:N]}")
         logging.info(f"User recommendation process completed.")
         return top_n_indices[:N]
+    
+    def sample_article(self,topic_num):
+        return self.top_docs_by_topic[topic_num]
