@@ -25,19 +25,19 @@ const HoverBox = ({}) => {
   };
 
   return (
-    <div className="absolute right-0 bottom-0 w-32 h-16 z-10 flex flex-row justify-center items-center bg-white rounded-lg drop-shadow-md m-2" onClick={handleHoverBoxClick}>
+    <div className="absolute right-0 bottom-0 w-28 h-14 z-10 flex flex-row justify-center items-center bg-white rounded-lg drop-shadow-md m-2" onClick={handleHoverBoxClick}>
       <FaHeart
         className={`m-2 p-1 ${
           like
             ? "text-red-500"
             : "text-gray-500 hover:text-red-500 transition-colors duration-300 cursor-pointer"
         }`}
-        size={35}
+        size={30}
         onClick={handleLike}
       />
       <IoFolderSharp
         className="m-2 p-1 text-gray-500 hover:text-orange-300 transition-colors duration-300 cursor-pointer"
-        size={35}
+        size={30}
         onClick={handleScrap}
       />
     </div>
