@@ -35,12 +35,17 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     db_user = read_user(db, user_id)
 
     if not db_user:
+        logging.info("user 정보가 존재하지 않습니다.")
         raise HTTPException(status_code=400, detail="user 정보가 존재하지 않습니다.")
 
+    logging.debug(f"user_id조회 결과 : [idx : {db_user.user_idx}, email : {db_user.user_email}, name : {db_user.user_name}, 읽은 기사 개수 : {len(db_user.articles)}]")
+
+    if not db_user.articles:
+        logging.info("읽은 기사 정보가 존재하지 않습니다.")
+        raise HTTPException(status_code=400, detail="읽은 기사 정보가 존재하지 않습니다.")
+
+    # 싫어요를 누른 기사의 중복 제거
     dislikes = set(re.likes_idx for re in db_user.dislikes)
-    logging.info(f"user_id조회 결과 : [idx : {db_user.user_idx}, email : {db_user.user_email}, name : {db_user.user_name}]")
-    for article in db_user.articles:
-        print("article : ", article.article_idx)
 
     # 2주 안에 읽은 데이터들을 최신 날짜 순으로 정렬
     today = datetime.now().date()
@@ -50,6 +55,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
                     if ra.read_date >= two_weeks_ago]
     sorted_read_articles = sorted(read_articles, key=lambda x : x.read_date, reverse=True)
     read_idx = [sra.read_idx for sra in sorted_read_articles]
+    logging.debug(f'최근 읽은 기사 인덱스 : {read_idx}')
 
     # 이후 읽은 순서에 따라 우선 탐색...
     recommendations = []
