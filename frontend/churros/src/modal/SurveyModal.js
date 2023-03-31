@@ -7,10 +7,40 @@ import { accessTokenState } from "../store/auth";
 import { userInfoState } from "../store/user";
 import SampleArticle from "../components/article/SampleArticle";
 import { test } from "../axios-instance/api";
+import { IoCheckbox } from "react-icons/io5";
+import { api } from "../axios-instance/api";
 
 const SurveyBackdrop = () => {
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-20 bg-black opacity-75" />
+  );
+};
+
+const SelectionHighlighter = () => {
+  return (
+    <Fragment>
+      <div className="absolute top-0 left-0 w-full h-full z-20 bg-black opacity-50 rounded-lg" />
+      <IoCheckbox
+        size={50}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-green-500 z-30"
+      />
+    </Fragment>
+  );
+};
+
+const SurveySubmitButton = ({ onClick, isActive }) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-32 h-16 text-xl rounded-2xl ${
+        !isActive
+          ? "text-gray-500 bg-stone-300 pointer-events-none"
+          : "text-white bg-orange-400"
+      }`}
+      style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
+    >
+      완료
+    </button>
   );
 };
 
@@ -37,7 +67,7 @@ const SurveyContent = () => {
 
   const fetchSampleArticles = async () => {
     try {
-      const res = await test.get("/news/sample");
+      const res = await api.get("/news/sample");
       const { result, articleIds } = res.data;
 
       console.log(result);
@@ -67,11 +97,20 @@ const SurveyContent = () => {
       }
     }
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    // axios request shoud be send
-    console.log(sampleArticles.filter(({ selected }) => selected));
+    // send user interests info to server
+    const selectedArticles = sampleArticles.filter(({ selected }) => selected);
+    selectedArticles.forEach(async (item) => {
+      try {
+        const response = await api.put("/news/read", {articleId: item.articleId});
+        const { result } = response.data;
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
 
     setIsOpen(false);
 
@@ -87,8 +126,8 @@ const SurveyContent = () => {
   // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
-    fetchDummySampleArticles();
-    // fetchSampleArticles();
+    //fetchDummySampleArticles();
+     fetchSampleArticles();
     setIsOpen(true);
   }, []);
 
@@ -129,24 +168,18 @@ const SurveyContent = () => {
             <div
               key={index}
               onClick={() => updateSelectedSampleArticles(index)}
-              className={`${selected ? "bg-stone-500" : "bg-white"}`}
+              className="relative"
             >
+              {selected && <SelectionHighlighter />}
               <SampleArticle articleId={articleId} />
             </div>
           ))}
         </section>
         <footer className="flex flex-row justify-end items-center p-4">
-          <button
+          <SurveySubmitButton
             onClick={handleSubmit}
-            className={`w-32 h-16 text-xl rounded-2xl ${
-              !submitButtonActive
-                ? "text-gray-500 bg-stone-300 pointer-events-none"
-                : "text-white bg-orange-400"
-            }`}
-            style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
-          >
-            완료
-          </button>
+            isActive={submitButtonActive}
+          />
         </footer>
       </div>
     </div>
