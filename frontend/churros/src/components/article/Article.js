@@ -1,9 +1,12 @@
 import React from "react";
 import { useState } from "react";
-const LikeArticle = () => {
-
+import HoverBox from "../common/HoverBox"
+import CloseButton from "../common/CloseButton";
+const LikeArticle = (props) => {
+  
   return (
-      <div className="max-w w-full lg:flex place-content-center">
+      <div className="max-w w-90 lg:flex place-content-center relative">
+        <CloseButton />
         <div
           className="lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
           style={{ "backgroundImage": "url('https://tailwindcss.com/img/card-left.jpg')" }}
@@ -15,6 +18,9 @@ const LikeArticle = () => {
               Can coffee make you a better developer?
             </div>
             <p className="text-grey-darker text-base">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Voluptatibus quia, nulla! Maiores et perferendis eaque,
+              exercitationem praesentium nihil.
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
               exercitationem praesentium nihil.
@@ -33,6 +39,7 @@ const LikeArticle = () => {
             </div>
             
           </div> */}
+        <HoverBox />
         </div>
       </div>
   );

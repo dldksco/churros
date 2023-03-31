@@ -34,7 +34,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=400, detail="user 정보가 존재하지 않습니다.")
 
-    dislikes = set(db_user.dislikes.dislikes_idx)
+    dislikes = set(re.likes_idx for re in db_user.dislikes)
     logging.info(f"user_id조회 결과 : [idx : {db_user.user_idx}, email : {db_user.user_email}, name : {db_user.user_name}]")
     for article in db_user.articles:
         print("article : ", article.article_idx)
@@ -50,7 +50,9 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
 
     # 이후 읽은 순서에 따라 우선 탐색...
     recommendations = []
-    N = (12//(len(read_idx)//5)) + 2
+    N = (12//((len(read_idx)//5)+1))
+    if N <= 1:
+        N = 2
     for i in range(0, len(read_idx), 5):
         cur_articles = read_idx[0:i+5]
         cur_recommendations:list = remodel.user_recommend(cur_articles, dislikes, N)

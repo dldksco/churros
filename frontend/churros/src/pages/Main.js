@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 // import ArticleList from "../components/article/ArticleList";
 import A1Carousel from "../components/article/A1Carousel";
 import {api, test} from "../axios-instance/api";
-import LikeArticle from "../components/article/LikeArticle";
+import Article from "../components/article/Article";
 
 const Main = () => {
   const [loading, setLoading] = useState(false);
@@ -46,10 +46,10 @@ const Main = () => {
       </div>
       <div className="grid grid-cols-4 gap-4 w-full mb-4">
         <div className="col-span-2">
-          <LikeArticle />
+          <Article />
         </div>
         <div className="col-span-1">
-          <LikeArticle />
+          <Article />
         </div>
       </div>
       <hr className="bg-black opacity-20 h-1" />
