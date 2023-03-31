@@ -1,12 +1,24 @@
 import React from "react";
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import Article from "../components/article/Article";
+import { api } from "../axios-instance/api";
 const ScrapsPage = () => {
+  const { scrapBoxIdx } = useParams();
   const [articleList, setArticleList] = useState([]);
-  console.log(articleList);
+  const scrapListGet = async () => {
+    try {
+      const response = await api.get(`/scrap/${scrapBoxIdx}`);
+      const { result, articles } = response.data;
+      setArticleList(articles);
+      console.log(`scrap list set ${articleList}: ${result}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     // 시작과 함께 axios 통신으로 리스트 받아옴
-    setArticleList([145, 1454, 5432, 999]);
+    scrapListGet()
   }, []);
   return (
     <div className="grid grid-cols-2 gap-4 p-5">
