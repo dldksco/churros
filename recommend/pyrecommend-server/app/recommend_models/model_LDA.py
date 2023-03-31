@@ -7,13 +7,18 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class LDAmodel():
     def __init__(self):
         logging.info(f'LDAmodel init...')
+        self.change_model_files()
+        logging.info(f'LDAmodel init 완료!')
+        
+    def change_model_files(self):
+        logging.info(f'파일 읽기 시작')
         project_folder = os.getcwd()
         logging.debug(f"project_folder : {project_folder}")
-        self.lda_model = models.LdaModel.load(project_folder+'/data/ldamodels.lda')
-        self.index = similarities.MatrixSimilarity.load(project_folder+'/data/ldaindex.sim')
-        with open(project_folder+'/data/corpus.pkl', "rb") as fi:
+        self.lda_model = models.LdaModel.load(project_folder + '/data/ldamodels.lda')
+        self.index = similarities.MatrixSimilarity.load(project_folder + '/data/ldaindex.sim')
+        with open(project_folder + '/data/corpus.pkl', "rb") as fi:
             self.corpus = pickle.load(fi)
-        logging.info(f'LDAmodel init 완료!')
+        logging.info(f'파일 읽기 종료')
 
     def user_recommend(self,user_history:list,dislikes:list, N:int): # corpus, dictionary 필요
         logging.info(f"Start user recommendation process.")
