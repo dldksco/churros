@@ -51,15 +51,15 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 //        long userId = ts.extractIdxFromToken(token);
-        try{
+//        try{
             ArticleDTO dto = ns.getArticleInfo(/*userId , */articleId);
             resultMap.put("result", SUCCESS);
             resultMap.put("article" , dto);
             return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
-        }catch (Exception e){
-            resultMap.put("result", FAIL);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//        }catch (Exception e){
+//            resultMap.put("result", FAIL);
+//            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
     }
 
     @GetMapping("/call")
