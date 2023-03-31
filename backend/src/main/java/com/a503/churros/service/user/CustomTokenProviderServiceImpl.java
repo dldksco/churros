@@ -65,6 +65,9 @@ public class CustomTokenProviderServiceImpl implements CustomTokenProviderServic
                 .userEmail(userPrincipal.getEmail())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .createdDate(now)
+                .accessTokenExpire(accessTokenExpiresIn)
+                .refreshTokenExpire(refreshTokenExpiresIn)
                 .build();
     }
 

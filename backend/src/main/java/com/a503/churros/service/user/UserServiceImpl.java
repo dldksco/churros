@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -81,6 +82,8 @@ public class UserServiceImpl implements UserService {
             // 얘는 DB refreshToken-table 에 저장될 것
             Token token = Token.builder()
                     .refreshToken(tokenMapping.getRefreshToken())
+                    .createdDate(tokenMapping.getCreatedDate())
+                    .expireDate(tokenMapping.getRefreshTokenExpire())
                     .userEmail(tokenMapping.getUserEmail())
                     .build();
             // mariadb database에 refreshToken 저장
@@ -134,6 +137,7 @@ public class UserServiceImpl implements UserService {
 
         // 토큰 생성
         String[] tokens = createJWTToken(user);
+
         response.sendRedirect("https://churros.site/kakao/handler?access-token="+tokens[0]+"&refresh-token="+tokens[1]);
     }
 
@@ -144,9 +148,53 @@ public class UserServiceImpl implements UserService {
 
 
         MyPageResponse myPageResponse = MyPageResponse.builder().result("success").name(user.get().getName())
-                .email(user.get().getEmail()).provider(user.get().getProvider()).imageUrl(user.get().getImageUrl()).build();
+                .email(user.get().getEmail()).provider(user.get().getProvider()).imageUrl(user.get().getImageUrl()).activate(user.get().getActivate()).build();
         return myPageResponse;
     }
+
+    public MessageResponse activate(Long userIdx){
+        Optional<User> userOptional = userRepository.findById(userIdx);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            if(user.getActivate()){
+                user.setActivate(false);
+                userRepository.save(user);
+                MessageResponse messageResponse = MessageResponse.builder().result("success").msg("비활성화 되었습니다.").build();
+                return messageResponse;
+            }else{
+                user.setActivate(true);
+                userRepository.save(user);
+                MessageResponse messageResponse = MessageResponse.builder().result("success").msg("활성화 되었습니다.").build();
+                return messageResponse;
+            }
+
+        }
+
+        MessageResponse messageResponse = MessageResponse.builder().result("success").msg("아이디가 존재하지 않습니다.").build();
+
+
+      return messageResponse;
+    }
+
+    @Override
+    public HashMap<String, String> refresh(String refreshToken) {
+        // 여기서 이제 데이터베이스 갔다와야함
+        Optional<Token> token = tokenRepository.findByRefreshToken(refreshToken);
+        String result = "";
+        if(token.isPresent()){
+            String email = token.get().getUserEmail();
+            Optional<User> user = userRepository.findByEmail(email);
+            Long userIdx = user.get().getId();
+            result = createJWTTokenFromRefreshToken(userIdx);
+
+        }
+        String accessToken = result;
+        return new HashMap<String,String>(){{
+            put("access-token", accessToken);
+        }};
+    }
+
+    ;
     public Optional<User> kakaoSignup(JSONObject resp){
 
         Map<String, Object> map;
@@ -177,6 +225,23 @@ public class UserServiceImpl implements UserService {
         return testUser;
     }
 
+    private String createJWTTokenFromRefreshToken(Long userIdx){
+        Date now = new Date();
+        // 좀 찍어보자
+        Date accessTokenExpiresIn = new Date(now.getTime() + 20000000);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+        // sub 엔 유저 id, iat엔 시작시점, exp 엔 만료되는 시점
+        String accessToken = Jwts.builder()
+                .setSubject(Long.toString(userIdx))
+                .setIssuedAt(now)
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+
+        return accessToken;
+    }
     private String[] createJWTToken(Optional<User> user){
         Date now = new Date();
         // 좀 찍어보자
@@ -188,11 +253,11 @@ public class UserServiceImpl implements UserService {
         // sub 엔 유저 id, iat엔 시작시점, exp 엔 만료되는 시점
         String accessToken = Jwts.builder()
                 .setSubject(Long.toString(user.get().getId()))
-                .setIssuedAt(new Date())
+                .setIssuedAt(now)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
-        // refreshtoken엔 exp 만료되는 시점만 , 추후 변경 가능
+
         String refreshToken = Jwts.builder()
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -200,6 +265,9 @@ public class UserServiceImpl implements UserService {
         String[] tokens = new String[2];
         tokens[0] = accessToken;
         tokens[1] = refreshToken;
+        // 리프레시토큰 저장
+        Token token = Token.builder().refreshToken(tokens[1]).userEmail(user.get().getEmail()).createdDate(now).expireDate(refreshTokenExpiresIn).build();
+        tokenRepository.save(token);
         return tokens;
     }
 

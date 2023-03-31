@@ -3,6 +3,7 @@ package com.a503.churros.controller.user;
 
 import com.a503.churros.dto.auth.request.SignInRequest;
 import com.a503.churros.dto.auth.request.SignUpRequest;
+import com.a503.churros.dto.auth.response.MessageResponse;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import com.a503.churros.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,16 +47,28 @@ public class UserController {
         userService.kakaoCallBack(code,response);
    }
 
-    @GetMapping("/myPage")
+    @GetMapping("")
     public ResponseEntity<?> myPage(@RequestHeader("Authorization") String token) throws Exception {
-
         // 서비스에서 가져오도록
-
         return ResponseEntity.ok().body(userService.myPage(userIdxFromJwtTokenService.extractIdxFromToken(token)));
-
-
-
     }
+
+    @PostMapping("/activate")
+    public ResponseEntity<?> activate(@RequestHeader("Authorization") String token){
+        Long userIdx = userIdxFromJwtTokenService.extractIdxFromToken(token);
+        MessageResponse messageResponse = userService.activate(userIdx);
+        return ResponseEntity.ok().body(messageResponse);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestHeader("RefreshTokenValidation") String refreshToken){
+
+        HashMap<String,String> result = userService.refresh(refreshToken);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+
 
 
 
