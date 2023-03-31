@@ -13,6 +13,6 @@ public interface NewsService {
     List<Long> getLikeList(long userIdx);
     void recordDisLike(long userId, long articleId);
 
-    ArticleDTO getArticleInfo(long userId , long articleId);
+    ArticleDTO getArticleInfo(/*long userId , */long articleId);
     String callNaver(String url);
 }
