@@ -65,7 +65,7 @@ spring:
     password: ${MARIADB_PASSWORD}
   data:
     mongodb:
-      uri: mongodb://churros:A503@churros-mongodb:27017/admin
+      uri: ${MONGODB_URI}
 logging:
   level:
     org:
