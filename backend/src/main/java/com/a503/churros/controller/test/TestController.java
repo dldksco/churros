@@ -18,6 +18,7 @@ import java.util.Map;
 @RequestMapping("/test")
 @Api("TEST API")
 @RequiredArgsConstructor
+@CrossOrigin
 public class TestController {
 
     private static final String SUCCESS = "success";
@@ -164,10 +165,9 @@ public class TestController {
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
-    @PostMapping("/news/like")
+    @PutMapping("/news/like")
     public ResponseEntity<?> postLike(
-            long articleId,
-            long like
+            long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("result", SUCCESS);

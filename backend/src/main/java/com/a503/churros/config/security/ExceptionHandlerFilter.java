@@ -7,6 +7,7 @@ import io.jsonwebtoken.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,31 +26,30 @@ import java.io.IOException;
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Autowired
     private CustomTokenProviderService customTokenProviderService;
-    private  String secretKey = "ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser";
+
+    @Value("${app.auth.tokenSecret}")
+    private  String secretKey;
     private String accessToken ;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = request.getHeader("Authorization");
-
+        String refreshToken = request.getHeader("RefreshTokenValidation");
 
         if(StringUtils.hasText(bearerToken)){
             accessToken = bearerToken.substring(7, bearerToken.length());
             try {
 
                 Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken);
-                log.info("호우오");
-                UsernamePasswordAuthenticationToken authentication = customTokenProviderService.getAuthenticationById(accessToken);
-                log.info("아앙앙");
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (io.jsonwebtoken.security.SecurityException ex) {
-                log.error("1. 잘못된 JWT 서명입니다.");
-                setErrorResponse(response, ErrorCode.INVALID_TOKEN);
+
+
+            } catch ( MalformedJwtException ex) {
+                log.error("1. 잘못된 JWT 방식입니다.");
+                setErrorResponse(response, ErrorCode.MALFORMED_JWT);
                 return;
-            } catch (MalformedJwtException ex) {
+            } catch (io.jsonwebtoken.security.SecurityException ex) {
                 log.error("2. 잘못된 JWT 서명입니다.");
-                setErrorResponse(response, ErrorCode.INVALID_TOKEN);
+                setErrorResponse(response, ErrorCode.BAD_SIGNATURE);
                 return;
             } catch (ExpiredJwtException ex) {
                 log.error("3. 만료된 JWT 토큰입니다.");
@@ -57,34 +57,68 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
                 return;
             } catch (UnsupportedJwtException ex) {
                 log.error("4. 지원되지 않는 JWT 토큰입니다.");
-                setErrorResponse(response, ErrorCode.INVALID_TOKEN);
+                setErrorResponse(response, ErrorCode.NOT_SUPPORTED_TOKEN);
                 return;
             } catch (IllegalArgumentException ex) {
                 log.error("5. JWT 토큰이 잘못되었습니다.");
                 setErrorResponse(response, ErrorCode.INVALID_TOKEN);
                 return;
             }catch(Exception ex){
-                log.error("6. JWT 토큰이 잘못되었습니다. ");
+                log.error("6. 나머지 JWT 오류 ");
 
-                setErrorResponse(response, ErrorCode.INVALID_TOKEN);
+                setErrorResponse(response, ErrorCode.OTHER_JWT_ERROR);
+                return;
+            }
+
+            try{
+                UsernamePasswordAuthenticationToken authentication = customTokenProviderService.getAuthenticationById(accessToken);
+
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }catch(Exception ex){
+                log.error("인증 오류입니다.");
+                setErrorResponse(response, ErrorCode.AUTHENTICATION_ERROR);
                 return;
             }
 
 
         }
+
+        if(StringUtils.hasText(refreshToken)){
+            try {
+
+                Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(refreshToken);
+
+
+            } catch ( MalformedJwtException ex) {
+                log.error("1. 잘못된 refresh JWT 방식입니다.");
+                setErrorResponse(response, ErrorCode.MALFORMED_JWT_REFRESH);
+                return;
+            } catch (io.jsonwebtoken.security.SecurityException ex) {
+                log.error("2. 잘못된 refresh JWT 서명입니다.");
+                setErrorResponse(response, ErrorCode.BAD_SIGNATURE_REFRESH);
+                return;
+            } catch (ExpiredJwtException ex) {
+                log.error("3. 만료된 refresh JWT 토큰입니다.");
+                setErrorResponse(response, ErrorCode.TOKEN_EXPIRED_REFRESH);
+                return;
+            } catch (UnsupportedJwtException ex) {
+                log.error("4. 지원되지 않는 refresh JWT 토큰입니다.");
+                setErrorResponse(response, ErrorCode.NOT_SUPPORTED_TOKEN_REFRESH);
+                return;
+            } catch (IllegalArgumentException ex) {
+                log.error("5. refresh JWT 토큰이 잘못되었습니다.");
+                setErrorResponse(response, ErrorCode.INVALID_TOKEN_REFRESH);
+                return;
+            }catch(Exception ex){
+                log.error("6. 나머지 refresh JWT 오류 ");
+
+                setErrorResponse(response, ErrorCode.OTHER_JWT_ERROR_REFRESH);
+                return;
+            }
+        }
         filterChain.doFilter(request, response);
 
-//        try{
-//            filterChain.doFilter(request, response);
-//        }catch(ExpiredJwtException e){
-//            //토큰의 유효기간 만료
-//            setErrorResponse(response, ErrorCode.TOKEN_EXPIRED);
-//        }catch (JwtException | IllegalArgumentException e){
-//            //유효하지 않은 토큰
-//            setErrorResponse(response, ErrorCode.INVALID_TOKEN);
-//        }catch(IOException e){
-//
-//        }
     }
 
 

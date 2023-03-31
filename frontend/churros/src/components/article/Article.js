@@ -2,9 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import HoverBox from "../common/HoverBox";
 import CloseButton from "../common/CloseButton";
-import { api, test } from "../../axios-instance/api";
+import { api } from "../../axios-instance/api";
 const Article = ({ shape, articleIdx }) => {
-  let sizename = "max-w w-90 lg:flex place-content-center";
+  let sizename = "max-w w-90 lg:flex place-content-center rounded-tl-xl rounded-bl-xl";
   console.log(articleIdx);
   if (shape === "1") {
     sizename += " h-60";
@@ -14,16 +14,16 @@ const Article = ({ shape, articleIdx }) => {
   let picturename = "";
   if (shape === "3") {
     picturename =
-      "2xl:h-auto 2xl:w-48 flex-none bg-cover rounded-t 2xl:rounded-t-none 2xl:rounded-l text-center overflow-hidden";
+      "2xl:h-auto 2xl:w-48 flex-none bg-cover rounded-t  text-center overflow-hidden rounded-tl-xl rounded-bl-xl";
   } else
     picturename =
-      "lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden";
+      "lg:h-auto lg:w-48 flex-none bg-cover rounded-t  text-center overflow-hidden rounded-tl-xl rounded-bl-xl";
 
   // article content
   const [content, setContent] = useState({});
   const fetchData = async () => {
     try {
-      const response = await test.get(`/news/${articleIdx}`);
+      const response = await api.get(`/news/${articleIdx}`);
       const { result, article } = response.data;
       console.log(`loading sample article ${articleIdx}: ${result}`);
       setContent({ ...article });
@@ -45,7 +45,7 @@ const Article = ({ shape, articleIdx }) => {
         }}
         title="기사 사진"
       ></div>
-      <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal relative">
+      <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white p-4 flex flex-col justify-between leading-normal relative rounded-br-xl rounded-tr-xl">
         <div className="mb-8">
           <CloseButton articleIdx={articleIdx} />
           <div className="text-black font-bold text-xl mb-2">

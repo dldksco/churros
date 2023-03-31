@@ -27,7 +27,7 @@ const Home = () => {
     setSearchOn(false);
   };
   
-  if(accessToken) return <Navigate to={"/landing"}/>
+  if(!accessToken) return <Navigate to={"/landing"}/>
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
