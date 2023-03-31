@@ -1,6 +1,7 @@
 package com.a503.churros.service.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.entity.article.Article;
 import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.Read;
@@ -12,6 +13,7 @@ import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,15 +57,17 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void recordLike(long userId, long articleId, long like) {
-        if(like == 1L){
-            Like data = Like.builder()
+    @Transactional
+    public void recordLike(long userId, long articleId) {
+        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(like == null){
+            like = Like.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
                     .build();
-            lr.save(data);
+            lr.save(like);
         }else{
-            lr.deleteByUserIdxAndArticleIdx(userId , articleId);
+            lr.delete(like);
         }
     }
 
@@ -81,25 +85,28 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void recordDisLike(long userId, long articleId) {
-        DisLike dis = DisLike.builder()
-                .userIdx(userId)
-                .articleIdx(articleId)
-                .build();
-        dr.save(dis);
+        DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(dis == null){
+            dis = DisLike.builder()
+                    .userIdx(userId)
+                    .articleIdx(articleId)
+                    .build();
+            dr.save(dis);
+        }
     }
 
     @Override
-    public ArticleDTO getArticleInfo(long userId , long articleId) {
-//        Article article = ar.findByIdx(articleId).orElse(null);
-//        if(article == null){
+    public ArticleDTO getArticleInfo(/*long userId ,*/ long articleId) {
+        Article article = ar.findByIdx(articleId).orElse(null);
+        if(article == null){
             return null;
-//        }
-//        ArticleDTO dto = new ArticleDTO().of(article);
+        }
+        ArticleDTO dto = new ArticleDTO().of(article);
 //        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
 //        if(like != null){
 //            dto.setLike(true);
 //        }
-//        return dto;
+        return dto;
     }
 
 

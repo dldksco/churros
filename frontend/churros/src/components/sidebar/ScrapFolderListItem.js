@@ -8,7 +8,8 @@ import SidebarNavLink from "./SidebarNavLink";
 
 const ScrapFolderListItem = ({ title, folderIdx }) => {
   const showActingOptionMenu = (event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
+    console.log(event.target)
     console.log(`show action menu modal of ScrapFolder(${folderIdx})`);
   };
 

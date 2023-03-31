@@ -2,12 +2,12 @@ import { atom } from "recoil";
 
 export const accessTokenState = atom({
   key: "accessTokenState",
-  default: "",
+  default: null,
   effects: [
     ({ setSelf }) => {
-      const storedUserInfo = localStorage.getItem("accessToken");
-      if (storedUserInfo) {
-        setSelf(storedUserInfo);
+      const storedAccessToken = localStorage.getItem("accessToken");
+      if (storedAccessToken) {
+        setSelf(storedAccessToken);
       }
     },
     ({ onSet }) => {
@@ -15,22 +15,32 @@ export const accessTokenState = atom({
         localStorage.setItem("accessToken", newValue);
       });
     },
+    ({ resetSelf }) => {
+      resetSelf(() => {
+        localStorage.removeItem("accessToken");
+      });
+    },
   ],
 });
 
 export const refreshTokenState = atom({
   key: "refreshTokenState",
-  default: "",
+  default: null,
   effects: [
     ({ setSelf }) => {
-      const storedUserInfo = localStorage.getItem("refreshToken");
-      if (storedUserInfo) {
-        setSelf(storedUserInfo);
+      const storedRefreshToken = localStorage.getItem("refreshToken");
+      if (storedRefreshToken) {
+        setSelf(storedRefreshToken);
       }
     },
     ({ onSet }) => {
       onSet((newValue) => {
         localStorage.setItem("refreshToken", newValue);
+      });
+    },
+    ({ resetSelf }) => {
+      resetSelf(() => {
+        localStorage.removeItem("refreshToken");
       });
     },
   ],

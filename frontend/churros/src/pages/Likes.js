@@ -1,32 +1,35 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import LikeArticle from "../components/article/LikeArticle";
-import axios from "axios";
+import Article from "../components/article/Article";
+import { api } from "../axios-instance/api";
+
 const LikesPage = () => {
   const [articleList, setArticleList] = useState([]);
-  console.log(articleList);
+  const likeListGet = async () => {
+    try {
+      const response = await api.get(`/news/like`);
+      const { result, articles } = response.data;
+      setArticleList(articles);
+      console.log(`likes list set ${articleList}: ${result}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     // 시작과 함께 axios 통신으로 리스트 받아옴
-    setArticleList([
-      { title: "First Article", text: "Text" },
-      { title: "Second Article", text: "Text2" },
-      { title: "Third Article", text: "Text3" },
-      { title: "Fourth Article", text: "Text4" },
-      { title: "Fifth Article", text: "Text5" },
-      { title: "Second Article", text: "Text6" },
-    ]);
+    likeListGet();
   }, []);
   return (
     <div className="grid grid-cols-2 gap-4 p-5">
       {/* 첫 번째 기사 */}
       <div className="col-span-full place-content-center">
-        <LikeArticle/>
+        <Article shape="1" articleIdx={articleList[0]} />
       </div>
 
       {/* 나머지 기사들 */}
       {articleList.slice(1).map((article, idx) => (
         <div key={idx} className="col-span-1">
-          <LikeArticle />
+          <Article shape="2" articleIdx={article} />
         </div>
       ))}
     </div>
