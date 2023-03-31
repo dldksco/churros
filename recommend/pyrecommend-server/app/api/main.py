@@ -13,8 +13,10 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI()
-
 remodel = LDAmodel()
+_RECOMMEND_ARTICLE_CNT = 12
+_SLICING_NUM = 5
+_MIN_VLUE = 2
 
 def get_db():
     db = SessionLocal()
@@ -66,14 +68,14 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
 
     # 이후 읽은 순서에 따라 우선 탐색...
     recommendations = []
-    N = (12//((len(read_idx)//5)+1))
-    if N <= 1:
-        N = 2
-    for i in range(0, len(read_idx), 5):
-        cur_articles = read_idx[0:i+5]
+    N = (_RECOMMEND_ARTICLE_CNT//((len(read_idx)//_SLICING_NUM)+1))
+    if N < _MIN_VLUE:
+        N = _MIN_VLUE
+    for i in range(0, len(read_idx), _SLICING_NUM):
+        cur_articles = read_idx[0 : i + _SLICING_NUM]
         cur_recommendations:list = remodel.user_recommend(cur_articles, dislikes, read_idx, N)
         recommendations += cur_recommendations
-        if len(recommendations) >= 12:
+        if len(recommendations) >= _RECOMMEND_ARTICLE_CNT:
             break
 
-    return {"recommendList": recommendations[:12]}
+    return {"recommendList": recommendations[:_RECOMMEND_ARTICLE_CNT]}
