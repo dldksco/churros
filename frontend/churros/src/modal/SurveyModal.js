@@ -81,19 +81,18 @@ const SurveyContent = () => {
         }))
       );
       console.log(sampleArticles);
-    } catch ({ response, message }) {
-      const { status, statusText } = response;
+    } catch ({ name, code, message, response }) {
+      console.log(`[error] ${name} code: ${code} message: ${message}`);
 
-      console.log(
-        `ErrCode: ${status}\nStatusText: ${statusText}\nMessage: ${message}`
-      );
-
-      switch (status) {
-        case 401:
-          resetAccessToken();
-          break;
-        default:
-          break;
+      if (response) {
+        const {status} = response;
+        switch (status) {
+          case 401:
+            resetAccessToken();
+            break;
+          default:
+            break;
+        }
       }
     }
   };
@@ -104,7 +103,9 @@ const SurveyContent = () => {
     const selectedArticles = sampleArticles.filter(({ selected }) => selected);
     selectedArticles.forEach(async (item) => {
       try {
-        const response = await api.put("/news/read", {articleId: item.articleId});
+        const response = await api.put("/news/read", {
+          articleId: item.articleId,
+        });
         const { result } = response.data;
         console.log(result);
       } catch (error) {
@@ -127,7 +128,7 @@ const SurveyContent = () => {
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
     //fetchDummySampleArticles();
-     fetchSampleArticles();
+    fetchSampleArticles();
     setIsOpen(true);
   }, []);
 
