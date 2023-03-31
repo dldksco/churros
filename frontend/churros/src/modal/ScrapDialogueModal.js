@@ -78,76 +78,76 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
 
   // fetch data
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
 
-  const dummyItems = [
-    {
-      articleId: 1,
-      folderIdx: 2,
-      folderName: "정치",
-      isScrapped: true,
-    },
-    {
-      articleId: 1,
-      folderIdx: 3,
-      folderName: "시사",
-      isScrapped: false,
-    },
-    {
-      articleId: 1,
-      folderIdx: 2,
-      folderName: "IT",
-      isScrapped: true,
-    },
-    {
-      articleId: 1,
-      folderIdx: 2,
-      folderName: "과학",
-      isScrapped: false,
-    },
-    {
-        articleId: 1,
-        folderIdx: 2,
-        folderName: "정치",
-        isScrapped: true,
-      },
-      {
-        articleId: 1,
-        folderIdx: 3,
-        folderName: "시사",
-        isScrapped: false,
-      },
-      {
-        articleId: 1,
-        folderIdx: 2,
-        folderName: "IT",
-        isScrapped: true,
-      },
-      {
-        articleId: 1,
-        folderIdx: 2,
-        folderName: "과학",
-        isScrapped: false,
-      },
-      {
-        articleId: 1,
-        folderIdx: 2,
-        folderName: "과학",
-        isScrapped: false,
-      },
-      {
-        articleId: 1,
-        folderIdx: 2,
-        folderName: "과학",
-        isScrapped: false,
-      },
-  ];
+//   const dummyItems = [
+//     {
+//       articleId: 1,
+//       folderIdx: 2,
+//       folderName: "정치",
+//       isScrapped: true,
+//     },
+//     {
+//       articleId: 1,
+//       folderIdx: 3,
+//       folderName: "시사",
+//       isScrapped: false,
+//     },
+//     {
+//       articleId: 1,
+//       folderIdx: 2,
+//       folderName: "IT",
+//       isScrapped: true,
+//     },
+//     {
+//       articleId: 1,
+//       folderIdx: 2,
+//       folderName: "과학",
+//       isScrapped: false,
+//     },
+//     {
+//         articleId: 1,
+//         folderIdx: 2,
+//         folderName: "정치",
+//         isScrapped: true,
+//       },
+//       {
+//         articleId: 1,
+//         folderIdx: 3,
+//         folderName: "시사",
+//         isScrapped: false,
+//       },
+//       {
+//         articleId: 1,
+//         folderIdx: 2,
+//         folderName: "IT",
+//         isScrapped: true,
+//       },
+//       {
+//         articleId: 1,
+//         folderIdx: 2,
+//         folderName: "과학",
+//         isScrapped: false,
+//       },
+//       {
+//         articleId: 1,
+//         folderIdx: 2,
+//         folderName: "과학",
+//         isScrapped: false,
+//       },
+//       {
+//         articleId: 1,
+//         folderIdx: 2,
+//         folderName: "과학",
+//         isScrapped: false,
+//       },
+//   ];
 
   return (
     <div className="fixed flex flex-col w-80 h-128 p-2 bg-white top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50">
       <p className="w-full h-12 p-2">스크랩하기</p>
-      <ScrapList items={dummyItems}/>
+      <ScrapList items={scrapList}/>
       <div className="w-full h-12 p-2">새 스크랩 폴더</div>
     </div>
   );
