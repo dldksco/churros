@@ -8,6 +8,9 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Getter
 @Table(name="token")
 @Entity
@@ -28,8 +31,10 @@ public class Token extends DefaultTime {
     }
 
     @Builder
-    public Token(String userEmail, String refreshToken) {
+    public Token(String userEmail, String refreshToken, Date createdDate, Date expireDate) {
         this.userEmail = userEmail;
         this.refreshToken = refreshToken;
+        this.setCreatedDate(createdDate);
+        this.setExpireDate(expireDate);
     }
 }

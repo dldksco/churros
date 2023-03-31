@@ -5,18 +5,15 @@ import com.a503.churros.entity.article.Article;
 import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.Read;
-import com.a503.churros.entity.scrap.ScrapedArticle;
+import com.a503.churros.feign.news.NaverFeign;
+import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.article.ArticleRepository;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,52 +23,22 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NewsServiceImpl implements NewsService{
 
-    private final WebClient wc;
     private final ReadRepository rr;
     private final LikeRepository lr;
     private final DisLikeRepository dr;
     private final ArticleRepository ar;
+    private final NewsFeign fc;
+    private final NaverFeign nf;
 
-    @Autowired
-    public NewsServiceImpl(ReadRepository rr , LikeRepository lr , DisLikeRepository dr , ArticleRepository ar ,  @Value("${crs.uri}") String url) {
-
-        this.wc = WebClient.builder()
-                .baseUrl(url)
-                .build();
-        this.rr = rr;
-        this.lr = lr;
-        this.dr = dr;
-        this.ar = ar;
-    }
 
     public List<Long> sendRecommend(long userId){
-        ClientResponse response = wc.get()
-                .uri("/recommend/{userId}", userId)
-                .accept(MediaType.APPLICATION_JSON)
-//                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .block();
-
-        if (response.statusCode().is2xxSuccessful()) {
-            return response.bodyToMono(List.class).block();
-        } else {
-            throw new RuntimeException("Failed to send recommendation: " + response.statusCode());
-        }
+        List<Long> list = fc.getRecomList(userId);
+        return list;
     }
 
     public List<Long> sendSample(){
-        ClientResponse response = wc.get()
-                .uri("/recommend/sample")
-                .accept(MediaType.APPLICATION_JSON)
-//                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .block();
-
-        if (response.statusCode().is2xxSuccessful()) {
-            return response.bodyToMono(List.class).block();
-        } else {
-            throw new RuntimeException("Failed to send recommendation: " + response.statusCode());
-        }
+        List<Long> list = fc.getSampleList();
+        return list;
     }
 
     @Override
@@ -90,15 +57,17 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void recordLike(long userId, long articleId, long like) {
-        if(like == 1L){
-            Like data = Like.builder()
+    @Transactional
+    public void recordLike(long userId, long articleId) {
+        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(like == null){
+            like = Like.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
                     .build();
-            lr.save(data);
+            lr.save(like);
         }else{
-            lr.deleteByUserIdxAndArticleIdx(userId , articleId);
+            lr.delete(like);
         }
     }
 
@@ -116,24 +85,34 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void recordDisLike(long userId, long articleId) {
-        DisLike dis = DisLike.builder()
-                .userIdx(userId)
-                .articleIdx(articleId)
-                .build();
-        dr.save(dis);
+        DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(dis == null){
+            dis = DisLike.builder()
+                    .userIdx(userId)
+                    .articleIdx(articleId)
+                    .build();
+            dr.save(dis);
+        }
     }
 
     @Override
-    public ArticleDTO getArticleInfo(long userId , long articleId) {
-//        Article article = ar.findByIdx(articleId).orElse(null);
-//        if(article == null){
+    public ArticleDTO getArticleInfo(/*long userId ,*/ long articleId) {
+        Article article = ar.findByIdx(articleId).orElse(null);
+        if(article == null){
             return null;
-//        }
-//        ArticleDTO dto = new ArticleDTO().of(article);
+        }
+        ArticleDTO dto = new ArticleDTO().of(article);
 //        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
 //        if(like != null){
 //            dto.setLike(true);
 //        }
-//        return dto;
+        return dto;
+    }
+
+
+    @Override
+    public String callNaver(String url){
+        String html = nf.getArticle(url);
+        return html;
     }
 }

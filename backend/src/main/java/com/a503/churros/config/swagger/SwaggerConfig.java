@@ -73,4 +73,9 @@ public class SwaggerConfig {
         return getDocket("AUTH", true, "auth");
     }
 
+    @Bean
+    public Docket test() {
+        return getDocket("TEST", true, "test");
+    }
+
 }

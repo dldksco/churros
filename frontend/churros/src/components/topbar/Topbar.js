@@ -1,10 +1,10 @@
 import PageIndicator from "./PageIndicator"
 import ArticleSearchButton from "./ArticleSearchButton";
 
-const Topbar = () => {
+const Topbar = ({searchOnClick}) => {
     return <header className="flex flex-row justify-between items-center h-14 m-1 p-2">
         <PageIndicator/>
-        <ArticleSearchButton/>
+        <ArticleSearchButton searchOnClick={searchOnClick} />
     </header>
 }
 

@@ -7,10 +7,20 @@ services:
       context: ./backend
     environment:
       - MARIADB_PASSWORD=A503
-      - MONGODB_URL= "mongodb://churros:A503@churros-mongodb:27017/newsdb"
+      - MONGODB_URI=mongodb://churros:A503@churros-mongodb:27017/newsdb
     ports:
       - "9999:9999"
-    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+  churros-crs:
+    container_name: churros-crs
+    build:
+      context: ./recommend/pyrecommend-server
+      dockerfile: Dockerfile
+    ports:
+      - "5555:8000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
 networks:
   default:
     name: cd_network
