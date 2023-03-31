@@ -34,7 +34,7 @@ class LDAmodel():
             self.top_docs_by_topic[topic] = top_doc
         logging.info(f'추천용 리스트 생성 완료')
     
-    def user_recommend(self,user_history:list,dislikes:list, N:int): # corpus, dictionary 필요
+    def user_recommend(self,user_history:list,dislikes:list,read_idx:list, N:int): # corpus, dictionary 필요
         logging.info(f"Start user recommendation process.")
         corpus_lda_model = self.lda_model[self.corpus]
 
@@ -58,7 +58,7 @@ class LDAmodel():
         # 상위 N개의 기사 추천 N개 이상이 될 때까지 반복
         top_n_indices = []
         while len(top_n_indices) < N:
-            top_n_indices.extend([i[0] for i in sim_scores[0:N+1] if i[0] not in set(user_history) and i[0] not in dislikes])
+            top_n_indices.extend([i[0] for i in sim_scores[0:N+1] if i[0] not in set(read_idx) and i[0] not in dislikes])
         
         logging.debug(f"Top {N} recommended article indices: {top_n_indices[:N]}")
         logging.info(f"User recommendation process completed.")
