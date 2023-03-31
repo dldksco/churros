@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
+# from app.db.mock_database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import LDAmodel
 import logging
@@ -12,13 +13,15 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 app = FastAPI()
 
+remodel = LDAmodel()
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-remodel = LDAmodel()
+
 @app.get("/recommend/remodel")
 async def remodel_recommend_model():
     return {"result" : "true"}
