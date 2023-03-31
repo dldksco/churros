@@ -71,7 +71,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
         N = 2
     for i in range(0, len(read_idx), 5):
         cur_articles = read_idx[0:i+5]
-        cur_recommendations:list = remodel.user_recommend(cur_articles, dislikes, N)
+        cur_recommendations:list = remodel.user_recommend(cur_articles, dislikes, read_idx, N)
         recommendations += cur_recommendations
         if len(recommendations) >= 12:
             break
