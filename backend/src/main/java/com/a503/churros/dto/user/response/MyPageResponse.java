@@ -11,16 +11,17 @@ public class MyPageResponse {
 
     private String result;
 
-    private Map<String,Object> information;
+    private Map<String,Object> userInfo;
 
     @Builder
-    public MyPageResponse(String result, String name, String email, Integer provider, String imageUrl) {
+    public MyPageResponse(String result, String name, String email, Integer provider, String imageUrl,Boolean activate) {
         this.result = result;
-        this.information = new HashMap<>();
-        this.information.put("name",name);
-        this.information.put("email",email);
-        this.information.put("provider",providerIntegerToString(provider));
-        this.information.put("imageUrl",imageUrl);
+        this.userInfo = new HashMap<>();
+        this.userInfo.put("name",name);
+        this.userInfo.put("email",email);
+        this.userInfo.put("provider",providerIntegerToString(provider));
+        this.userInfo.put("imageUrl",imageUrl);
+        this.userInfo.put("activate",activate);
 
 
     }

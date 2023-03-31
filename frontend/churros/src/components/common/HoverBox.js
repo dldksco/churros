@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { IoFolderSharp } from "react-icons/io5";
+import ScrapDialogueModal from "../../modal/ScrapDialogueModal";
 import { api } from "../../axios-instance/api";
 
 const HoverBox = ({ articleIdx }) => {
   const [like, setLike] = useState(false);
+  const [openScrapDialogue, setOpenScrapDialogue] = useState(false);
+
+  const handleHoverBoxClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+  };
 
   const handleLike = (event) => {
     likeOnclick();
     setLike((prevState) => !prevState);
   };
+
   const likeOnclick = async () => {
     try {
       const response = await api.put(`/news/like`, null, {
@@ -24,10 +33,10 @@ const HoverBox = ({ articleIdx }) => {
 
   const handleScrap = (event) => {
     event.preventDefault();
-    event.stopPropagation();
-
+    setOpenScrapDialogue(true);
     console.log("스크랩 모달 띄우기");
   };
+
   const likeSetting = async () => {
     try {
       const response = await api.get(`/news/like`);
@@ -38,11 +47,13 @@ const HoverBox = ({ articleIdx }) => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     likeSetting();
   }, []);
   return (
-    <div className="absolute right-0 bottom-0 w-22 h-10 z-10 flex flex-row justify-center items-center bg-white rounded-lg drop-shadow-md m-2 p-1">
+    <div className="absolute right-0 bottom-0 w-22 h-10 z-10 flex flex-row justify-center items-center bg-white rounded-lg drop-shadow-md m-2" onClick={handleHoverBoxClick}>
+      {openScrapDialogue && <ScrapDialogueModal target={articleIdx} onClose={() => setOpenScrapDialogue(false)}/>}
       <FaHeart
         className={`m-2 p-1 ${
           like

@@ -16,8 +16,10 @@ const ScrapFolderTab = () => {
     setShowScrapFolderList((prev) => !prev);
   };
 
-  const addNewScrapFolder = () => {
-    console.log("add new scrap folder");
+  const addNewScrapFolder = (event) => {
+    event.preventDefault();
+
+    // show scrap folder add menu
   };
 
   return (

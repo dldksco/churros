@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
     // OAuth2 설정
@@ -31,10 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomSimpleUrlAuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
 
-    @Bean
-    public CustomOncePerRequestFilter customOncePerRequestFilter() {
-        return new CustomOncePerRequestFilter();
-    }
+
 
     @Bean
     public ExceptionHandlerFilter exceptionHandlerFilter(){ return new ExceptionHandlerFilter();}
@@ -77,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                 .permitAll()
-                .antMatchers( "/kakao/**","/user/**", "/oauth2/**")
+                .antMatchers( "/kakao/**","/user/signIn","/user/signUp","/user/kakao","/user/kakao/callback","/user/refresh", "/oauth2/**")
                 .permitAll()
                 .antMatchers("/news/**","/scrap/**","/recommend/**" , "/test/**")
                 .permitAll()
