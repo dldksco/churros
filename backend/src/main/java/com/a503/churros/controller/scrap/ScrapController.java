@@ -53,7 +53,7 @@ public class ScrapController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        List<Long> articleList = ss.getArticleList(userId, userId);
+        List<Long> articleList = ss.getArticleList(scrapbookId, userId);
         if(articleList == null){
             resultMap.put("empty" , true);
         }else {
