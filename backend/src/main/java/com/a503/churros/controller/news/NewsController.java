@@ -27,7 +27,7 @@ public class NewsController {
 
     @GetMapping("")
     public ResponseEntity<?> getNews(
-            @RequestHeader("token")
+            @RequestHeader("Authorization")
             String token
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -45,13 +45,16 @@ public class NewsController {
 
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
+            @RequestHeader("Authorization")
+                    String token,
             @PathVariable(value = "articleId") long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        long userId = ts.extractIdxFromToken(token);
         try{
-//        ArticleDTO dto = ns.getArticleInfo(userId , articleId);
+            ArticleDTO dto = ns.getArticleInfo(userId , articleId);
             resultMap.put("result", SUCCESS);
-//        resultMap.put("article" , dto);
+            resultMap.put("article" , dto);
             return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
         }catch (Exception e){
             resultMap.put("result", FAIL);
@@ -92,7 +95,7 @@ public class NewsController {
 
     @PutMapping("/read")
     public ResponseEntity<?> putRead(
-            @RequestHeader("token")
+            @RequestHeader("Authorization")
             String token,
             long articleId
     ){
@@ -110,7 +113,7 @@ public class NewsController {
 
     @PutMapping("/like")
     public ResponseEntity<?> postLike(
-            @RequestHeader("token")
+            @RequestHeader("Authorization")
             String token,
             long articleId
     ){
@@ -128,7 +131,7 @@ public class NewsController {
 
     @GetMapping("/like")
     public ResponseEntity<?> getLike(
-            @RequestHeader("token")
+            @RequestHeader("Authorization")
             String token
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -145,7 +148,7 @@ public class NewsController {
     }
     @PostMapping("/dislike")
     public ResponseEntity<?> postDisLike(
-            @RequestHeader("token")
+            @RequestHeader("Authorization")
             String token,
             long articleId
     ){
