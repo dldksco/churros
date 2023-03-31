@@ -1,5 +1,6 @@
 import os
 import sys
+import random
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException
@@ -30,7 +31,11 @@ async def remodel_recommend_model():
 
 @app.get("/recommend/login")
 async def get_sample_articles():
-    return {"recommendList":[40001, 40002, 40003, 40004]}
+    recommendList = []
+    samplelist = random.sample(range(0,20), 6)
+    for i in range(6):
+        recommendList.append(LDAmodel.sample_article(samplelist[i]))
+    return {"recommendList":recommendList}
 
 @app.get("/recommend/{user_id}")
 async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
