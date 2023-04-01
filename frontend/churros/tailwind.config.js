@@ -14,6 +14,13 @@ module.exports = {
         "25%": "25%",
         "128": "28rem",
       },
+      zIndex:{
+        "60": "60",
+        "70": "70",
+        "80": "80",
+        "90": "90",
+        "100": "100",
+      }
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],
