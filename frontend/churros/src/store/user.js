@@ -13,7 +13,7 @@ export const userInfoState = atom({
     ({ onSet }) => {
       onSet((newValue) => {
         localStorage.setItem("userInfo", JSON.stringify(newValue));
-        console.log(`userInfo has set to ${newValue}`);
+        console.log(`userInfo has set to ${JSON.stringify(newValue)}`);
       });
     },
     ({ resetSelf }) => {

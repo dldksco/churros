@@ -104,7 +104,7 @@ const SurveyContent = () => {
     selectedArticles.forEach(async (item) => {
       try {
         const response = await api.put("/news/read", {
-          articleId: item.articleId,
+          "articleId": item.articleId,
         });
         const { result } = response.data;
         console.log(result);
@@ -127,8 +127,8 @@ const SurveyContent = () => {
   // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
-    fetchDummySampleArticles();
-    // fetchSampleArticles();
+    // fetchDummySampleArticles();
+    fetchSampleArticles();
     setIsOpen(true);
   }, []);
 
@@ -151,7 +151,7 @@ const SurveyContent = () => {
 
   return (
     <div
-      className={`fixed top-[10%] left-[25%] w-1/2 h-4/5 z-50 ${
+      className={`fixed top-[10%] left-[25%] w-1/2 h-auto z-50 ${
         isOpen ? "" : "translate-y-[1080px]"
       } transition delay-300 ease-in-out`}
     >
