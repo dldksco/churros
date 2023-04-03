@@ -8,7 +8,7 @@ import java.util.List;
 public interface NewsService {
     List<Integer> sendRecommend(long userId);
     List<Integer> sendSample();
-    void saveReadArti(long userId, long articleId);
+    void saveReadArti(long userId, int articleId);
     void recordLike(long userId, long articleId);
     List<Long> getLikeList(long userIdx);
     void recordDisLike(long userId, long articleId);

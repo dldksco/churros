@@ -37,15 +37,13 @@ public class NewsServiceImpl implements NewsService{
     }
 
     public List<Integer> sendSample(){
-        System.out.println("in before the sv");
         List<Integer> list = fc.getSampleList().getRecommendList();
         System.out.println(list);
-        System.out.println("in after the sv");
         return list;
     }
 
     @Override
-    public void saveReadArti(long userId, long articleId) {
+    public void saveReadArti(long userId, int articleId) {
         Read read = rr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(read == null){
             read = Read.builder()
