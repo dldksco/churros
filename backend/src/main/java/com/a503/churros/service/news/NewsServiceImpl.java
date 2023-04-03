@@ -97,7 +97,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public ArticleDTO getArticleInfo(/*long userId ,*/ long articleId) {
+    public ArticleDTO getArticleInfo(/*long userId ,*/ Integer articleId) {
         Article article = ar.findFirstByIdx(articleId).orElse(null);
         if(article == null){
             return null;
