@@ -16,5 +16,5 @@ const {persistAtom} = recoilPersist();
 export const scrapFolderListState = atom({
   key: "scrapFolderListState",
   default: [],
-  effects: [ persistAtom({key: "scrapFolderList", storage: localStorage}) ]
+  effects: [persistAtom]
 });
