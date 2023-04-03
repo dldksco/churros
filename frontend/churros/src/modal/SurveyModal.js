@@ -101,6 +101,8 @@ const SurveyContent = () => {
     const selectedArticles = sampleArticles.filter(({ selected }) => selected);
     selectedArticles.forEach(async (item) => {
       try {
+        console.log(item);
+        
         const response = await api.put("/news/read", {
           params: {
             articleId: item.articleId,
