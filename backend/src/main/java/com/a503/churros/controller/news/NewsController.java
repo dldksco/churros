@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/news")
 @Api("NEWS API")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class NewsController {
 
     private static final String SUCCESS = "success";
@@ -44,7 +43,7 @@ public class NewsController {
     public ResponseEntity<?> getNewsArti(
             @RequestHeader("Authorization")
                     String token,
-            @PathVariable(value = "articleId") long articleId
+            @PathVariable(value = "articleId") Integer articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
             ArticleDTO dto = ns.getArticleInfo(/*userId , */articleId);
@@ -75,9 +74,9 @@ public class NewsController {
 
     @PutMapping("/read")
     public ResponseEntity<?> putRead(
-            @RequestHeader("authorization")
+            @RequestHeader("Authorization")
             String token,
-            @RequestParam Integer articleId
+            @RequestParam Long articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);

@@ -22,7 +22,7 @@ const A1Carousel = ({ slides }) => {
       >
         &larr;
       </button>
-      {slides.map((slide, idx) => (
+      {slides?.map((slide, idx) => (
         <div
           key={idx}
           className={`${
