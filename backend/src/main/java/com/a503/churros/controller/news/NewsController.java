@@ -77,7 +77,7 @@ public class NewsController {
     public ResponseEntity<?> putRead(
             @RequestHeader("authorization")
             String token,
-            int articleId
+            Integer articleId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
