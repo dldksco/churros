@@ -17,6 +17,7 @@ const KakaoRedirectHandler = () => {
     try {
       const response = await api.get("/user");
       const { userInfo } = response.data;
+      console.log(userInfo);
       setUserInfo(userInfo);
     } catch (error) {
       console.log(error);
