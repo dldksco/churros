@@ -14,7 +14,6 @@ const Home = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [searchOn, setSearchOn] = useState(false);
   console.log(accessToken);
-  const isAuthenticated = accessToken > 0;
 
   const userInfo = useRecoilValue(userInfoState);
   // Todo: access token validation
@@ -27,7 +26,7 @@ const Home = () => {
     setSearchOn(false);
   };
   
-  if(!accessToken) return <Navigate to={"/landing"}/>
+  if(!localStorage.getItem("accessToken")) return <Navigate to={"/landing"}/>
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
