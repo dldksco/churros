@@ -53,17 +53,6 @@ const SurveyContent = () => {
   const [sampleArticles, setSampleArticles] = useState([]);
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
 
-  // const fetchDummySampleArticles = () => {
-  //   const articles = [169937, 169936, 169935, 169934, 169933, 169932];
-  //   setSampleArticles(
-  //     articles.map((articleId, index) => ({
-  //       index: index,
-  //       articleId: articleId,
-  //       selected: false,
-  //     }))
-  //   );
-  // };
-
   const fetchSampleArticles = async () => {
     try {
       const res = await api.get("/news/sample");
@@ -81,9 +70,9 @@ const SurveyContent = () => {
       );
     } catch (error) {
       console.log(error)
-
-      if (error.response) {
-        const { status } = response;
+      
+      if (error?.response) {
+        const { status } = error?.response;
         switch (status) {
           case 401:
             resetAccessToken();
