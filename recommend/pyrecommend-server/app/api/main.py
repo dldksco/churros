@@ -31,7 +31,7 @@ async def remodel_recommend_model():
 
     return {"result" : "success"}
 
-@app.get("/recommend/login")
+@app.get("/recommend/sample")
 async def get_sample_articles():
     recommendList = []
     samplelist = random.sample(range(0,20), 6)
