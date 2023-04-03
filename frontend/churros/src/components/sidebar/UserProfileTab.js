@@ -1,18 +1,20 @@
 import SidebarItem from "./SidebarItem";
 import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants";
-import { FaUserCircle } from "react-icons/fa";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../store/user";
+import CircleImageFrame from "../common/CircleImageFrame";
 
 const UserProfileTab = () => {
+  const userInfo = useRecoilValue(userInfoState);
+  console.log(userInfo);
+
+
   return (
     <SidebarItem
       className={`${SIDEBAR_ITEM_SIZE.lg} bg-transparent hover:bg-stone-200`}
     >
-      <FaUserCircle
-        className="p-2"
-        size={50}
-        style={{ color: "rgb(251 146 60)" }}
-      />
-      <p className="text-base font-bold text-center">Username</p>
+      <CircleImageFrame imageUrl={userInfo.imageUrl}/>
+      <p className="text-base font-bold text-center">{userInfo.name}</p>
     </SidebarItem>
   );
 };
