@@ -34,7 +34,7 @@ public class NewsController {
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-            List<Long> list = ns.sendRecommend(userId);
+            List<Integer> list = ns.sendRecommend(userId);
             resultMap.put("articles", list);
             resultMap.put("result", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
@@ -67,7 +67,9 @@ public class NewsController {
     @GetMapping("/sample")
     public ResponseEntity<?> getNewsSample(){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        List<Long> list = ns.sendSample();
+        System.out.println("before the sv");
+        List<Integer> list = ns.sendSample();
+        System.out.println("after the sv");
         resultMap.put("result", SUCCESS);
         resultMap.put("articles", list);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
