@@ -68,13 +68,13 @@ const SurveyContent = () => {
   const fetchSampleArticles = async () => {
     try {
       const res = await api.get("/news/sample");
-      const { result, articleIds } = res.data;
+      const { result, articles } = res.data;
 
       console.log(result);
-      console.log(articleIds);
+      console.log(articles);
 
       setSampleArticles(
-        articleIds.map((id, idx) => ({
+        articles.map((id, idx) => ({
           index: idx,
           articleId: id,
           selected: false,
