@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@org.springframework.cloud.openfeign.FeignClient(name = "NewsFeign" , url = "${crs.uri}")
+@org.springframework.cloud.openfeign.FeignClient(name = "NewsFeign" , url = "${crs.uri}/recommencd")
 public interface NewsFeign {
 
     @GetMapping("/{userId}")
