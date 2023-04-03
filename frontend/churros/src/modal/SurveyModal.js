@@ -151,8 +151,8 @@ const SurveyContent = () => {
 
   return (
     <div
-      className={`fixed top-[10%] left-[25%] w-1/2 h-auto z-50 ${
-        isOpen ? "" : "translate-y-[1080px]"
+      className={`fixed w-1/2 h-auto z-50 top-1/2 left-1/2 -translate-x-1/2 ${
+        isOpen ? "-translate-y-1/2" : "translate-y-[50vh]"
       } transition delay-300 ease-in-out`}
     >
       <div className="flex flex-col w-full h-full justify-start bg-white rounded-2xl">
