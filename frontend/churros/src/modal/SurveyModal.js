@@ -79,7 +79,6 @@ const SurveyContent = () => {
           selected: false,
         }))
       );
-      console.log(sampleArticles);
     } catch ({ name, code, message, response }) {
       console.log(`[error] ${name} code: ${code} message: ${message}`);
       console.log(response);
@@ -107,8 +106,13 @@ const SurveyContent = () => {
             articleId: item.articleId,
           },
         });
+
         const { result } = response.data;
         console.log(result);
+
+        // user 활성화 요청
+        // const updateUserActivate = await api.post("/user/activate");
+        // console.log(updateUserActivate.data);
       } catch (error) {
         console.log(error);
       }
@@ -130,11 +134,12 @@ const SurveyContent = () => {
   useEffect(() => {
     // fetchDummySampleArticles();
     fetchSampleArticles();
-    setIsOpen(true);
   }, []);
 
   // 샘플 기사가 변경될 때마다 SubmitButtonActive 상태가 갱신된다
   useEffect(() => {
+    setIsOpen(true);
+    console.log(sampleArticles);
     const count = sampleArticles.filter(({ selected }) => selected).length;
 
     if (count >= 2) setSubmitButtonActive(true);
