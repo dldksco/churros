@@ -31,18 +31,19 @@ public class NewsServiceImpl implements NewsService{
     private final NaverFeign nf;
 
 
-    public List<Long> sendRecommend(long userId){
-        List<Long> list = fc.getRecomList(userId);
+    public List<Integer> sendRecommend(long userId){
+        List<Integer> list = fc.getRecomList(userId).getRecommendList();
         return list;
     }
 
-    public List<Long> sendSample(){
-        List<Long> list = fc.getSampleList();
+    public List<Integer> sendSample(){
+        List<Integer> list = fc.getSampleList().getRecommendList();
+        System.out.println(list);
         return list;
     }
 
     @Override
-    public void saveReadArti(long userId, long articleId) {
+    public void saveReadArti(long userId, int articleId) {
         Read read = rr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(read == null){
             read = Read.builder()
@@ -97,7 +98,7 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public ArticleDTO getArticleInfo(/*long userId ,*/ long articleId) {
-        Article article = ar.findByIdx(articleId).orElse(null);
+        Article article = ar.findFirstByIdx(articleId).orElse(null);
         if(article == null){
             return null;
         }

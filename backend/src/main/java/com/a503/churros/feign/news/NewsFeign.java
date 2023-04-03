@@ -1,5 +1,6 @@
 package com.a503.churros.feign.news;
 
+import com.a503.churros.dto.news.NewsListDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -9,9 +10,9 @@ import java.util.List;
 public interface NewsFeign {
 
     @GetMapping("/{userId}")
-    List<Long> getRecomList(@PathVariable("userId") long userId);
+    NewsListDTO getRecomList(@PathVariable("userId") long userId);
 
     @GetMapping("/sample")
-    List<Long> getSampleList();
+    NewsListDTO getSampleList();
 
 }

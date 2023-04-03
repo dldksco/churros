@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
-import { useRecoilValue, useSetRecoilState, useResetRecoilState } from "recoil";
+import { useSetRecoilState, useResetRecoilState } from "recoil";
 import { accessTokenState } from "../store/auth";
 import { userInfoState } from "../store/user";
 import SampleArticle from "../components/article/SampleArticle";
-import { test } from "../axios-instance/api";
 import { IoCheckbox } from "react-icons/io5";
 import { api } from "../axios-instance/api";
 
@@ -54,38 +53,37 @@ const SurveyContent = () => {
   const [sampleArticles, setSampleArticles] = useState([]);
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
 
-  const fetchDummySampleArticles = () => {
-    const articles = [169937, 169936, 169935, 169934, 169933, 169932];
-    setSampleArticles(
-      articles.map((articleId, index) => ({
-        index: index,
-        articleId: articleId,
-        selected: false,
-      }))
-    );
-  };
+  // const fetchDummySampleArticles = () => {
+  //   const articles = [169937, 169936, 169935, 169934, 169933, 169932];
+  //   setSampleArticles(
+  //     articles.map((articleId, index) => ({
+  //       index: index,
+  //       articleId: articleId,
+  //       selected: false,
+  //     }))
+  //   );
+  // };
 
   const fetchSampleArticles = async () => {
     try {
       const res = await api.get("/news/sample");
-      const { result, articleIds } = res.data;
+      const { result, articles } = res.data;
 
       console.log(result);
-      console.log(articleIds);
+      console.log(articles);
 
       setSampleArticles(
-        articleIds.map((id, idx) => ({
+        articles.map((id, idx) => ({
           index: idx,
           articleId: id,
           selected: false,
         }))
       );
-      console.log(sampleArticles);
-    } catch ({ name, code, message, response }) {
-      console.log(`[error] ${name} code: ${code} message: ${message}`);
-      console.log(response);
-      if (response) {
-        const {status} = response;
+    } catch (error) {
+      console.log(error)
+
+      if (error.response) {
+        const { status } = response;
         switch (status) {
           case 401:
             resetAccessToken();
@@ -103,11 +101,20 @@ const SurveyContent = () => {
     const selectedArticles = sampleArticles.filter(({ selected }) => selected);
     selectedArticles.forEach(async (item) => {
       try {
-        const response = await api.put("/news/read", {
-          "articleId": item.articleId,
+        console.log(item);
+
+        const response = await api.put("/news/read", null, {
+          params: {
+            articleId: item.articleId,
+          },
         });
+
         const { result } = response.data;
         console.log(result);
+
+        // user 활성화 요청
+        // const updateUserActivate = await api.post("/user/activate");
+        // console.log(updateUserActivate.data);
       } catch (error) {
         console.log(error);
       }
@@ -129,11 +136,12 @@ const SurveyContent = () => {
   useEffect(() => {
     // fetchDummySampleArticles();
     fetchSampleArticles();
-    setIsOpen(true);
   }, []);
 
   // 샘플 기사가 변경될 때마다 SubmitButtonActive 상태가 갱신된다
   useEffect(() => {
+    setIsOpen(true);
+    console.log(sampleArticles);
     const count = sampleArticles.filter(({ selected }) => selected).length;
 
     if (count >= 2) setSubmitButtonActive(true);
