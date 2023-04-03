@@ -31,13 +31,16 @@ public class NewsServiceImpl implements NewsService{
     private final NaverFeign nf;
 
 
-    public List<Long> sendRecommend(long userId){
-        List<Long> list = fc.getRecomList(userId);
+    public List<Integer> sendRecommend(long userId){
+        List<Integer> list = fc.getRecomList(userId);
         return list;
     }
 
-    public List<Long> sendSample(){
-        List<Long> list = fc.getSampleList();
+    public List<Integer> sendSample(){
+        System.out.println("in before the sv");
+        List<Integer> list = fc.getSampleList();
+        System.out.println(list);
+        System.out.println("in after the sv");
         return list;
     }
 

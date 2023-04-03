@@ -9,9 +9,9 @@ import java.util.List;
 public interface NewsFeign {
 
     @GetMapping("/{userId}")
-    List<Long> getRecomList(@PathVariable("userId") long userId);
+    List<Integer> getRecomList(@PathVariable("userId") long userId);
 
     @GetMapping("/sample")
-    List<Long> getSampleList();
+    List<Integer> getSampleList();
 
 }
