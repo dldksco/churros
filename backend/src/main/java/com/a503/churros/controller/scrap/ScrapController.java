@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/scrap")
 @Api("SCRAP API")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 public class ScrapController {
 
     private static final String SUCCESS = "success";

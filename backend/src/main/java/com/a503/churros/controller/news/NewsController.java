@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/news")
 @Api("NEWS API")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 public class NewsController {
 
     private static final String SUCCESS = "success";
