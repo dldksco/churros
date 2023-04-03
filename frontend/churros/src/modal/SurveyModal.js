@@ -102,8 +102,8 @@ const SurveyContent = () => {
     selectedArticles.forEach(async (item) => {
       try {
         console.log(item);
-        
-        const response = await api.put("/news/read", {
+
+        const response = await api.put("/news/read", null, {
           params: {
             articleId: item.articleId,
           },
