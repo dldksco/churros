@@ -32,13 +32,13 @@ public class NewsServiceImpl implements NewsService{
 
 
     public List<Integer> sendRecommend(long userId){
-        List<Integer> list = fc.getRecomList(userId);
+        List<Integer> list = fc.getRecomList(userId).getRecommendList();
         return list;
     }
 
     public List<Integer> sendSample(){
         System.out.println("in before the sv");
-        List<Integer> list = fc.getSampleList();
+        List<Integer> list = fc.getSampleList().getRecommendList();
         System.out.println(list);
         System.out.println("in after the sv");
         return list;
