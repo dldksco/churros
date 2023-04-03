@@ -1,8 +1,71 @@
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
-import { IoCheckbox, IoSquareOutline } from "react-icons/io5";
+import { IoCheckbox, IoSquareOutline, IoAddOutline } from "react-icons/io5";
 import { api } from "../axios-instance/api";
+
+const dummyItems = [
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "정치",
+    isScrapped: true,
+  },
+  {
+    articleId: 1,
+    folderIdx: 3,
+    folderName: "시사",
+    isScrapped: false,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "IT",
+    isScrapped: true,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "과학",
+    isScrapped: false,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "정치",
+    isScrapped: true,
+  },
+  {
+    articleId: 1,
+    folderIdx: 3,
+    folderName: "시사",
+    isScrapped: false,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "IT",
+    isScrapped: true,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "과학",
+    isScrapped: false,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "과학",
+    isScrapped: false,
+  },
+  {
+    articleId: 1,
+    folderIdx: 2,
+    folderName: "과학",
+    isScrapped: false,
+  },
+];
 
 const ScrapDialogueBackdrop = ({ onClose }) => {
   return (
@@ -14,17 +77,31 @@ const ScrapDialogueBackdrop = ({ onClose }) => {
 };
 
 const ScrapListItem = ({ articleId, folderIdx, folderName, isScrapped }) => {
+  const [scrapped, setScrapped] = useState(isScrapped);
+
+  const toggleCheckbox = (e) => {
+    e.preventDefault();
+    setScrapped((prev) => !prev);
+  };
+
+  // Todo: 현재 폴더에 해당 기사가 스크랩된 상태가 변하면 api 요청 보내기
+  useEffect(() => {}, [scrapped]);
+
   return (
-    <div className="flex flex-row w-full h-max my-2">
-      {isScrapped ? (
-        <IoCheckbox size={25} className="text-blue-800" />
-      ) : (
-        <IoSquareOutline size={25} />
-      )}
+    <div className="flex flex-row w-full h-max my-2 px-4">
+      <div onClick={toggleCheckbox}>
+        {scrapped ? (
+          <IoCheckbox size={25} className="text-blue-800" />
+        ) : (
+          <IoSquareOutline size={25} />
+        )}
+      </div>
       <p
         className="text-base font-bold px-4"
         style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
-      >{folderName}</p>
+      >
+        {folderName}
+      </p>
     </div>
   );
 };
@@ -46,8 +123,25 @@ const ScrapList = ({ items }) => {
   );
 };
 
+const ScrapFolderAddForm = ({ articleId, onScrapFolderAdded, onMenuClose }) => {
+  return (
+    <div
+      className="absolute top-0 left-0 flex flex-row justify-between items-center w-full h-full p-2 z-60 bg-stone-200 rounded-lg"
+      onClick={onMenuClose}
+    >
+      <div className="p-1 mr-2 flex-1 h-5/6">
+      <input className="w-full h-full rounded-lg" onClick={(e) => e.stopPropagation()}/>
+      </div>
+      <div className="p-1 bg-stone-300 rounded-lg hover:bg-stone-500" onClick={() => (onScrapFolderAdded("folderName", articleId))}>
+      <IoAddOutline size={25}/>
+      </div>
+    </div>
+  );
+};
+
 const ScrapDialogueContent = ({ articleId, onClose }) => {
   const [loading, setLoading] = useState(true);
+  const [isFormOpen, setFormOpen] = useState(false);
   const [scrapList, setScrapList] = useState([]);
 
   const fetchData = async () => {
@@ -76,79 +170,56 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
     }
   };
 
+  const openForm = (e) => {
+    e.preventDefault();
+    setFormOpen(true);
+  }
+
+  const closeForm = (e) => {
+    e.preventDefault();
+    setFormOpen(false);
+  }
+
+  // 스크랩 폴더가 추가되면 폴더가 추가되고, 해당 아티클을 스크랩 추가하고 모달이 닫힌다
+  const onScrapFolderAdded = (folderName, articleId) => {
+    
+  }
+
   // fetch data
   useEffect(() => {
     fetchData();
   }, []);
 
-//   const dummyItems = [
-//     {
-//       articleId: 1,
-//       folderIdx: 2,
-//       folderName: "정치",
-//       isScrapped: true,
-//     },
-//     {
-//       articleId: 1,
-//       folderIdx: 3,
-//       folderName: "시사",
-//       isScrapped: false,
-//     },
-//     {
-//       articleId: 1,
-//       folderIdx: 2,
-//       folderName: "IT",
-//       isScrapped: true,
-//     },
-//     {
-//       articleId: 1,
-//       folderIdx: 2,
-//       folderName: "과학",
-//       isScrapped: false,
-//     },
-//     {
-//         articleId: 1,
-//         folderIdx: 2,
-//         folderName: "정치",
-//         isScrapped: true,
-//       },
-//       {
-//         articleId: 1,
-//         folderIdx: 3,
-//         folderName: "시사",
-//         isScrapped: false,
-//       },
-//       {
-//         articleId: 1,
-//         folderIdx: 2,
-//         folderName: "IT",
-//         isScrapped: true,
-//       },
-//       {
-//         articleId: 1,
-//         folderIdx: 2,
-//         folderName: "과학",
-//         isScrapped: false,
-//       },
-//       {
-//         articleId: 1,
-//         folderIdx: 2,
-//         folderName: "과학",
-//         isScrapped: false,
-//       },
-//       {
-//         articleId: 1,
-//         folderIdx: 2,
-//         folderName: "과학",
-//         isScrapped: false,
-//       },
-//   ];
-
   return (
-    <div className="fixed flex flex-col w-80 h-128 p-2 bg-white top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50">
-      <p className="w-full h-12 p-2">스크랩하기</p>
-      <ScrapList items={scrapList}/>
-      <div className="w-full h-12 p-2">새 스크랩 폴더</div>
+    <div className="fixed flex flex-col w-72 h-auto rounded-lg p-2 bg-white top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50">
+      <div className="flex w-full h-10 justify-start items-center mb-2 px-2">
+        <p
+          className="text-xl"
+          style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
+        >
+          스크랩하기
+        </p>
+      </div>
+      <ScrapList items={scrapList} />
+      <div className="relative w-full h-14 p-2 mt-2">
+        <div
+          className="flex flex-row justify-start items-center w-full h-full"
+          onClick={openForm}
+        >
+          <IoAddOutline size={25} />
+          <p
+            className="mx-2"
+            style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
+          >
+            새 스크랩 폴더 만들기
+          </p>
+        </div>
+        {isFormOpen && (
+          <ScrapFolderAddForm
+            onScrapFolderAdded={() => console.log("스크랩 폴더 추가하기")} onMenuClose={closeForm}
+          />
+        )}
+      </div>
     </div>
   );
 };
