@@ -65,4 +65,7 @@ class LDAmodel():
         return top_n_indices[:N]
     
     def sample_article(self,topic_num):
-        return self.top_docs_by_topic[topic_num]
+        print("들어온 값", topic_num)
+        print("결과 값",self.top_docs_by_topic.get(topic_num))
+        print("타입은?", type(topic_num))
+        return self.top_docs_by_topic.get(topic_num)
