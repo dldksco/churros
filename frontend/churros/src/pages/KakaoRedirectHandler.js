@@ -1,8 +1,9 @@
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../store/auth";
 import { userInfoState } from "../store/user";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import {api} from "../axios-instance/api";
+import { api } from "../axios-instance/api";
 import { Fragment } from "react";
 
 const KakaoRedirectHandler = () => {
@@ -19,8 +20,7 @@ const KakaoRedirectHandler = () => {
       setUserInfo(userInfo);
     } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -29,9 +29,7 @@ const KakaoRedirectHandler = () => {
   setRefreshToken(params.get("refresh-token"));
   requestUserInfo(useRecoilValue(accessTokenState));
 
-  return <Fragment>
-    {isLoading ? <div/> : <Navigate to={"/"} />}
-  </Fragment>
+  return <Fragment>{isLoading ? <div /> : <Navigate to={"/"} />}</Fragment>;
 };
 
 export default KakaoRedirectHandler;
