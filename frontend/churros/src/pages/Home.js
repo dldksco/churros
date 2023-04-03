@@ -26,6 +26,7 @@ const Home = () => {
     setSearchOn(false);
   };
   
+  // LocalStorage에 액세스 토큰이 없을 때만 landing으로 돌아간다
   if(!localStorage.getItem("accessToken")) return <Navigate to={"/landing"}/>
 
   return (
