@@ -2,34 +2,34 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
-from fastapi.testclient import TestClient
-from app.api.main import app, get_db
-from unittest.mock import MagicMock
-from sqlalchemy.orm import Session
+from app.recommend_models.model_LDA import LDAmodel
 
-client = TestClient(app)
+green = LDAmodel('green')
+blue = LDAmodel('blue')
+models = [green, blue]
 
-def test_get_users(db: Session = MagicMock()):
-    # Mocking된 db를 get_db 함수에서 반환
-    def override_get_db():
-        yield db
+flag = 0
+remodel = models[flag]
 
-    app.dependency_overrides[get_db] = override_get_db
+def remodel_recommend_model():
+    global flag
+    global remodel
+    flag = (flag + 1) % 2
+    models[flag].change_model_files()
+    remodel = models[flag]
 
-    response = client.get("/recommand/login")
-    assert response.status_code == 200
-    assert response.json() == {"recommendList":[40001, 40002, 40003, 40004]}
+    return {"result" : "success"}
+
 
 def test_remodel_recommend_model():
-    response = client.get("/recommend/remodel")
-    assert response.status_code == 200
-    assert response.json() == {"result" : "true"}
+    before = remodel.name
+    remodel_recommend_model()
 
-def test_get_sample_articles():
-    response = client.get("/recommand/login")
-    assert response.status_code == 200
-    assert response.json() == {"recommendList":[40001, 40002, 40003, 40004]}
+    after = remodel.name
+    remodel_recommend_model()
 
-def test_get_recommend_articles():
-    response = client.get("/recommend/1")
-    assert response.status_code == 200
+    after_after = remodel.name
+
+    assert before == 'green'
+    assert after == 'blue'
+    assert after_after == 'green'

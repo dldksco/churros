@@ -13,7 +13,13 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI()
-remodel = LDAmodel()
+green = LDAmodel('green')
+blue = LDAmodel('blue')
+models = [green, blue]
+
+flag = 0
+remodel = models[flag]
+
 _RECOMMEND_ARTICLE_CNT = 12
 _SLICING_NUM = 5
 _MIN_VLUE = 2
@@ -26,8 +32,17 @@ def get_db():
         db.close()
 
 @app.get("/recommend/remodel")
-async def remodel_recommend_model():
-    remodel.change_model_files()
+def remodel_recommend_model():
+    global flag
+    global remodel
+
+    logging.info(f"현재 사용중인 모델 {remodel.name}")
+
+    flag = (flag + 1) % 2
+    models[flag].change_model_files()
+    remodel = models[flag]
+
+    logging.info(f"새로 할당된 모델 {remodel.name}")
 
     return {"result" : "success"}
 

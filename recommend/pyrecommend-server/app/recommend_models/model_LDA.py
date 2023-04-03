@@ -5,10 +5,11 @@ from gensim import models, similarities, corpora
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 class LDAmodel():
-    def __init__(self):
+    def __init__(self, name):
         logging.info(f'LDAmodel init...')
         self.TOPIC_NUM = 30
         self.change_model_files()
+        self.name = name
         logging.info(f'LDAmodel init 완료!')
         
     def change_model_files(self):
