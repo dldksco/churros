@@ -35,6 +35,7 @@ async def remodel_recommend_model():
 async def get_sample_articles():
     recommendList = []
     samplelist = random.sample(range(0,30), 6)
+    print("뽑아낸 렌덤 값",samplelist)
     for i in range(6):
         recommendList.append(remodel.sample_article(samplelist[i]))
     return {"recommendList":recommendList}
