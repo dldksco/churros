@@ -45,7 +45,7 @@ const Main = () => {
       setFirstRowArticles(mainArticles.slice(startIdx, subArraySizes[1]));
 
       startIdx += subArraySizes[1];
-      setSeocndRowArticles(mainArticles.slice(startIdx, subArraySizes[2]));
+      setSecondRowArticles(mainArticles.slice(startIdx, subArraySizes[2]));
 
       startIdx += subArraySizes[2];
       setThirdRowArticles(mainArticles.slice(startIdx, subArraySizes[3]));
