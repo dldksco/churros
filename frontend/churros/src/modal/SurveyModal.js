@@ -83,7 +83,7 @@ const SurveyContent = () => {
       console.log(sampleArticles);
     } catch ({ name, code, message, response }) {
       console.log(`[error] ${name} code: ${code} message: ${message}`);
-
+      console.log(response);
       if (response) {
         const {status} = response;
         switch (status) {
