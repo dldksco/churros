@@ -46,10 +46,10 @@ const Main = () => {
       </div>
       <div className="grid grid-cols-4 gap-4 w-full mb-4">
         <div className="col-span-2">
-          <Article shape="2" articleIdx=""/>
+          <Article shape="2" articleIdx="2"/>
         </div>
         <div className="col-span-1"> 
-          <Article shape="3" articleIdx="" />
+          <Article shape="3" articleIdx="3" />
         </div>
       </div>
       <hr className="bg-black opacity-20 h-1" />

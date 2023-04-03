@@ -31,12 +31,13 @@ async def remodel_recommend_model():
 
     return {"result" : "success"}
 
-@app.get("/recommend/login")
+@app.get("/recommend/sample")
 async def get_sample_articles():
     recommendList = []
-    samplelist = random.sample(range(0,20), 6)
+    samplelist = random.sample(range(0,30), 6)
+    print("뽑아낸 렌덤 값",samplelist)
     for i in range(6):
-        recommendList.append(LDAmodel.sample_article(samplelist[i]))
+        recommendList.append(remodel.sample_article(samplelist[i]))
     return {"recommendList":recommendList}
 
 @app.get("/recommend/{user_id}")

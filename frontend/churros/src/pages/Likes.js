@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Article from "../components/article/Article";
 import { api } from "../axios-instance/api";
-
+import LoadingPage from "./Loading";
 const LikesPage = () => {
   const [articleList, setArticleList] = useState([]);
   const likeListGet = async () => {
@@ -23,15 +23,17 @@ const LikesPage = () => {
     <div className="grid grid-cols-2 gap-4 p-5">
       {/* 첫 번째 기사 */}
       <div className="col-span-full place-content-center">
-        <Article shape="1" articleIdx={articleList[0]} />
+        {articleList && <Article shape="1" articleIdx={articleList[0]} />}
       </div>
 
       {/* 나머지 기사들 */}
-      {articleList.slice(1).map((article, idx) => (
-        <div key={idx} className="col-span-1">
-          <Article shape="2" articleIdx={article} />
-        </div>
-      ))}
+      {articleList &&
+        articleList.slice(1).map((article, idx) => (
+          <div key={idx} className="col-span-1">
+            <Article shape="2" articleIdx={article} />
+          </div>
+        ))}
+      {!articleList && <LoadingPage />}
     </div>
   );
 };

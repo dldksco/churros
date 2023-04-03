@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface ArticleRepository extends MongoRepository<Article , Long> {
-    Optional<Article> findByIdx(long idx);
+    Optional<Article> findFirstByIdx(long idx);
 }
