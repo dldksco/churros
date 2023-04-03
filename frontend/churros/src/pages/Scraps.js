@@ -25,10 +25,13 @@ const ScrapsPage = () => {
   return (
     <div className="grid grid-cols-2 gap-4 p-5">
       {/* 첫 번째 기사 */}
-      <div className="col-span-full place-content-center">
-        {articleList && <Article shape="1" articleIdx={articleList[0]} />}
-      </div>
-
+      {!articleList ? (
+        <LoadingPage />
+      ) : (
+        <div className="col-span-full place-content-center">
+          <Article shape="1" articleIdx={articleList[0]} />
+        </div>
+      )}
       {/* 나머지 기사들 */}
       {articleList &&
         articleList.slice(1).map((article, idx) => (
@@ -36,7 +39,6 @@ const ScrapsPage = () => {
             <Article shape="2" articleIdx={article} />
           </div>
         ))}
-      {!articleList && <LoadingPage />}
     </div>
   );
 };
