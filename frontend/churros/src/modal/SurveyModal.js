@@ -79,10 +79,10 @@ const SurveyContent = () => {
           selected: false,
         }))
       );
-    } catch ({ name, code, message, response }) {
-      console.log(`[error] ${name} code: ${code} message: ${message}`);
-      console.log(response);
-      if (response) {
+    } catch (error) {
+      console.log(error)
+
+      if (error.response) {
         const { status } = response;
         switch (status) {
           case 401:
@@ -102,8 +102,8 @@ const SurveyContent = () => {
     selectedArticles.forEach(async (item) => {
       try {
         console.log(item);
-        
-        const response = await api.put("/news/read", {
+
+        const response = await api.put("/news/read", null, {
           params: {
             articleId: item.articleId,
           },
