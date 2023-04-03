@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
-import { useRecoilValue, useSetRecoilState, useResetRecoilState } from "recoil";
+import { useSetRecoilState, useResetRecoilState } from "recoil";
 import { accessTokenState } from "../store/auth";
 import { userInfoState } from "../store/user";
 import SampleArticle from "../components/article/SampleArticle";
-import { test } from "../axios-instance/api";
 import { IoCheckbox } from "react-icons/io5";
 import { api } from "../axios-instance/api";
 
@@ -54,16 +53,16 @@ const SurveyContent = () => {
   const [sampleArticles, setSampleArticles] = useState([]);
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
 
-  const fetchDummySampleArticles = () => {
-    const articles = [169937, 169936, 169935, 169934, 169933, 169932];
-    setSampleArticles(
-      articles.map((articleId, index) => ({
-        index: index,
-        articleId: articleId,
-        selected: false,
-      }))
-    );
-  };
+  // const fetchDummySampleArticles = () => {
+  //   const articles = [169937, 169936, 169935, 169934, 169933, 169932];
+  //   setSampleArticles(
+  //     articles.map((articleId, index) => ({
+  //       index: index,
+  //       articleId: articleId,
+  //       selected: false,
+  //     }))
+  //   );
+  // };
 
   const fetchSampleArticles = async () => {
     try {
@@ -85,7 +84,7 @@ const SurveyContent = () => {
       console.log(`[error] ${name} code: ${code} message: ${message}`);
 
       if (response) {
-        const {status} = response;
+        const { status } = response;
         switch (status) {
           case 401:
             resetAccessToken();
@@ -104,7 +103,9 @@ const SurveyContent = () => {
     selectedArticles.forEach(async (item) => {
       try {
         const response = await api.put("/news/read", {
-          "articleId": item.articleId,
+          params: {
+            articleId: item.articleId,
+          },
         });
         const { result } = response.data;
         console.log(result);
