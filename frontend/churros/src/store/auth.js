@@ -4,13 +4,13 @@ import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
 export const accessTokenState = atom({
-  key: "accessTokenState",
+  key: "accessToken",
   default: null,
-  effects: [persistAtom({ key: "accessToken", storage: localStorage })],
+  effects: [persistAtom],
 });
 
 export const refreshTokenState = atom({
-  key: "refreshTokenState",
+  key: "refreshToken",
   default: null,
-  effects: [persistAtom({ key: "refreshToken", storage: localStorage })],
+  effects: [persistAtom],
 });
