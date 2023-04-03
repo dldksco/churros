@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
-import { useRecoilValue } from "recoil";
 import api from "../axios-instance/api";
 
 const ArticleDetailBackdrop = () => {};
