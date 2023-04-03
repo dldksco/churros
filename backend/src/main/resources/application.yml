@@ -72,7 +72,8 @@ logging:
       springframework:
         security=DEBUG:
 crs:
-  uri: http://churros-crs:8080
+#  uri: http://churros-crs:8080
+  uri: http://localhost:8080
 ---
 springfox:
   documentation:
