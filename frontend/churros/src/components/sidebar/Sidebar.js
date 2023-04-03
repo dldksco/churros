@@ -20,6 +20,7 @@ import { useEffect } from "react";
 
 const Sidebar = () => {
   const showScrapFolderList = useRecoilValue(showScrapFolderListState);
+  const scrapFolderList = useRecoilValue(scrapFolderListState);
   const setScrapFolderList = useSetRecoilState(scrapFolderListState);
 
   const fetchScrapFolderList = async () => {
