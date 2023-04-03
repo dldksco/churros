@@ -79,10 +79,10 @@ const SurveyContent = () => {
           selected: false,
         }))
       );
-    } catch ({ name, code, message, response }) {
-      console.log(`[error] ${name} code: ${code} message: ${message}`);
+    } catch (error) {
+      console.log(error)
 
-      if (response) {
+      if (error.response) {
         const { status } = response;
         switch (status) {
           case 401:
