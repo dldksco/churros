@@ -14,9 +14,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 app = FastAPI()
 remodel = LDAmodel()
+
 _RECOMMEND_ARTICLE_CNT = 12
 _SLICING_NUM = 5
 _MIN_VLUE = 2
+_CATEGORY_NUM = 30
+_SAMPLE_NUM = 6
 
 def get_db():
     db = SessionLocal()
@@ -34,8 +37,8 @@ async def remodel_recommend_model():
 @app.get("/recommend/sample")
 async def get_sample_articles():
     recommendList = []
-    samplelist = random.sample(range(0,30), 6)
-    for i in range(6):
+    samplelist = random.sample(range(0,_CATEGORY_NUM), _SAMPLE_NUM)
+    for i in range(_SAMPLE_NUM):
         recommendList.append(remodel.sample_article(samplelist[i]))
     return {"recommendList":recommendList}
 
