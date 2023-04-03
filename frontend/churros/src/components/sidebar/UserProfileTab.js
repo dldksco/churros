@@ -14,7 +14,7 @@ const UserProfileTab = () => {
       className={`${SIDEBAR_ITEM_SIZE.lg} bg-transparent hover:bg-stone-200`}
     >
       <CircleImageFrame imageUrl={userInfo.imageUrl}/>
-      <p className="text-base font-bold text-center">{userInfo.name}</p>
+      <p className="text-base font-bold text-center mx-2">{userInfo.name}</p>
     </SidebarItem>
   );
 };
