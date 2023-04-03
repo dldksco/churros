@@ -79,7 +79,3 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
             break
 
     return {"recommendList": recommendations[:_RECOMMEND_ARTICLE_CNT]}
-
-@app.get("*")
-def notFound():
-    raise HTTPException(status_code=404, detail="Page Url is not allowed")
