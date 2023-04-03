@@ -13,5 +13,4 @@ public interface NewsFeign {
 
     @GetMapping("/sample")
     List<Long> getSampleList();
-
 }
