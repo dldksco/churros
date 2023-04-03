@@ -84,6 +84,7 @@ const ScrapListItem = ({ articleId, folderIdx, folderName, isScrapped }) => {
     setScrapped((prev) => !prev);
   };
 
+  // Todo: 현재 폴더에 해당 기사가 스크랩된 상태가 변하면 api 요청 보내기
   useEffect(() => {}, [scrapped]);
 
   return (
@@ -122,7 +123,7 @@ const ScrapList = ({ items }) => {
   );
 };
 
-const ScrapFolderAddForm = ({ onMenuClose }) => {
+const ScrapFolderAddForm = ({ articleId, onScrapFolderAdded, onMenuClose }) => {
   return (
     <div
       className="absolute top-0 left-0 flex flex-row justify-between items-center w-full h-full p-2 z-60 bg-stone-200 rounded-lg"
@@ -131,7 +132,7 @@ const ScrapFolderAddForm = ({ onMenuClose }) => {
       <div className="p-1 mr-2 flex-1 h-5/6">
       <input className="w-full h-full rounded-lg" onClick={(e) => e.stopPropagation()}/>
       </div>
-      <div className="p-1 bg-stone-300 rounded-lg hover:bg-stone-500">
+      <div className="p-1 bg-stone-300 rounded-lg hover:bg-stone-500" onClick={() => (onScrapFolderAdded("folderName", articleId))}>
       <IoAddOutline size={25}/>
       </div>
     </div>
@@ -179,6 +180,11 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
     setFormOpen(false);
   }
 
+  // 스크랩 폴더가 추가되면 폴더가 추가되고, 해당 아티클을 스크랩 추가하고 모달이 닫힌다
+  const onScrapFolderAdded = (folderName, articleId) => {
+    
+  }
+
   // fetch data
   useEffect(() => {
     fetchData();
@@ -194,7 +200,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           스크랩하기
         </p>
       </div>
-      <ScrapList items={dummyItems} />
+      <ScrapList items={scrapList} />
       <div className="relative w-full h-14 p-2 mt-2">
         <div
           className="flex flex-row justify-start items-center w-full h-full"
@@ -210,7 +216,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
         </div>
         {isFormOpen && (
           <ScrapFolderAddForm
-            onMenuClose={closeForm}
+            onScrapFolderAdded={() => console.log("스크랩 폴더 추가하기")} onMenuClose={closeForm}
           />
         )}
       </div>
