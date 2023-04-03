@@ -127,8 +127,8 @@ const SurveyContent = () => {
   // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
-    fetchDummySampleArticles();
-    // fetchSampleArticles();
+    // fetchDummySampleArticles();
+    fetchSampleArticles();
     setIsOpen(true);
   }, []);
 
