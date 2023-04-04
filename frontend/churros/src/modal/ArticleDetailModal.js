@@ -14,11 +14,12 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 
 const ArticleDetailContent = async ({ url }) => {
   const [htmlObject, setHtmlObject] = useState();
-  console.log(url);
-  const regex = /\/(\d{3}\/\d+)/;
+
+  const regex = /(?<=article\/)(.*?)(?=\?)/;
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
+  
   try {
     const response = await api.get(`/news/call`, {
       headers: {
