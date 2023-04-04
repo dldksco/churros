@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 import datetime
 
-load_dotenv()
+load_dotenv('../crawling/.env')
 
 # mongoDB 설정
 mongo_host = os.environ.get('MongoHost')
