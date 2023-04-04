@@ -1,16 +1,18 @@
 package com.a503.churros.unit.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.a503.churros.controller.news.NewsController;
-import com.a503.churros.dto.NewsSearchResponse;
 import com.a503.churros.dto.news.NewsDocumentationDTO;
 import com.a503.churros.dto.news.NewsSearchRequest;
 import com.a503.churros.service.news.NewsService;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +27,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
-@WebMvcTest(
-    controllers = NewsController.class,
-    excludeAutoConfiguration = {SecurityAutoConfiguration.class,
-        OAuth2ClientAutoConfiguration.class},
-    excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-            SecurityAutoConfiguration.class, WebSecurityConfigurerAdapter.class,
-            HttpSecurity.class})}
-)
+@WebMvcTest(controllers = NewsController.class, excludeAutoConfiguration = {
+    SecurityAutoConfiguration.class, OAuth2ClientAutoConfiguration.class}, excludeFilters = {
+    @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        SecurityAutoConfiguration.class, WebSecurityConfigurerAdapter.class, HttpSecurity.class})})
 public class NewsControllerTest {
 
   @MockBean
@@ -53,6 +49,9 @@ public class NewsControllerTest {
   private MockMvc mockMvc;
 
   private ObjectMapper objectMapper;
+
+  @MockBean
+  private UserIdxFromJwtTokenService userIdxFromJwtTokenService;
 
   @BeforeEach
   void setUp() {
@@ -64,45 +63,35 @@ public class NewsControllerTest {
   @DisplayName("News Search Test")
   public void testNewsSearch() throws Exception {
     //given
-
     String text = "test";
     int page = 0;
     int size = 10;
+    Pageable pageable = PageRequest.of(page, size);
 
     NewsSearchRequest request = new NewsSearchRequest(text, page, size);
-    request.setText(text);
-    request.setPage(page);
-    request.setSize(size);
 
-    List<NewsDocumentationDTO> news = new ArrayList<>();
-    news.add(NewsDocumentationDTO.builder().idx(1L).
-        imgSrc("image").
-        title("text").
-        description("test").
-        link("link").
-        build()
-    );
+    List<NewsDocumentationDTO> newsContent = new ArrayList<>();
+    newsContent.add(
+        NewsDocumentationDTO.builder().idx(1L).imgSrc("image").title("text").description("test")
+            .link("link").build());
+    Slice<NewsDocumentationDTO> news = new SliceImpl<>(newsContent);
+    given(newsService.searchByTitleAndDescription(text, pageable)).willReturn(news);
 
-    //when
+//when
+    mockMvc.perform(post("/news/search").contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request))).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].title").value("text"))
+        .andExpect(jsonPath("$.content[0].description").value("test"))
+        .andExpect(jsonPath("$.content[0].idx").value(1))
+        .andExpect(jsonPath("$.content[0].link").value("link"))
+        .andExpect(jsonPath("$.content[0].imgSrc").value("image"))
+        .andExpect(jsonPath("$.size").value(1)).andExpect(jsonPath("$.number").value(0))
+        .andExpect(jsonPath("$.first").value(true)).andExpect(jsonPath("$.last").value(true))
+        .andExpect(jsonPath("$.numberOfElements").value(1))
+        .andExpect(jsonPath("$.empty").value(false));
+//then
+    verify(newsService, times(1)).searchByTitleAndDescription(text, pageable);
 
-    when(newsService.searchByTitleAndDescription(any(String.class),
-        any(PageRequest.class))).thenReturn(
-        new SliceImpl<>(news));
-
-    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/news/search")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-        .andReturn();
-    NewsSearchResponse newsPage = objectMapper.readValue(
-        mvcResult.getResponse().getContentAsString(),
-        new TypeReference<NewsSearchResponse>() {
-        });
-    //then
-
-    // HttpStatus.OK와 동일한 상태 코드를 확인합니다.
-    assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-    // 결과의 크기와 내용을 확인합니다.
-    assertEquals(news.size(), newsPage.getContent().size());
-    assertTrue(news.containsAll(newsPage.getContent()) && newsPage.getContent().containsAll(news));
   }
 }

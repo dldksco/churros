@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.a503.churros.dto.news.NewsDocumentationDTO;
 import com.a503.churros.entity.news.NewsDocumentation;
+import com.a503.churros.feign.news.NaverFeign;
+import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.article.ArticleRepository;
-import com.a503.churros.repository.feign.FeignClient;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
@@ -49,7 +50,10 @@ class NewsServiceSearchTest {
   @Mock
   private ArticleRepository articleRepository;
   @Mock
-  private FeignClient feignClient;
+  private NewsFeign newsFeign;
+
+  @Mock
+  private NaverFeign naverFegin;
 
   @BeforeEach
   void setUp() throws JsonProcessingException {
@@ -67,7 +71,7 @@ class NewsServiceSearchTest {
     elasticsearchOperations = new ElasticsearchRestTemplate(
         RestClients.create(clientConfiguration).rest());
     newsService = new NewsServiceImpl(readRepository, likeRepository, disLikeRepository,
-        articleRepository, feignClient, elasticsearchOperations);
+        articleRepository,elasticsearchOperations, newsFeign, naverFegin );
     //test Entity 생성
     NewsDocumentation newsDoc = new NewsDocumentation("1", "Test news title",
         "Test news description", 1L, "https://www.example.com",
