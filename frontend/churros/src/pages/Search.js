@@ -17,7 +17,7 @@ const SearchPage = () => {
       });
       const { result, article } = response.data;
       console.log(`loading sample search result ${searchData}: ${result}`);
-      setSearchList({ ...article });
+      setSearchList([ ...article ]);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +35,7 @@ const SearchPage = () => {
       </div>
       <div className="grid grid-cols-2 gap-4 p-5">
         {/* 검색결과 */}
-        {searchList && searchList.slice(1).map((article, idx) => (
+        {searchList && searchList.map((article, idx) => (
           <div key={idx} className="col-span-1 relative">
             <Article shape="2" articleIdx={article.idx} />
           </div>
