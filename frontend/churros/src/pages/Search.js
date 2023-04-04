@@ -13,7 +13,7 @@ const SearchPage = () => {
   const fetchData = async () => {
     try {
       const response = await api.post(`/news/search`, {
-        body: JSON.stringify({ text: searchData, page: 1, size: 10 }),
+        body: JSON.stringify({ text: searchData, page: 0, size: 10 }),
       });
       const { result, article } = response.data;
       console.log(`loading sample search result ${searchData}: ${result}`);
@@ -35,7 +35,7 @@ const SearchPage = () => {
       </div>
       <div className="grid grid-cols-2 gap-4 p-5">
         {/* 검색결과 */}
-        {searchList.slice(1).map((article, idx) => (
+        {searchList && searchList.slice(1).map((article, idx) => (
           <div key={idx} className="col-span-1 relative">
             <Article shape="2" articleIdx={article.idx} />
           </div>
