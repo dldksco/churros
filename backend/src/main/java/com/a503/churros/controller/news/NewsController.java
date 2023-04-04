@@ -147,7 +147,9 @@ public class NewsController {
         int size = newsSearchRequest.getSize();
         Pageable pageable = PageRequest.of(page, size);
         Slice<NewsDocumentationDTO> news = ns.searchByTitleAndDescription(text, pageable);
-        for (NewsDocumentationDTO newsItem : news) {
+        List<NewsDocumentationDTO> temp = news.getContent();
+
+        for (NewsDocumentationDTO newsItem : temp) {
             System.out.println("Title: " + newsItem.getTitle());
             System.out.println("Description: " + newsItem.getDescription());
             System.out.println("Link: " + newsItem.getLink());
