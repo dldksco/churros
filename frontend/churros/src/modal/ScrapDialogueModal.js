@@ -3,69 +3,9 @@ import { Fragment } from "react";
 import ReactDOM from "react-dom";
 import { IoCheckbox, IoSquareOutline, IoAddOutline } from "react-icons/io5";
 import { api } from "../axios-instance/api";
-
-const dummyItems = [
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "정치",
-    isScrapped: true,
-  },
-  {
-    articleId: 1,
-    folderIdx: 3,
-    folderName: "시사",
-    isScrapped: false,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "IT",
-    isScrapped: true,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "과학",
-    isScrapped: false,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "정치",
-    isScrapped: true,
-  },
-  {
-    articleId: 1,
-    folderIdx: 3,
-    folderName: "시사",
-    isScrapped: false,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "IT",
-    isScrapped: true,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "과학",
-    isScrapped: false,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "과학",
-    isScrapped: false,
-  },
-  {
-    articleId: 1,
-    folderIdx: 2,
-    folderName: "과학",
-    isScrapped: false,
-  },
-];
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { scrapFolderListState } from "../store/sidebar-global-state";
+import CloseButton from "../components/common/CloseButton";
 
 const ScrapDialogueBackdrop = ({ onClose }) => {
   return (
@@ -76,7 +16,12 @@ const ScrapDialogueBackdrop = ({ onClose }) => {
   );
 };
 
-const ScrapListItem = ({ articleId, folderIdx, folderName, isScrapped }) => {
+const ScrapDialogueItem = ({
+  articleId,
+  folderIdx,
+  folderName,
+  isScrapped,
+}) => {
   const [scrapped, setScrapped] = useState(isScrapped);
 
   const toggleCheckbox = (e) => {
@@ -85,7 +30,17 @@ const ScrapListItem = ({ articleId, folderIdx, folderName, isScrapped }) => {
   };
 
   // Todo: 현재 폴더에 해당 기사가 스크랩된 상태가 변하면 api 요청 보내기
-  useEffect(() => {}, [scrapped]);
+  useEffect(async () => {
+    try {
+      const response = await api.put("/scrap/article", {
+        articleId: articleId,
+        folderIdx: folderIdx,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [scrapped]);
 
   return (
     <div className="flex flex-row w-full h-max my-2 px-4">
@@ -106,12 +61,12 @@ const ScrapListItem = ({ articleId, folderIdx, folderName, isScrapped }) => {
   );
 };
 
-const ScrapList = ({ items }) => {
+const ScrapDialogueList = ({ items }) => {
   return (
     <div className="flex flex-col flex-1 overflow-y-auto">
       {items.map(({ articleId, folderIdx, folderName, isScrapped }) => {
         return (
-          <ScrapListItem
+          <ScrapDialogueItem
             articleId={articleId}
             folderIdx={folderIdx}
             folderName={folderName}
@@ -123,37 +78,91 @@ const ScrapList = ({ items }) => {
   );
 };
 
-const ScrapFolderAddForm = ({ articleId, onScrapFolderAdded, onMenuClose }) => {
+const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
+  const [folderName, setFolderName] = useState("");
+  const [formValid, setFormValid] = useState(false);
+
+  const handleInputChange = (e) => {
+    setFolderName(e.target.value);
+  };
+
+  const createNewScrapFolderAndAddArticle = async (folderName) => {
+    try {
+      const r = await api.post("/scrap/book", {
+        folderName: folderName,
+      });
+      console.log(r);
+      const { folderIdx } = r.data;
+
+      const s = await api.put("/scrap/article", {
+        articleId: articleId,
+        folderIdx: folderIdx,
+      });
+      console.log(s);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFolderName("");
+      onMenuClose();
+    }
+  };
+
+  useEffect(() => {
+    const folderNameLength = folderName.trim().length;
+
+    if (folderNameLength === 0 || folderNameLength > 20) setFormValid(false);
+    else setFormValid(true);
+  }, [folderName]);
+
   return (
-    <div
-      className="absolute top-0 left-0 flex flex-row justify-between items-center w-full h-full p-2 z-60 bg-stone-200 rounded-lg"
-      onClick={onMenuClose}
-    >
-      <div className="p-1 mr-2 flex-1 h-5/6">
-      <input className="w-full h-full rounded-lg" onClick={(e) => e.stopPropagation()}/>
+    <div className="absolute top-0 left-0 flex flex-row justify-between items-center w-full h-full p-1 z-60 bg-stone-200 rounded-lg">
+      <CloseButton
+        className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3"
+        onClose={() => {
+          setFolderName("");
+          onMenuClose();
+        }}
+      />
+      <div className="p-1 mr-1 flex-1 h-5/6">
+        <input
+          className="placeholder:italic placeholder:text-slate-400 block bg-white w-full h-full border border-slate-300 rounded-md pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+          placeholder="새 스크랩 폴더 제목..."
+          type="text"
+          name="search"
+          onChange={handleInputChange}
+          onClick={(e) => e.stopPropagation()}
+        />
       </div>
-      <div className="p-1 bg-stone-300 rounded-lg hover:bg-stone-500" onClick={() => (onScrapFolderAdded("folderName", articleId))}>
-      <IoAddOutline size={25}/>
+      <div
+        className={`mr-1 p-1 rounded-lg ${
+          formValid
+            ? "bg-stone-300 hover:bg-stone-500"
+            : "bg-stone-200 pointer-events-none"
+        }`}
+        onClick={() => createNewScrapFolderAndAddArticle(folderName)}
+      >
+        <IoAddOutline
+          size={25}
+          className={`${formValid ? "text-black" : "text-gray-100"}`}
+        />
       </div>
     </div>
   );
 };
 
 const ScrapDialogueContent = ({ articleId, onClose }) => {
-  const [loading, setLoading] = useState(true);
   const [isFormOpen, setFormOpen] = useState(false);
-  const [scrapList, setScrapList] = useState([]);
+  const [scrapDialogueItems, setScrapDialogueItems] = useState([]);
+
+  const scrapFolders = useRecoilValue(scrapFolderListState);
 
   const fetchData = async () => {
     try {
-      setLoading(true);
-      const r = await api.get("/scrap");
-      const { folder } = r.data;
-
-      setScrapList(
-        folder.map(async ({ folderIdx, folderName }) => {
-          const s = await api.get(`/scrap/${folderIdx}`);
-          const { articles } = s.data;
+      setScrapDialogueItems(
+        scrapFolders.map(async ({ folderIdx, folderName }) => {
+          const response = await api.get(`/scrap/${folderIdx}`);
+          console.log(response);
+          const { articles } = response.data;
 
           return {
             articleId: articleId,
@@ -165,25 +174,16 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
       );
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const openForm = (e) => {
-    e.preventDefault();
     setFormOpen(true);
-  }
+  };
 
   const closeForm = (e) => {
-    e.preventDefault();
     setFormOpen(false);
-  }
-
-  // 스크랩 폴더가 추가되면 폴더가 추가되고, 해당 아티클을 스크랩 추가하고 모달이 닫힌다
-  const onScrapFolderAdded = (folderName, articleId) => {
-    
-  }
+  };
 
   // fetch data
   useEffect(() => {
@@ -200,7 +200,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           스크랩하기
         </p>
       </div>
-      <ScrapList items={scrapList} />
+      <ScrapDialogueList items={scrapDialogueItems} />
       <div className="relative w-full h-14 p-2 mt-2">
         <div
           className="flex flex-row justify-start items-center w-full h-full"
@@ -215,9 +215,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           </p>
         </div>
         {isFormOpen && (
-          <ScrapFolderAddForm
-            onScrapFolderAdded={() => console.log("스크랩 폴더 추가하기")} onMenuClose={closeForm}
-          />
+          <ScrapFolderAddForm articleId={articleId} onMenuClose={closeForm} />
         )}
       </div>
     </div>

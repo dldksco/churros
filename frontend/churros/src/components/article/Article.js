@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import HoverBox from "../common/HoverBox";
-import CloseButton from "../common/CloseButton";
+import ArticleCloseButton from "./ArticleCloseButton";
 import { api } from "../../axios-instance/api";
 const Article = ({ shape, articleIdx }) => {
   let sizename = "max-w w-90 lg:flex place-content-center rounded-tl-xl rounded-bl-xl";
@@ -47,7 +47,7 @@ const Article = ({ shape, articleIdx }) => {
       ></div>
       <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white p-4 flex flex-col justify-between leading-normal relative rounded-br-xl rounded-tr-xl">
         <div className="mb-8">
-          <CloseButton articleIdx={articleIdx} />
+          <ArticleCloseButton articleIdx={articleIdx} />
           <div className="text-black font-bold text-xl mb-2">
             {content.title}
           </div>
