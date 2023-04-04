@@ -2,6 +2,7 @@ package com.a503.churros.controller.scrap;
 
 
 import com.a503.churros.dto.scrap.ScrapFolderDTO;
+import com.a503.churros.dto.scrap.ScrapInputDTO;
 import com.a503.churros.service.scrap.ScrapService;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import io.swagger.annotations.Api;
@@ -67,11 +68,11 @@ public class ScrapController {
     public ResponseEntity<?> postScrapBook(
             @RequestHeader("Authorization")
             String token,
-            @RequestBody String folderName
+            @RequestBody ScrapInputDTO dto
             ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        long folderIdx = ss.insertFolderName(userId , folderName);
+        long folderIdx = ss.insertFolderName(userId , dto.getFolderName());
         resultMap.put("folderIdx" , folderIdx);
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
@@ -80,12 +81,11 @@ public class ScrapController {
     public ResponseEntity<?> putScrapBooK(
             @RequestHeader("Authorization")
             String token,
-            String folderName ,
-            @RequestParam Integer  folderIdx
+            @RequestBody ScrapInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ss.changeFolderName(userId , folderName , folderIdx);
+        ss.changeFolderName(userId , dto.getFolderName() , dto.getFolderIdx());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
@@ -94,11 +94,11 @@ public class ScrapController {
     public ResponseEntity<?> deleteScrapBook(
             @RequestHeader("Authorization")
             String token,
-            long folderIdx
+            @RequestBody ScrapInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ss.deleteFolder(userId , folderIdx);
+        ss.deleteFolder(userId , dto.getFolderIdx());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
@@ -107,12 +107,11 @@ public class ScrapController {
     public ResponseEntity<?> putScrapArticle(
             @RequestHeader("Authorization")
             String token,
-            long folderIdx ,
-            long articleIdx
+            @RequestBody ScrapInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ss.saveArticle(userId , folderIdx , articleIdx);
+        ss.saveArticle(userId , dto.getFolderIdx() , dto.getArticleIdx());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }

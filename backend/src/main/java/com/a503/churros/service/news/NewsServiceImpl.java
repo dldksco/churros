@@ -43,7 +43,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void saveReadArti(long userId, Long articleId) {
+    public void saveReadArti(long userId, long articleId) {
         Read read = rr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(read == null){
             read = Read.builder()
@@ -59,7 +59,7 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     @Transactional
-    public void recordLike(long userId, int articleId) {
+    public void recordLike(long userId, long articleId) {
         Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(like == null){
             like = Like.builder()
@@ -85,7 +85,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void recordDisLike(long userId, int articleId) {
+    public void recordDisLike(long userId, long articleId) {
         DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(dis == null){
             dis = DisLike.builder()
@@ -97,7 +97,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public ArticleDTO getArticleInfo(/*long userId ,*/ Integer articleId) {
+    public ArticleDTO getArticleInfo(/*long userId ,*/ long articleId) {
         Article article = ar.findFirstByIdx(articleId).orElse(null);
         if(article == null){
             return null;
