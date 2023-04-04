@@ -3,9 +3,10 @@ import { api } from "../../axios-instance/api";
 
 const CloseButton = ({ onClose, articleIdx }) => {
   const fetchData = async () => {
+    const data = JSON.stringify({articleId: articleIdx});
     try {
       const response = await api.post(`/news/dislike`, {
-        params: { articleId: articleIdx },
+        body: data,
       });
       const { result } = response.data;
       console.log(`disliked ${articleIdx}: ${result}`);
