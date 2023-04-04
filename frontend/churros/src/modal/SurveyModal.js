@@ -93,9 +93,9 @@ const SurveyContent = () => {
         console.log(item);
 
         const response = await api.put("/news/read", null, {
-          params: {
+          body: JSON.stringify({
             articleId: item.articleId,
-          },
+          })
         });
 
         const { result } = response.data;
