@@ -34,7 +34,7 @@ const Article = ({ shape, articleIdx }) => {
   console.log(content);
   useEffect(() => {
     fetchData();
-  }, [articleIdx]);
+  }, []);
 
   return (
     <div className={sizename}>
