@@ -97,6 +97,7 @@ const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
       const s = await api.put("/scrap/article", {
         articleId: articleId,
         folderIdx: folderIdx,
+        folderName: folderName,
       });
       console.log(s);
     } catch (error) {
@@ -128,7 +129,6 @@ const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
           className="placeholder:italic placeholder:text-slate-400 block bg-white w-full h-full border border-slate-300 rounded-md pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
           placeholder="새 스크랩 폴더 제목..."
           type="text"
-          name="search"
           onChange={handleInputChange}
           onClick={(e) => e.stopPropagation()}
         />

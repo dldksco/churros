@@ -69,8 +69,8 @@ const SurveyContent = () => {
         }))
       );
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
+
       if (error?.response) {
         const { status } = error?.response;
         switch (status) {
@@ -92,10 +92,8 @@ const SurveyContent = () => {
       try {
         console.log(item);
 
-        const response = await api.put("/news/read", null, {
-          body: JSON.stringify({
-            articleId: item.articleId,
-          })
+        const response = await api.put("/news/read", {
+          articleId: item.articleId,
         });
 
         const { result } = response.data;
