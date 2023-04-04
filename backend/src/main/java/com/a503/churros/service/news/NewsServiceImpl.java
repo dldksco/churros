@@ -43,7 +43,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void saveReadArti(long userId, int articleId) {
+    public void saveReadArti(long userId, Long articleId) {
         Read read = rr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(read == null){
             read = Read.builder()
@@ -97,7 +97,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public ArticleDTO getArticleInfo(/*long userId ,*/ long articleId) {
+    public ArticleDTO getArticleInfo(/*long userId ,*/ Integer articleId) {
         Article article = ar.findFirstByIdx(articleId).orElse(null);
         if(article == null){
             return null;

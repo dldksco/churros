@@ -1,7 +1,7 @@
 const CircleImageFrame = ({ imageUrl }) => {
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-24 h-24 rounded-full border-2 border-white overflow-hidden">
+    <div className="flex items-center justify-center mx-2">
+      <div className="w-16 h-16 rounded-full border-2 border-white overflow-hidden">
         <img
           src={imageUrl}
           alt="User Profile"

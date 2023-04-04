@@ -6,7 +6,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = JSON.parse(localStorage.getItem("recoil-persist"))?.accessToken;
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   else{
     console.log("accessToken not exists")
