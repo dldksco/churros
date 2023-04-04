@@ -58,7 +58,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     dislikes = set(re.likes_idx for re in db_user.dislikes)
 
     # 2주 안에 읽은 데이터들을 최신 날짜 순으로 정렬
-    today = date.now().date()
+    today = date.today()
     two_weeks_ago = today - timedelta(days=14)
 
     read_articles = [ra for ra in db_user.articles
