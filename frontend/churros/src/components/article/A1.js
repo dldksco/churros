@@ -7,6 +7,7 @@ import ArticleDetailModal from "../../modal/ArticleDetailModal";
 const A1 = ({ articleIdx, onClose }) => {
   const [content, setContent] = useState({});
   const [showDetail, setShowDetail] = useState(false)
+  const [url, setUrl] = useState("")
   const detailOnClick=() => {
     setShowDetail((before) => {
       return !before
@@ -30,6 +31,7 @@ const A1 = ({ articleIdx, onClose }) => {
       const { result, article } = response.data;
       console.log(`loading sample article ${articleIdx}: ${result}`);
       setContent({ ...article });
+      setUrl(article.url)
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +76,7 @@ const A1 = ({ articleIdx, onClose }) => {
           <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
-      {showDetail && <ArticleDetailModal url={content.url} hideDetail={detailOnClick}/>}
+      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick}/>}
     </>
   );
 };
