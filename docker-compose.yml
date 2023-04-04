@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
       context: ./backend
     environment:
+      - ELASTICSEARCH_PASSWORD=A503!23
+      - ELASTICSEARCH_ID=elastic
       - MARIADB_PASSWORD=A503
       - MONGODB_URI=mongodb://churros:A503@churros-mongodb:27017/newsdb
     ports:
