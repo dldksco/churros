@@ -2,9 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
-# from dotenv import load_dotenv
-#
-# load_dotenv()
 
 maria_user = os.getenv("MARIA_USER")
 maria_passwd = os.getenv("MARIA_PASSWD")
