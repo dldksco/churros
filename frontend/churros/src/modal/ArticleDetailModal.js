@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
-import api from "../axios-instance/api";
+import { api } from "../axios-instance/api";
 import { useState } from "react";
 
 const ArticleDetailBackdrop = ({ hideDetail }) => {
@@ -15,10 +15,11 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 const ArticleDetailContent = async ({ url }) => {
   const [htmlObject, setHtmlObject] = useState();
 
-  const regex = "/article/(.*?)?";
+  const regex = /(?<=article\/)(.*?)(?=\?)/;
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
+  
   try {
     const response = await api.get(`/news/call`, {
       headers: {
