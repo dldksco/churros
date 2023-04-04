@@ -43,7 +43,7 @@ const Main = () => {
     if (userInfo?.activate) {
       fetchMainPageArticles();
     }
-  }, [userInfo]);
+  }, []);
 
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
