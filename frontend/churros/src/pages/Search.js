@@ -13,7 +13,7 @@ const SearchPage = () => {
   const fetchData = async () => {
     try {
       const response = await api.post(`/news/search`, {
-        body: JSON.stringify({ text: searchData, page: 0, size: 10 }),
+        body: JSON.stringify({ text: searchData, page: 0, size: 20 }),
       });
       const { result, article } = response.data;
       console.log(`loading sample search result ${searchData}: ${result}`);
