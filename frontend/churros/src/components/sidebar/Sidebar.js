@@ -63,8 +63,8 @@ const Sidebar = () => {
       <ScrapFolderTab key={keys.scrapFolderTab} />
 
       <div className="flex-1 overflow-y-auto">
-        {showScrapFolderList &&
-          scrapFolderList?.map((item) => (
+        {showScrapFolderList && scrapFolderList?.length > 0 &&
+          scrapFolderList.map((item) => (
             <ScrapFolderListItem
               key={item.folderIdx}
               title={item.folderName}

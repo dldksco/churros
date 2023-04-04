@@ -33,4 +33,6 @@ public interface UserService {
 
     public MessageResponse logout(Long userIdx);
 
+    public MessageResponse deleteUser(Long userIdx);
+
 }

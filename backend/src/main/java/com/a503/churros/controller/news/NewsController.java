@@ -1,7 +1,7 @@
 package com.a503.churros.controller.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
-import com.a503.churros.global.exception.CustomExceptionHandler;
+import com.a503.churros.dto.news.ArticleInputDTO;
 import com.a503.churros.service.news.NewsService;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import io.swagger.annotations.Api;
@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/news")
 @Api("NEWS API")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class NewsController {
 
     private static final String SUCCESS = "success";
@@ -30,98 +29,100 @@ public class NewsController {
     @GetMapping("")
     public ResponseEntity<?> getNews(
             @RequestHeader("Authorization")
-            String token
-    ){
+                    String token
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-            List<Integer> list = ns.sendRecommend(userId);
-            resultMap.put("articles", list);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        List<Integer> list = ns.sendRecommend(userId);
+        resultMap.put("articles", list);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
             @RequestHeader("Authorization")
                     String token,
-            @PathVariable(value = "articleId") long articleId
-    ){
+            @PathVariable(value = "articleId") Integer articleId
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-            ArticleDTO dto = ns.getArticleInfo(/*userId , */articleId);
-            resultMap.put("result", SUCCESS);
-            resultMap.put("article" , dto);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        long userId = ts.extractIdxFromToken(token);
+        ArticleDTO dto = ns.getArticleInfo(userId, articleId);
+        resultMap.put("result", SUCCESS);
+        resultMap.put("article", dto);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/call")
     public ResponseEntity<?> getNewsHtml(
-            String url
-    ){
+            @RequestParam String url
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String html = ns.callNaver(url);
         resultMap.put("result", SUCCESS);
-        resultMap.put("html" , html);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        resultMap.put("html", html);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/sample")
-    public ResponseEntity<?> getNewsSample(){
+    public ResponseEntity<?> getNewsSample() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         List<Integer> list = ns.sendSample();
         resultMap.put("result", SUCCESS);
         resultMap.put("articles", list);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @PutMapping("/read")
     public ResponseEntity<?> putRead(
-            @RequestHeader("authorization")
-            String token,
-            @RequestParam Integer articleId
-    ){
+            @RequestHeader("Authorization")
+                    String token,
+            @RequestParam ArticleInputDTO dto
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.saveReadArti(userId , articleId);
+        ns.saveReadArti(userId, dto.getArticleId());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 
     }
 
     @PutMapping("/like")
     public ResponseEntity<?> postLike(
             @RequestHeader("Authorization")
-            String token,
-            long articleId
-    ){
+                    String token,
+            @RequestParam ArticleInputDTO dto
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.recordLike(userId , articleId);
+        ns.recordLike(userId, dto.getArticleId());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/like")
     public ResponseEntity<?> getLike(
             @RequestHeader("Authorization")
-            String token
-    ){
+                    String token
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
         List<Long> list = ns.getLikeList(userId);
-        resultMap.put("articles" , list);
+        resultMap.put("articles", list);
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
     @PostMapping("/dislike")
     public ResponseEntity<?> postDisLike(
             @RequestHeader("Authorization")
-            String token,
-            long articleId
-    ){
+                    String token,
+            @RequestParam ArticleInputDTO dto
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.recordDisLike(userId , articleId);
+        ns.recordDisLike(userId, dto.getArticleId());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }
