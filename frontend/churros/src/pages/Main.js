@@ -38,7 +38,7 @@ const Main = () => {
 
   useEffect(() => {
     if (mainArticles.length > 0) {
-      const startIdx = 0;
+      let startIdx = 0;
       setCarouselArticles(mainArticles.slice(startIdx, subArraySizes[0]));
 
       startIdx += subArraySizes[0];
