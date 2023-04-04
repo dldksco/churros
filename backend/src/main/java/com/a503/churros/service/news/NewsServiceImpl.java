@@ -59,7 +59,7 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     @Transactional
-    public void recordLike(long userId, long articleId) {
+    public void recordLike(long userId, int articleId) {
         Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(like == null){
             like = Like.builder()
@@ -85,7 +85,7 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void recordDisLike(long userId, long articleId) {
+    public void recordDisLike(long userId, int articleId) {
         DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
         if(dis == null){
             dis = DisLike.builder()

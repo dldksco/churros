@@ -68,7 +68,7 @@ public class ScrapController {
     public ResponseEntity<?> postScrapBook(
             @RequestHeader("Authorization")
             String token,
-            String folderName
+            @RequestBody String folderName
             ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
@@ -82,7 +82,7 @@ public class ScrapController {
             @RequestHeader("Authorization")
             String token,
             String folderName ,
-            long folderIdx
+            @RequestParam Integer  folderIdx
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);

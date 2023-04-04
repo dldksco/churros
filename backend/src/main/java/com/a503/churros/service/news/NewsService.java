@@ -9,9 +9,9 @@ public interface NewsService {
     List<Integer> sendRecommend(long userId);
     List<Integer> sendSample();
     void saveReadArti(long userId, int articleId);
-    void recordLike(long userId, long articleId);
+    void recordLike(long userId, int articleId);
     List<Long> getLikeList(long userIdx);
-    void recordDisLike(long userId, long articleId);
+    void recordDisLike(long userId, int articleId);
 
     ArticleDTO getArticleInfo(/*long userId , */long articleId);
     String callNaver(String url);

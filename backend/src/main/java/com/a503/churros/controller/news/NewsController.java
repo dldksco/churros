@@ -1,6 +1,7 @@
 package com.a503.churros.controller.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.dto.news.ArticleInputDTO;
 import com.a503.churros.global.exception.CustomExceptionHandler;
 import com.a503.churros.service.news.NewsService;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
@@ -55,7 +56,7 @@ public class NewsController {
 
     @GetMapping("/call")
     public ResponseEntity<?> getNewsHtml(
-            String url
+            @RequestParam String url
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String html = ns.callNaver(url);
@@ -77,11 +78,11 @@ public class NewsController {
     public ResponseEntity<?> putRead(
             @RequestHeader("authorization")
             String token,
-            @RequestParam Integer articleId
+            @RequestBody ArticleInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.saveReadArti(userId , articleId);
+        ns.saveReadArti(userId , dto.getArticleId());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
 
@@ -91,11 +92,11 @@ public class NewsController {
     public ResponseEntity<?> postLike(
             @RequestHeader("Authorization")
             String token,
-            long articleId
+            @RequestBody ArticleInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.recordLike(userId , articleId);
+        ns.recordLike(userId , dto.getArticleId());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
@@ -116,11 +117,11 @@ public class NewsController {
     public ResponseEntity<?> postDisLike(
             @RequestHeader("Authorization")
             String token,
-            long articleId
+            @RequestBody ArticleInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.recordDisLike(userId , articleId);
+        ns.recordDisLike(userId , dto.getArticleId());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
