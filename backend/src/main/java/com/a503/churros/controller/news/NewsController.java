@@ -146,6 +146,12 @@ public class NewsController {
         int size = newsSearchRequest.getSize();
         Pageable pageable = PageRequest.of(page, size);
         Slice<NewsDocumentationDTO> news = ns.searchByTitleAndDescription(text, pageable);
+        for (NewsDocumentationDTO newsItem : news) {
+            System.out.println("Title: " + newsItem.getTitle());
+            System.out.println("Description: " + newsItem.getDescription());
+            System.out.println("Link: " + newsItem.getLink());
+            // 기타 프로퍼티 출력
+        }
         return ResponseEntity.ok(news);
     }
 
