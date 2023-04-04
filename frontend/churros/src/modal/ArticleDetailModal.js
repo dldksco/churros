@@ -30,7 +30,7 @@ const ArticleDetailContent = async ({ url }) => {
       },
     });
 
-    const htmlContent = response.data["url"];
+    const htmlContent = response.data["html"];
     console.log(htmlContent?.slice(0, 20));
 
     htmlContent.replace(/data-src=/g, "src=");
