@@ -9,14 +9,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 public interface NewsService {
-    List<Long> sendRecommend(long userId);
-    List<Long> sendSample();
+    List<Integer> sendRecommend(long userId);
+    List<Integer> sendSample();
     void saveReadArti(long userId, long articleId);
-    void recordLike(long userId, long articleId, long like);
+    void recordLike(long userId, long articleId);
     List<Long> getLikeList(long userIdx);
     void recordDisLike(long userId, long articleId);
 
     ArticleDTO getArticleInfo(long userId , long articleId);
+    String callNaver(String url);
 
     /**
      * 문장을 통해 검색 요청했을 경우 요청 페이지에 대한 검색 결과를 리턴함

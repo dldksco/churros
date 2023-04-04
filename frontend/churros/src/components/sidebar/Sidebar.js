@@ -1,11 +1,11 @@
 // react
 import React from "react";
 // recoil
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 // constants
 import { SIDEBAR_TAB_KEYS as keys } from "../../constants/sidebar-constants";
 // global state
-import { showScrapFolderListState } from "../../store/sidebar-global-state";
+import { showScrapFolderListState, scrapFolderListState } from "../../store/sidebar-global-state";
 // components
 import LogoTab from "./LogoTab";
 import UserProfileTab from "./UserProfileTab";
@@ -15,83 +15,39 @@ import ScrapFolderTab from "./ScrapFolderTab";
 import ScrapFolderListItem from "./ScrapFolderListItem";
 import LogoutButton from "./LogoutButton";
 
+import {api} from "../../axios-instance/api"
+import { useEffect } from "react";
+
 const Sidebar = () => {
   const showScrapFolderList = useRecoilValue(showScrapFolderListState);
+  const scrapFolderList = useRecoilValue(scrapFolderListState);
+  const setScrapFolderList = useSetRecoilState(scrapFolderListState);
 
-  const scrapFolderList = [
-    {
-      title: "IT",
-      folderIdx: 1,
-    },
-    {
-      title: "정치",
-      folderIdx: 2,
-    },
-    {
-      title: "경제",
-      folderIdx: 3,
-    },
-    {
-      title: "취업",
-      folderIdx: 4,
-    },
-    {
-      title: "취업",
-      folderIdx: 5,
-    },
-    {
-      title: "취업",
-      folderIdx: 6,
-    },
-    {
-      title: "취업",
-      folderIdx: 7,
-    },
-    {
-      title: "취업",
-      folderIdx: 8,
-    },
-    {
-      title: "취업",
-      folderIdx: 9,
-    },
-    {
-      title: "취업",
-      folderIdx: 10,
-    },
-    {
-      title: "취업",
-      folderIdx: 11,
-    },
-    {
-      title: "취업",
-      folderIdx: 12,
-    },
-    {
-      title: "취업",
-      folderIdx: 13,
-    },
-    {
-      title: "취업",
-      folderIdx: 14,
-    },
-    {
-      title: "취업",
-      folderIdx: 15,
-    },
-    {
-      title: "취업",
-      folderIdx: 16,
-    },
-    {
-      title: "취업",
-      folderIdx: 17,
-    },
-  ];
+  const fetchScrapFolderList = async () => {
+    try{
+      const res = await api.get("/scrap");
+      console.log(res.data);
+
+      const { folder } = res.data;
+
+      setScrapFolderList(folder.map(f => ({
+        folderIdx: f.folderIdx,
+        folderName: f.folderName
+      })));
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  // 컴포넌트가 마운트 될 때 데이터 fetch
+  useEffect(() => {
+    fetchScrapFolderList();
+  }, []);
 
   return (
     <aside
-      className={`flex flex-col justify-start w-64 h-screen mr-2 bg-stone-100`}
+      className="flex flex-col justify-start w-64 h-screen bg-stone-100"
     >
       <LogoTab key={keys.logoTab} />
 
@@ -107,11 +63,11 @@ const Sidebar = () => {
       <ScrapFolderTab key={keys.scrapFolderTab} />
 
       <div className="flex-1 overflow-y-auto">
-        {showScrapFolderList &&
+        {showScrapFolderList && scrapFolderList?.length > 0 &&
           scrapFolderList.map((item) => (
             <ScrapFolderListItem
               key={item.folderIdx}
-              title={item.title}
+              title={item.folderName}
               folderIdx={item.folderIdx}
             />
           ))}

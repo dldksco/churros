@@ -2,12 +2,14 @@ package com.a503.churros.service.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
 import com.a503.churros.dto.news.NewsDocumentationDTO;
+import com.a503.churros.entity.article.Article;
 import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.NewsDocumentation;
 import com.a503.churros.entity.news.Read;
+import com.a503.churros.feign.news.NaverFeign;
+import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.article.ArticleRepository;
-import com.a503.churros.repository.feign.FeignClient;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
@@ -28,6 +30,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +39,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class NewsServiceImpl implements NewsService{
+
     private final ReadRepository rr;
     private final LikeRepository lr;
     private final DisLikeRepository dr;
@@ -43,41 +47,19 @@ public class NewsServiceImpl implements NewsService{
     private final FeignClient fc;
 
     private final ElasticsearchOperations elasticsearchOperations;
-
-    public List<Long> sendRecommend(long userId){
-
-        List<Long> list = fc.getRecomList(userId);
+    private final NewsFeign fc;
+    private final NaverFeign nf;
 
 
-//        ClientResponse response = wc.get()
-//                .uri("/recommend/{userId}", userId)
-//                .accept(MediaType.APPLICATION_JSON)
-////                .body(BodyInserters.fromFormData(formData))
-//                .exchange()
-//                .block();
-//
-//        if (response.statusCode().is2xxSuccessful()) {
-//            return response.bodyToMono(List.class).block();
-//        } else {
-//            throw new RuntimeException("Failed to send recommendation: " + response.statusCode());
-//        }
-        return null;
+    public List<Integer> sendRecommend(long userId){
+        List<Integer> list = fc.getRecomList(userId).getRecommendList();
+        return list;
     }
 
-    public List<Long> sendSample(){
-//        ClientResponse response = wc.get()
-//                .uri("/recommend/sample")
-//                .accept(MediaType.APPLICATION_JSON)
-////                .body(BodyInserters.fromFormData(formData))
-//                .exchange()
-//                .block();
-//
-//        if (response.statusCode().is2xxSuccessful()) {
-//            return response.bodyToMono(List.class).block();
-//        } else {
-//            throw new RuntimeException("Failed to send recommendation: " + response.statusCode());
-//        }
-        return null;
+    public List<Integer> sendSample(){
+        List<Integer> list = fc.getSampleList().getRecommendList();
+        System.out.println(list);
+        return list;
     }
 
     @Override
@@ -96,15 +78,17 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public void recordLike(long userId, long articleId, long like) {
-        if(like == 1L){
-            Like data = Like.builder()
+    @Transactional
+    public void recordLike(long userId, long articleId) {
+        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(like == null){
+            like = Like.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
                     .build();
-            lr.save(data);
+            lr.save(like);
         }else{
-            lr.deleteByUserIdxAndArticleIdx(userId , articleId);
+            lr.delete(like);
         }
     }
 
@@ -122,25 +106,35 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void recordDisLike(long userId, long articleId) {
-        DisLike dis = DisLike.builder()
-                .userIdx(userId)
-                .articleIdx(articleId)
-                .build();
-        dr.save(dis);
+        DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(dis == null){
+            dis = DisLike.builder()
+                    .userIdx(userId)
+                    .articleIdx(articleId)
+                    .build();
+            dr.save(dis);
+        }
     }
 
     @Override
     public ArticleDTO getArticleInfo(long userId , long articleId) {
-//        Article article = ar.findByIdx(articleId).orElse(null);
-//        if(article == null){
+        Article article = ar.findFirstByIdx(articleId).orElse(null);
+        if(article == null){
             return null;
-//        }
-//        ArticleDTO dto = new ArticleDTO().of(article);
-//        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
-//        if(like != null){
-//            dto.setLike(true);
-//        }
-//        return dto;
+        }
+        ArticleDTO dto = new ArticleDTO().of(article);
+        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
+        if(like != null){
+            dto.setLike(true);
+        }
+        return dto;
+    }
+
+
+    @Override
+    public String callNaver(String url){
+        String html = nf.getArticle(url);
+        return html;
     }
 
     /**

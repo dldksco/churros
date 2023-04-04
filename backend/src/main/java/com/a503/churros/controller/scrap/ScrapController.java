@@ -2,7 +2,9 @@ package com.a503.churros.controller.scrap;
 
 
 import com.a503.churros.dto.scrap.ScrapFolderDTO;
+import com.a503.churros.dto.scrap.ScrapInputDTO;
 import com.a503.churros.service.scrap.ScrapService;
+import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,21 +25,16 @@ public class ScrapController {
     private static final String FAIL = "fail";
 
     private final ScrapService ss;
-
+    private final UserIdxFromJwtTokenService ts;
 
     @GetMapping("")
     public ResponseEntity<?> getScrap(
-//            @RequestHeader("token")
-//            String token
-            long userId
+            @RequestHeader("Authorization")
+            String token
     ){
-
         Map<String, Object> resultMap = new HashMap<String, Object>();
-
-        // 토큰을 통해 유저 인덱스를 가져오기 - 구현 전
-        List<ScrapFolderDTO> folderList
-                = ss.getFolderList(userId);
-
+        long userId = ts.extractIdxFromToken(token);
+        List<ScrapFolderDTO> folderList = ss.getFolderList(userId);
         if(folderList == null){
             resultMap.put("empty" , true);
         }else{
@@ -45,21 +42,18 @@ public class ScrapController {
             resultMap.put("folder" , folderList);
         }
         resultMap.put("result", SUCCESS);
-
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @GetMapping("/{scrapbookId}")
     public ResponseEntity<?> getScrap(
-//            @RequestHeader("token")
-//            String token
-            long userId ,
+            @RequestHeader("Authorization")
+            String token,
             @PathVariable(value = "scrapbookId") long scrapbookId
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-
-        // 토큰을 통해 유저 인덱스를 가져오기 - 구현 전
-        List<Long> articleList = ss.getArticleList(userId, userId);
+        long userId = ts.extractIdxFromToken(token);
+        List<Long> articleList = ss.getArticleList(scrapbookId, userId);
         if(articleList == null){
             resultMap.put("empty" , true);
         }else {
@@ -72,64 +66,52 @@ public class ScrapController {
 
     @PostMapping("/book")
     public ResponseEntity<?> postScrapBook(
-//            @RequestHeader("token")
-//            String token
-            long userId ,
-            String folderName
+            @RequestHeader("Authorization")
+            String token,
+            @RequestBody ScrapInputDTO dto
             ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        // 토큰을 통해 유저 인덱스를 가져오기 - 구현 전
-
-        long folderIdx = ss.insertFolderName(userId , folderName);
-
+        long userId = ts.extractIdxFromToken(token);
+        long folderIdx = ss.insertFolderName(userId , dto.getFolderName());
         resultMap.put("folderIdx" , folderIdx);
         resultMap.put("result", SUCCESS);
-
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
     @PutMapping("/book")
     public ResponseEntity<?> putScrapBooK(
-//            @RequestHeader("token")
-//            String token
-            long userId ,
-            String folderName ,
-            long folderIdx
+            @RequestHeader("Authorization")
+            String token,
+            @RequestBody ScrapInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-
-        ss.changeFolderName(userId , folderName , folderIdx);
+        long userId = ts.extractIdxFromToken(token);
+        ss.changeFolderName(userId , dto.getFolderName() , dto.getFolderIdx());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @DeleteMapping("/book")
     public ResponseEntity<?> deleteScrapBook(
-//            @RequestHeader("token")
-//            String token
-            long userId ,
-            long folderIdx
+            @RequestHeader("Authorization")
+            String token,
+            @RequestBody ScrapInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-
-        ss.deleteFolder(userId , folderIdx);
-
+        long userId = ts.extractIdxFromToken(token);
+        ss.deleteFolder(userId , dto.getFolderIdx());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }
 
     @PutMapping("/article")
     public ResponseEntity<?> putScrapArticle(
-//            @RequestHeader("token")
-//            String token
-            long userId ,
-            long folderIdx ,
-            long articleIdx
+            @RequestHeader("Authorization")
+            String token,
+            @RequestBody ScrapInputDTO dto
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-
-        ss.saveArticle(userId , folderIdx , articleIdx);
-
-
+        long userId = ts.extractIdxFromToken(token);
+        ss.saveArticle(userId , dto.getFolderIdx() , dto.getArticleIdx());
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
     }

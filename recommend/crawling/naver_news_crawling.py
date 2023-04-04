@@ -6,6 +6,8 @@ from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 import datetime
 from tokenizer import tokenstart
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')
 
 load_dotenv()
 
@@ -16,7 +18,7 @@ mongo_user = os.environ.get('MongoUser')
 mongo_passwd = os.environ.get('MongoPasswd')
 mongo_db_name = os.environ.get('MongoDbName')
 mongo_admin_db = os.environ.get('MongoAdminDb')
-mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd) #, authSource=mongo_admin_db)
+mongo_client = MongoClient(host=mongo_host, port=mongo_port, username=mongo_user, password=mongo_passwd, authSource=mongo_admin_db)
 
 db = mongo_client[mongo_db_name]
 collection = db['newsCol']
@@ -139,8 +141,9 @@ def getPostData(response, json_result, cat1, cat2, cnt, lastlink, except_count):
                                     'press': press, 'link': link, 'publish_date': publish_date, 'full_text': full_text,
                                     'img_src': img_src})
             except Exception as e:
-                msg = "CRAWLING " + cat1 + " " + cat2 + " " + link
-                print(make_log("ERROR", msg), e)
+                # msg = "CRAWLING " + cat1 + " " + cat2 + " " + link
+                # print(make_log("ERROR", msg), '[', e, ']')
+                logging.error(f'CRAWLING|{cat1}|{cat2}|{e}')
                 except_count += 1
 
     json_result.reverse()
@@ -199,13 +202,18 @@ def crawlingGeneralNews(lastcounter):
                     # print(make_log("INFO", "success " + topic + " " + detail + " " + str(lastcounter - start_count)))
                     # print(make_log("INFO", "fail " + topic + " " + detail + " " + str(except_count)))
                 except BulkWriteError as bwe:
-                    print(make_log("ERROR", "DB " + topic + " " + detail + " Duplicate ID"), bwe.details)
+                    # print(make_log("ERROR", "DB " + topic + " " + detail + " BulkWriteError"), '[', bwe.details, ']')
+                    logging.error(f'DB|{topic}|{detail}|BulkWriteError|{bwe.details}')
                 except Exception as e:
-                    print(make_log("ERROR", "DB " + topic + " " + detail), e)
+                    # print(make_log("ERROR", "DB " + topic + " " + detail), '[', e, ']')
+                    logging.error(f'DB|{topic}|{detail}|{e}')
 
-        print(make_log("INFO", "start " + topic + " " + start_time.strftime("%H:%M:%S")))
-        print(make_log("INFO", "success " + topic + " " + str(lastcounter - startcounter)))
-        print(make_log("INFO", "fail " + topic + " " + str(except_count)))
+        # print(make_log("INFO", "start " + topic + " " + start_time.strftime("%H:%M:%S")))
+        # print(make_log("INFO", "success " + topic + " " + str(lastcounter - startcounter)))
+        # print(make_log("INFO", "fail " + topic + " " + str(except_count)))
+        logging.info(f'start|{topic}|{start_time.strftime("%H:%M:%S")}')
+        logging.info(f'success|{topic}|{lastcounter - startcounter}')
+        logging.info(f'fail|{topic}|{except_count}')
     return lastcounter
 
 def main():

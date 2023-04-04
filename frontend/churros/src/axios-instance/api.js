@@ -1,8 +1,19 @@
 import axios from "axios";
 //  axios instances
 // to api server
-const api = axios.create({
+export const api = axios.create({
   baseURL: "https://churros.site/api",
 });
 
-export default api;
+api.interceptors.request.use((config) => {
+  const accessToken = JSON.parse(localStorage.getItem("recoil-persist"))?.accessToken;
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+  else{
+    console.log("accessToken not exists")
+  }
+  return config;
+});
+
+export const test = axios.create({
+  baseURL: "https://churros.site/api/test",
+});

@@ -17,17 +17,22 @@ public class CORSConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-
-
-        registry.addMapping("/**")
-        .allowedOriginPatterns("*")
-                // .allowedOrigins("http://localhost:3000")
-                // .allowedOrigins("http://localhost:9999")
-                // .allowedOrigins("https://www.churros.site")
-                // .allowedOrigins("https://churros.site")
+        registry.addMapping("/*")
+                .allowedOrigins("http://localhost:3000", "https://www.churros.site")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
+                .allowedHeaders("")
                 .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
+
+//        registry.addMapping("/**")
+//        .allowedOriginPatterns("*")
+//                // .allowedOrigins("http://localhost:3000")
+//                // .allowedOrigins("http://localhost:9999")
+//                // .allowedOrigins("https://www.churros.site")
+//                // .allowedOrigins("https://churros.site")
+//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+//                .allowedHeaders("*")
+//                .allowCredentials(true)
+//                .maxAge(MAX_AGE_SECS);
     }
 }

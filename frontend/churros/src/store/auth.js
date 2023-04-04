@@ -1,11 +1,16 @@
-import { atom } from "recoil"
+import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 export const accessTokenState = atom({
-    key: "accessTokenState",
-    default: ""
+  key: "accessToken",
+  default: null,
+  effects: [persistAtom],
 });
 
 export const refreshTokenState = atom({
-    key: "refreshTokenState",
-    default: ""
+  key: "refreshToken",
+  default: null,
+  effects: [persistAtom],
 });

@@ -9,14 +9,20 @@
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!-- 구글 폰트 Noto Sans Korean -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Adobe Font -->
+    <link rel="stylesheet" href="https://use.typekit.net/agn5cxp.css">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!-- 네이버 로그인 js sdk -->
-    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,6 +35,8 @@
     <title>Churros</title>
   </head>
   <body>
+    <div id="backdrop-root"></div>
+    <div id="overlay-root"></div>
     <div id="root"></div>
     <!--
       This HTML file is a template.
