@@ -1,11 +1,16 @@
 package com.a503.churros.controller.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.dto.news.NewsDocumentationDTO;
+import com.a503.churros.dto.news.NewsSearchRequest;
 import com.a503.churros.dto.news.ArticleInputDTO;
 import com.a503.churros.service.news.NewsService;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -125,4 +130,33 @@ public class NewsController {
         resultMap.put("result", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
+    /**
+     *
+     * 현재 저장된 news의 검색결과를 반환합니다
+     *
+     * @author Lee an chae
+     * @param newsSearchRequest 뉴스 서치에 필요한 요청값
+     * @return 검색된 결과와 상태코드
+     */
+    @PostMapping("/search")
+    public ResponseEntity<?> newsSearch(@RequestBody NewsSearchRequest newsSearchRequest) {
+        System.out.println("===========================================================================================");
+        String text = newsSearchRequest.getText();
+        int page = newsSearchRequest.getPage();
+        int size = newsSearchRequest.getSize();
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<NewsDocumentationDTO> news = ns.searchByTitleAndDescription(text, pageable);
+        List<NewsDocumentationDTO> temp = news.getContent();
+
+        for (NewsDocumentationDTO newsItem : temp) {
+            System.out.println("Title: " + newsItem.getTitle());
+            System.out.println("Description: " + newsItem.getDescription());
+            System.out.println("Link: " + newsItem.getLink());
+            // 기타 프로퍼티 출력
+        }
+        return ResponseEntity.ok(news);
+    }
+
+
 }
