@@ -30,11 +30,31 @@ public class ScrapController {
     @GetMapping("")
     public ResponseEntity<?> getScrap(
             @RequestHeader("Authorization")
-            String token
+                    String token
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
         List<ScrapFolderDTO> folderList = ss.getFolderList(userId);
+        if(folderList == null){
+            resultMap.put("empty" , true);
+        }else{
+            resultMap.put("empty" , false);
+            resultMap.put("folder" , folderList);
+        }
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+    }
+
+    @GetMapping("/folders")
+    public ResponseEntity<?> getScrap(
+            @RequestHeader("Authorization")
+                    String token,
+            @RequestParam Integer articleIdx
+
+    ){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        long userId = ts.extractIdxFromToken(token);
+        List<ScrapFolderDTO> folderList = ss.getFolders(userId , articleIdx);
         if(folderList == null){
             resultMap.put("empty" , true);
         }else{
