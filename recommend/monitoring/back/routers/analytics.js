@@ -21,7 +21,7 @@ connect();
 router.get('/success', async (req, res) => {
   try {
     // const logs = await Log.findOne({});
-    const logs = await Log.find({ date: { $gte: new Date('2023-04-02') }, level: 'ERROR' });
+    const logs = await Log.find({ date: { $gte: new Date('2023-03-02') }, level: 'ERROR' });
     // const logs = await db.collection('crawlingLog').find({ date: { $gte: new Date('2023-04-03') } }).toArray();
     // const logs = await Log.find({ date: { $gte: new Date('2023-04-03') } });
     res.json(logs);

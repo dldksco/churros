@@ -6,7 +6,6 @@ const { MONGO_URI } = process.env;
 module.exports = async function connect() {
   try{
     await mongoose.connect(MONGO_URI, {
-      dbName: 'newsdb',
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
