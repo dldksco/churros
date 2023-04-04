@@ -141,24 +141,12 @@ public class NewsController {
      */
     @PostMapping("/search")
     public ResponseEntity<?> newsSearch(@RequestBody NewsSearchRequest newsSearchRequest) {
-        System.out.println("===========================================================================================");
         String text = newsSearchRequest.getText();
         int page = newsSearchRequest.getPage();
         int size = newsSearchRequest.getSize();
-        System.out.println(newsSearchRequest.toString());
         Pageable pageable = PageRequest.of(page, size);
-        System.out.println("this");
         Slice<NewsDocumentationDTO> news = ns.searchByTitleAndDescription(text, pageable);
-        System.out.println("this2");
-        List<NewsDocumentationDTO> temp = news.getContent();
 
-        for (NewsDocumentationDTO newsItem : temp) {
-            System.out.println("Title: " + newsItem.getTitle());
-            System.out.println("Description: " + newsItem.getDescription());
-            System.out.println("Link: " + newsItem.getLink());
-            // 기타 프로퍼티 출력
-        }
-        System.out.println("this3");
         return ResponseEntity.ok(news);
     }
 

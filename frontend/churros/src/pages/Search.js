@@ -16,9 +16,9 @@ const SearchPage = () => {
       const response = await api.post(`/news/search`, 
         { text: searchData, page: 0, size: 20 },
       );
-      const { result, article } = response.data;
-      console.log(`loading sample search result ${searchData}: ${result}`);
-      setSearchList({ ...article });
+      const { content, empty, size } = response.data;
+      console.log(`loading sample search result ${searchData}: ${empty} ${size}`);
+      setSearchList({ ...content });
     } catch (error) {
       console.log(error);
     }
