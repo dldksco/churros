@@ -20,9 +20,10 @@ const HoverBox = ({ articleIdx }) => {
   };
 
   const likeOnclick = async () => {
+    const data = JSON.stringify({articleId: articleIdx})
     try {
       const response = await api.put(`/news/like`, null, {
-        params: { articleId: articleIdx },
+        body: data,
       });
       const { result } = response.data;
       console.log(`liked ${articleIdx}: ${result}`);

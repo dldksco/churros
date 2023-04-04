@@ -7,7 +7,6 @@ import { userInfoState } from "../store/user";
 
 const Main = () => {
   const userInfo = useRecoilValue(userInfoState);
-  const [mainArticles, setMainArticles] = useState([]);
   const subArraySizes = [4, 2, 2, 4];
   const [carouselArticles, setCarouselArticles] = useState([]);
   const [firstRowArticles, setFirstRowArticles] = useState([]);
@@ -21,94 +20,65 @@ const Main = () => {
       console.log(res.data);
 
       const { result, articles } = res.data;
-      console.log(result);
-      console.log(articles);
+      console.log("main", result);
+      console.log("main", articles);
 
-      setMainArticles(articles);
+      let startIdx = 0;
+      setCarouselArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[0])
+      );
+
+      startIdx += subArraySizes[0];
+      setFirstRowArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[1])
+      );
+
+      startIdx += subArraySizes[1];
+      setSecondRowArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[2])
+      );
+
+      startIdx += subArraySizes[2];
+      setThirdRowArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[3])
+      );
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (userInfo?.activate) {
       fetchMainPageArticles();
     }
   }, [userInfo]);
 
-  useEffect(() => {
-    if (mainArticles.length > 0) {
-      const startIdx = 0;
-      setCarouselArticles(mainArticles.slice(startIdx, subArraySizes[0]));
-
-      startIdx += subArraySizes[0];
-      setFirstRowArticles(mainArticles.slice(startIdx, subArraySizes[1]));
-
-      startIdx += subArraySizes[1];
-      setSecondRowArticles(mainArticles.slice(startIdx, subArraySizes[2]));
-
-      startIdx += subArraySizes[2];
-      setThirdRowArticles(mainArticles.slice(startIdx, subArraySizes[3]));
-    }
-  }, [mainArticles]);
-
-  const testArticles = [
-    {
-      idx: 1,
-      url: "https://n.news.naver.com/mnews/article/014/0004987518?sid=105",
-      imgUrl:
-        "https://imgnews.pstatic.net/image/014/2023/03/27/0004987518_001_20230327185510521.jpg?type=w647",
-      title: '[1] "삼성·SK가 인정한 SCM, 클라우드로 확장"',
-      description:
-        "진짜 우리가 하고 싶은 일을 재밌게 해보자는 마음으로 시작한 지 23년, 지금도 변함없는 것은 성장의 결실을 직원들과 함께 나누는 것이다.",
-    },
-    {
-      idx: 2,
-      url: "https://n.news.naver.com/mnews/article/014/0004987518?sid=105",
-      imgUrl:
-        "https://imgnews.pstatic.net/image/014/2023/03/27/0004987518_001_20230327185510521.jpg?type=w647",
-      title: '[2] "삼성·SK가 인정한 SCM, 클라우드로 확장"',
-      description:
-        "진짜 우리가 하고 싶은 일을 재밌게 해보자는 마음으로 시작한 지 23년, 지금도 변함없는 것은 성장의 결실을 직원들과 함께 나누는 것이다.",
-    },
-    {
-      idx: 3,
-      url: "https://n.news.naver.com/mnews/article/014/0004987518?sid=105",
-      imgUrl:
-        "https://imgnews.pstatic.net/image/014/2023/03/27/0004987518_001_20230327185510521.jpg?type=w647",
-      title: '[3] "삼성·SK가 인정한 SCM, 클라우드로 확장"',
-      description:
-        "진짜 우리가 하고 싶은 일을 재밌게 해보자는 마음으로 시작한 지 23년, 지금도 변함없는 것은 성장의 결실을 직원들과 함께 나누는 것이다.",
-    },
-  ];
-  // article idx 추가 필요
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
       <div className="block w-full h-[34rem] mb-4 shadow-lg">
         <A1Carousel slides={carouselArticles} />
       </div>
-      <div className="grid grid-cols-4 gap-4 w-full h-[14rem] mb-4">
-        <div className="col-span-2">
-          {firstRowArticles?.map((articleIdx, idx) => (
+      <div className="grid grid-cols-4 gap-4 w-full mb-2">
+        {firstRowArticles?.map((articleIdx, idx) => (
+          <div className="col-span-2 h-64">
             <Article key={idx} shape="2" articleIdx={articleIdx} />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-      <hr className="bg-black opacity-20 h-1" />
-      <div className="grid grid-cols-4 gap-4 w-full h-[14rem] mb-4">
-        <div className="col-span-2">
-          {secondRowArticles?.map((articleIdx, idx) => (
+      <hr className="bg-black opacity-20 h-1 mb-2" />
+      <div className="grid grid-cols-4 gap-4 w-full mb-2">
+        {secondRowArticles?.map((articleIdx, idx) => (
+          <div className="col-span-2 h-64">
             <Article key={idx} shape="2" articleIdx={articleIdx} />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-      <hr className="bg-black opacity-20 h-1" />
-      <div className="grid grid-cols-4 gap-4 w-full h-[14rem] mb-4">
-        <div className="col-span-1">
-          {thirdRowArticles?.map((articleIdx, idx) => (
+      <hr className="bg-black opacity-20 h-1 mb-2" />
+      <div className="grid grid-cols-4 gap-4 w-full">
+        {thirdRowArticles?.map((articleIdx, idx) => (
+          <div className="col-span-1 h-64">
             <Article key={idx} shape="3" articleIdx={articleIdx} />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );

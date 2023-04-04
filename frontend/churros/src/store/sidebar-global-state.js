@@ -14,7 +14,7 @@ export const showScrapFolderListState = atom({
 const {persistAtom} = recoilPersist();
 
 export const scrapFolderListState = atom({
-  key: "scrapFolderListState",
+  key: "scrapFolderList",
   default: [],
   effects: [persistAtom]
 });
