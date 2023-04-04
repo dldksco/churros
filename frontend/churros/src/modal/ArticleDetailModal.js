@@ -25,7 +25,7 @@ const ArticleDetailContent = async ({ url }) => {
         Accept: "application/json",
       },
       params: {
-        url: articleLocation,
+        url: articleLocation[1],
       },
     });
 
