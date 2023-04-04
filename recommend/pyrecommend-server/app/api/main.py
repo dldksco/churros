@@ -5,15 +5,23 @@ import random
 from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from app.db.database import SessionLocal
-# from app.db.mock_database import SessionLocal
+# from app.db.database import SessionLocal
+from app.db.mock_database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import LDAmodel
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI()
-remodel = LDAmodel()
+green = LDAmodel('green')
+blue = LDAmodel('blue')
+green.change_model_files()
+
+models = [green, blue]
+
+flag = 0
+remodel = models[flag]
+
 _RECOMMEND_ARTICLE_CNT = 12
 _SLICING_NUM = 5
 _MIN_VLUE = 2
@@ -26,13 +34,23 @@ def get_db():
         db.close()
 
 @app.get("/recommend/remodel")
-async def remodel_recommend_model():
-    remodel.change_model_files()
+def remodel_recommend_model():
+    global flag
+    global remodel
+
+    logging.info(f"현재 사용중인 모델 {remodel.name}")
+
+    flag = (flag + 1) % 2
+    models[flag].change_model_files()
+    remodel = models[flag]
+
+    logging.info(f"새로 할당된 모델 {remodel.name}")
 
     return {"result" : "success"}
 
 @app.get("/recommend/sample")
 async def get_sample_articles():
+    logging.info(f"현재 사용중인 모델 {remodel.name}")
     recommendList = []
     samplelist = random.sample(range(0,30), 6)
     print("뽑아낸 렌덤 값",samplelist)
@@ -42,6 +60,7 @@ async def get_sample_articles():
 
 @app.get("/recommend/{user_id}")
 async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
+    logging.info(f"현재 사용중인 모델 {remodel.name}")
     db_user = read_user(db, user_id)
 
     if not db_user:
