@@ -58,8 +58,8 @@ const HoverBox = ({ articleIdx }) => {
       <FaHeart
         className={`m-2 p-1 ${
           like
-            ? "text-red-500"
-            : "text-gray-500 hover:text-red-500 transition-colors duration-300 cursor-pointer"
+            ? "text-red-500 cursor-pointer"
+            : "text-gray-500 cursor-pointer"
         }`}
         size={30}
         onClick={handleLike}
