@@ -2,7 +2,7 @@ import os
 import sys
 import random
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
@@ -58,7 +58,7 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
     dislikes = set(re.likes_idx for re in db_user.dislikes)
 
     # 2주 안에 읽은 데이터들을 최신 날짜 순으로 정렬
-    today = datetime.now().date()
+    today = date.now().date()
     two_weeks_ago = today - timedelta(days=14)
 
     read_articles = [ra for ra in db_user.articles
