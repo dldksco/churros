@@ -21,29 +21,36 @@ const Main = () => {
 
       const { result, articles } = res.data;
       console.log("main", result);
-      console.log("main",articles);
+      console.log("main", articles);
 
       let startIdx = 0;
-      setCarouselArticles(articles.slice(startIdx, subArraySizes[0]));
+      setCarouselArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[0])
+      );
 
       startIdx += subArraySizes[0];
-      setFirstRowArticles(articles.slice(startIdx, subArraySizes[1]));
+      setFirstRowArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[1])
+      );
 
       startIdx += subArraySizes[1];
-      setSecondRowArticles(articles.slice(startIdx, subArraySizes[2]));
+      setSecondRowArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[2])
+      );
 
       startIdx += subArraySizes[2];
-      setThirdRowArticles(articles.slice(startIdx, subArraySizes[3]));
+      setThirdRowArticles(
+        articles.slice(startIdx, startIdx + subArraySizes[3])
+      );
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (userInfo?.activate) {
       fetchMainPageArticles();
     }
-  }, []);
+  }, [userInfo]);
 
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
