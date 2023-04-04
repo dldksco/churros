@@ -25,7 +25,7 @@ const ScrapsPage = () => {
   }, []);
   return (
     <Fragment>
-      {articleList?.length === 0 ? (
+      {articleList.length === 0 ? (
         <div className="flex flex-col w-full h-full justify-center items-center">
           <EmptyPage
             message={"스크랩한 기사가 없습니다"}

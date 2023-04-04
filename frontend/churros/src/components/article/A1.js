@@ -2,9 +2,16 @@ import CloseButton from "../common/CloseButton";
 import HoverBox from "../common/HoverBox";
 import { useState, useEffect } from "react";
 import { api } from "../../axios-instance/api";
+import ArticleDetailModal from "../../modal/ArticleDetailModal";
 
 const A1 = ({ articleIdx, onClose }) => {
   const [content, setContent] = useState({});
+  const [showDetail, setShowDetail] = useState(false)
+  const detailOnClick=() => {
+    setShowDetail((before) => {
+      return !before
+    })
+  }
   console.log(articleIdx);
 
   const handleArticleDetail = (event) => {
@@ -34,38 +41,41 @@ const A1 = ({ articleIdx, onClose }) => {
   }, []);
 
   return (
-    <div
-      className="flex flex-col w-full h-full justify-start"
-      onClick={handleArticleDetail}
-    >
-      {/* 기사 썸네일 */}
-      <div className="relative w-full h-3/4 overflow-hidden">
-        <img
-          className="absolute w-full h-auto left-1/2 transform -translate-x-1/2"
-          src={content.imgUrl}
-          alt="alt"
-        />
-        <CloseButton articleIdx={articleIdx} />
-      </div>
-      <div className="relative flex flex-col flex-1 justify-start items-center bg-stone-100">
-        {/* 기사 타이틀 및 요약 */}
-        <div className="flex flex-col w-4/5 h-full justify-center">
-          <p
-            className="text-5xl text-bold text-center p-1 truncate ..."
-            style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
-          >
-            {content.title}
-          </p>
-          <p
-            className="text-3xl text-bold text-center p-1 truncate ..."
-            style={{ fontFamily: "Noto Sans KR", fontWeight: 400 }}
-          >
-            {content.description}
-          </p>
+    <>
+      <div
+        className="flex flex-col w-full h-full justify-start"
+        onClick={handleArticleDetail}
+      >
+        {/* 기사 썸네일 */}
+        <div className="relative w-full h-3/4 overflow-hidden">
+          <img
+            className="absolute w-full h-auto left-1/2 transform -translate-x-1/2"
+            src={content.imgUrl}
+            alt="alt"
+          />
+          <CloseButton articleIdx={articleIdx} />
         </div>
-        <HoverBox articleIdx={articleIdx} />
+        <div className="relative flex flex-col flex-1 justify-start items-center bg-stone-100">
+          {/* 기사 타이틀 및 요약 */}
+          <div className="flex flex-col w-4/5 h-full justify-center">
+            <p
+              className="text-5xl text-bold text-center p-1 truncate ..."
+              style={{ fontFamily: "Noto Sans KR", fontWeight: 500 }}
+            >
+              {content.title}
+            </p>
+            <p
+              className="text-3xl text-bold text-center p-1 truncate ..."
+              style={{ fontFamily: "Noto Sans KR", fontWeight: 400 }}
+            >
+              {content.description}
+            </p>
+          </div>
+          <HoverBox articleIdx={articleIdx} />
+        </div>
       </div>
-    </div>
+      {showDetail && <ArticleDetailModal url={content.url} articleIdx={articleIdx} /> }
+    </>
   );
 };
 

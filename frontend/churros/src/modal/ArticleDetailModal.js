@@ -1,10 +1,18 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
-import api from "../axios-instance/api";
+import { api } from "../axios-instance/api";
+import { useState } from "react";
 
-const ArticleDetailBackdrop = () => {};
+const ArticleDetailBackdrop = ({ hideDetail }) => {
+  return (
+    <div
+      className="fixed top-0 left-0 w-full h-screen z-20"
+      onClick={hideDetail}
+    ></div>
+  );
+};
 
-const ArticleDetailContent = async ({ url, articleId }) => {
+const ArticleDetailContent = async ({ url }) => {
   const [htmlObject, setHtmlObject] = useState();
 
   const regex = "/article/(.*?)?";
@@ -55,15 +63,15 @@ const ArticleDetailContent = async ({ url, articleId }) => {
   }
 };
 
-const ArticleDetailModal = ({ url }) => {
+const ArticleDetailModal = ({ url, hideDetail }) => {
   return (
     <Fragment>
       {ReactDOM.createPortal(
-        <ArticleDetailBackdrop />,
+        <ArticleDetailBackdrop hideDetail={hideDetail} />,
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ArticleDetailContent />,
+        <ArticleDetailContent url={url} />,
         document.getElementById("overlay-root")
       )}
     </Fragment>
