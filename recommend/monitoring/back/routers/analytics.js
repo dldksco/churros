@@ -19,12 +19,17 @@ const sub_category = {
 connect();
 
 router.get('/success', async (req, res) => {
+  const start_day = req.query.start_day;
+  const end_day = req.query.end_day;
   try {
-    // const logs = await Log.findOne({});
-    const logs = await Log.find({ date: { $gte: new Date('2023-03-02') }, level: 'ERROR' });
-    // const logs = await db.collection('crawlingLog').find({ date: { $gte: new Date('2023-04-03') } }).toArray();
-    // const logs = await Log.find({ date: { $gte: new Date('2023-04-03') } });
-    res.json(logs);
+    let result = {};
+    for(let i=0; i<category.length; i++){
+      const arr = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'success', category: category[i]});
+      let init = 0;
+      const sum = arr.reduce((acc, cur) => acc + cur.cnt, init);
+      result[category[i]] = sum;
+    }
+    res.json(result);
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
@@ -43,6 +48,5 @@ router.get('/fail', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
 
 module.exports = router;
