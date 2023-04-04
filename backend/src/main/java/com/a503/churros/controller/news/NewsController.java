@@ -29,14 +29,14 @@ public class NewsController {
     @GetMapping("")
     public ResponseEntity<?> getNews(
             @RequestHeader("Authorization")
-            String token
-    ){
+                    String token
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-            List<Integer> list = ns.sendRecommend(userId);
-            resultMap.put("articles", list);
-            resultMap.put("result", SUCCESS);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        List<Integer> list = ns.sendRecommend(userId);
+        resultMap.put("articles", list);
+        resultMap.put("result", SUCCESS);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/{articleId}")
@@ -44,83 +44,85 @@ public class NewsController {
             @RequestHeader("Authorization")
                     String token,
             @PathVariable(value = "articleId") Integer articleId
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-            ArticleDTO dto = ns.getArticleInfo(/*userId , */articleId);
-            resultMap.put("result", SUCCESS);
-            resultMap.put("article" , dto);
-            return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        long userId = ts.extractIdxFromToken(token);
+        ArticleDTO dto = ns.getArticleInfo(userId, articleId);
+        resultMap.put("result", SUCCESS);
+        resultMap.put("article", dto);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/call")
     public ResponseEntity<?> getNewsHtml(
             @RequestParam String url
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String html = ns.callNaver(url);
         resultMap.put("result", SUCCESS);
-        resultMap.put("html" , html);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        resultMap.put("html", html);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/sample")
-    public ResponseEntity<?> getNewsSample(){
+    public ResponseEntity<?> getNewsSample() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         List<Integer> list = ns.sendSample();
         resultMap.put("result", SUCCESS);
         resultMap.put("articles", list);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @PutMapping("/read")
     public ResponseEntity<?> putRead(
             @RequestHeader("Authorization")
-            String token,
+                    String token,
             @RequestParam ArticleInputDTO dto
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.saveReadArti(userId , dto.getArticleId());
+        ns.saveReadArti(userId, dto.getArticleId());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 
     }
 
     @PutMapping("/like")
     public ResponseEntity<?> postLike(
             @RequestHeader("Authorization")
-            String token,
+                    String token,
             @RequestParam ArticleInputDTO dto
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.recordLike(userId , dto.getArticleId());
+        ns.recordLike(userId, dto.getArticleId());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/like")
     public ResponseEntity<?> getLike(
             @RequestHeader("Authorization")
-            String token
-    ){
+                    String token
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
         List<Long> list = ns.getLikeList(userId);
-        resultMap.put("articles" , list);
+        resultMap.put("articles", list);
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
     @PostMapping("/dislike")
     public ResponseEntity<?> postDisLike(
             @RequestHeader("Authorization")
-            String token,
+                    String token,
             @RequestParam ArticleInputDTO dto
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ns.recordDisLike(userId , dto.getArticleId());
+        ns.recordDisLike(userId, dto.getArticleId());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }
