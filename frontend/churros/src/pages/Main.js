@@ -20,8 +20,8 @@ const Main = () => {
       console.log(res.data);
 
       const { result, articles } = res.data;
-      console.log(result);
-      console.log(articles);
+      console.log("main", result);
+      console.log("main",articles);
 
       let startIdx = 0;
       setCarouselArticles(articles.slice(startIdx, subArraySizes[0]));
@@ -43,7 +43,7 @@ const Main = () => {
     if (userInfo?.activate) {
       fetchMainPageArticles();
     }
-  }, [userInfo]);
+  }, []);
 
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
