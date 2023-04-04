@@ -57,28 +57,28 @@ const Main = () => {
       <div className="block w-full h-[34rem] mb-4 shadow-lg">
         <A1Carousel slides={carouselArticles} />
       </div>
-      <div className="grid grid-cols-4 gap-4 w-full h-[14rem] mb-4">
-        <div className="col-span-2">
-          {firstRowArticles?.map((articleIdx, idx) => (
+      <div className="grid grid-cols-4 gap-4 w-full mb-2">
+        {firstRowArticles?.map((articleIdx, idx) => (
+          <div className="col-span-2 h-64">
             <Article key={idx} shape="2" articleIdx={articleIdx} />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-      <hr className="bg-black opacity-20 h-1" />
-      <div className="grid grid-cols-4 gap-4 w-full h-[14rem] mb-4">
-        <div className="col-span-2">
-          {secondRowArticles?.map((articleIdx, idx) => (
+      <hr className="bg-black opacity-20 h-1 mb-2" />
+      <div className="grid grid-cols-4 gap-4 w-full mb-2">
+        {secondRowArticles?.map((articleIdx, idx) => (
+          <div className="col-span-2 h-64">
             <Article key={idx} shape="2" articleIdx={articleIdx} />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-      <hr className="bg-black opacity-20 h-1" />
-      <div className="grid grid-cols-4 gap-4 w-full h-[14rem] mb-4">
-        <div className="col-span-1">
-          {thirdRowArticles?.map((articleIdx, idx) => (
+      <hr className="bg-black opacity-20 h-1 mb-2" />
+      <div className="grid grid-cols-4 gap-4 w-full">
+        {thirdRowArticles?.map((articleIdx, idx) => (
+          <div className="col-span-1 h-64">
             <Article key={idx} shape="3" articleIdx={articleIdx} />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
