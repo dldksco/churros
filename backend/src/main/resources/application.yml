@@ -34,6 +34,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/newsdb
+elasticsearch:
+  host: localhost
+  port: 9200
+  username: elastic
+  password: A503!23
+
 crs:
   uri: http://churros-crs:8080
 ---
@@ -73,7 +79,11 @@ logging:
         security=DEBUG:
 crs:
   uri: http://churros-crs:8000
-#  uri: http://localhost:5555
+elasticsearch:
+  host: churros-elasticsearch
+  port: 9200
+  username: ${ELASTICSEARCH_ID}
+  password: ${ELASTICSEARCH_PASSWORD}
 ---
 springfox:
   documentation:
