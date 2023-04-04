@@ -1,5 +1,11 @@
 # 서울 5반 A503
 
+# 소개 영상
+https://youtu.be/pkf5tdeBogI
+
+# 프로젝트 진행 기간
+2023.02.20 - 2023.04.07 - 약 7주
+
 # Git Convention
 
 ## 🖤 브랜치 컨벤션
