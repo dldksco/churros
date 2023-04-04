@@ -77,7 +77,7 @@ public class NewsController {
     public ResponseEntity<?> putRead(
             @RequestHeader("Authorization")
                     String token,
-            @RequestParam ArticleInputDTO dto
+            @RequestBody ArticleInputDTO dto
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
@@ -91,7 +91,7 @@ public class NewsController {
     public ResponseEntity<?> postLike(
             @RequestHeader("Authorization")
                     String token,
-            @RequestParam ArticleInputDTO dto
+            @RequestBody ArticleInputDTO dto
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
@@ -117,7 +117,7 @@ public class NewsController {
     public ResponseEntity<?> postDisLike(
             @RequestHeader("Authorization")
                     String token,
-            @RequestParam ArticleInputDTO dto
+            @RequestBody ArticleInputDTO dto
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
