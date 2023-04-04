@@ -20,8 +20,8 @@ const Main = () => {
       console.log(res.data);
 
       const { result, articles } = res.data;
-      console.log(result);
-      console.log(articles);
+      console.log("main", result);
+      console.log("main",articles);
 
       let startIdx = 0;
       setCarouselArticles(articles.slice(startIdx, subArraySizes[0]));
