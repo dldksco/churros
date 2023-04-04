@@ -5,8 +5,8 @@ import random
 from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from app.db.database import SessionLocal
-# from app.db.mock_database import SessionLocal
+# from app.db.database import SessionLocal
+from app.db.mock_database import SessionLocal
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import LDAmodel
 import logging
@@ -48,6 +48,7 @@ def remodel_recommend_model():
 
 @app.get("/recommend/sample")
 async def get_sample_articles():
+    logging.info(f"현재 사용중인 모델 {remodel.name}")
     recommendList = []
     samplelist = random.sample(range(0,30), 6)
     print("뽑아낸 렌덤 값",samplelist)
@@ -57,6 +58,7 @@ async def get_sample_articles():
 
 @app.get("/recommend/{user_id}")
 async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
+    logging.info(f"현재 사용중인 모델 {remodel.name}")
     db_user = read_user(db, user_id)
 
     if not db_user:
