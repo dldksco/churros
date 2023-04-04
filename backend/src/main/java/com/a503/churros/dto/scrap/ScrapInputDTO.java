@@ -11,7 +11,7 @@ import lombok.*;
 public class ScrapInputDTO {
     private String folderName;
 
-    private Integer folderIdx;
+    private Long folderIdx;
 
-    private Integer articleIdx;
+    private Long articleIdx;
 }

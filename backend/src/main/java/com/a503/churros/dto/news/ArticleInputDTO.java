@@ -9,5 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ArticleInputDTO {
-    private Integer articleId;
+    private Long articleId;
 }
