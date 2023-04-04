@@ -15,6 +15,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 app = FastAPI()
 green = LDAmodel('green')
 blue = LDAmodel('blue')
+green.change_model_files()
+
 models = [green, blue]
 
 flag = 0

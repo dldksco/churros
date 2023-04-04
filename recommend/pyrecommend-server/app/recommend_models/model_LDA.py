@@ -8,7 +8,6 @@ class LDAmodel():
     def __init__(self, name):
         logging.info(f'LDAmodel init...')
         self.TOPIC_NUM = 30
-        self.change_model_files()
         self.name = name
         logging.info(f'LDAmodel init 완료!')
         
