@@ -32,11 +32,7 @@ const A1Carousel = ({ slides }) => {
           }`}
         >
           <A1
-            articleId={slide.idx}
-            url={slide.url}
-            imgUrl={slide.imgUrl}
-            title={slide.title}
-            description={slide.description}
+            articleIdx={slide}
           />
         </div>
       ))}
