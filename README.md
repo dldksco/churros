@@ -21,6 +21,56 @@ https://youtu.be/pkf5tdeBogI
 # 시스템 구성
 ![noPicture][./System Archi.png]
 
+# 기술 스택
+## 공통
+이슈 관리 : Jira
+
+형상 관리 : Git
+
+협동 툴 : Mattermost, Webex, Notion
+
+Server : AWS EC2 `Ubuntu 20.04 LTS`
+
+##  FE
+
+기술 스택(버전) : 
+
+사용 툴 :
+
+## C. BE
+
+### i. WAS (Web Application Server)
+
+기술 스택(버전) : openjdk `11`, Spring boot `2.7.9`, OAuth2, 
+
+사용 툴 : 
+
+### ii. CRS (Contents Recommendation Server)
+
+기술 스택(버전) : Python3 `3.9.2`, fastapi `0.95.0`, uvicorn `0.21.1`, SQLAlchemy `2.0.8`, PyMySQL `1.0.3`, numpy `1.24.2`, gensim `4.3.1`, pytest `7.1.2`
+
+사용 툴 : PyCharm `2022.3.2`
+
+### iii. 공통
+
+기술 스택(버전) : Nginx `1.18.0`, Jenkins, Docker `23.0.1`
+
+사용 툴 : Mobaxterm
+
+## D. DATA
+
+### i. 크롤링
+
+기술 스택(버전) : Python3 `3.9.2`, MongoDB `4.2`, Crontab, Sehll Script
+
+사용 툴 : PyCharm `2022.3.2`, Mobaxterm
+
+### ii. 빅데이터 추천 모델
+
+기술 스택(버전) : Python `3.9` , Numpy `1.24`, Pandas `1.5`, konlpy `0.6`, gensim `4.3.1`, seaborn `0.12`, matplotlib `3.7`,   pyLDAvis `3.4` , MongoDB `4.2`
+
+사용 툴 : JupyterNotebook `5.3` , MongoDB, JVM,
+
 # Git Convention
 
 ## 🖤 브랜치 컨벤션
