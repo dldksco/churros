@@ -3,11 +3,8 @@ import { api } from "../../axios-instance/api";
 
 const CloseButton = ({ onClose, articleIdx }) => {
   const fetchData = async () => {
-    const data = JSON.stringify({articleId: articleIdx});
     try {
-      const response = await api.post(`/news/dislike`, {
-        body: data,
-      });
+      const response = await api.post(`/news/dislike`, {articleId: articleIdx});
       const { result } = response.data;
       console.log(`disliked ${articleIdx}: ${result}`);
     } catch (error) {
