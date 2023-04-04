@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class NewsServiceImpl implements NewsService{
+public class NewsServiceImpl implements NewsService {
 
     private final ReadRepository rr;
     private final LikeRepository lr;
@@ -31,12 +31,12 @@ public class NewsServiceImpl implements NewsService{
     private final NaverFeign nf;
 
 
-    public List<Integer> sendRecommend(long userId){
+    public List<Integer> sendRecommend(long userId) {
         List<Integer> list = fc.getRecomList(userId).getRecommendList();
         return list;
     }
 
-    public List<Integer> sendSample(){
+    public List<Integer> sendSample() {
         List<Integer> list = fc.getSampleList().getRecommendList();
         System.out.println(list);
         return list;
@@ -44,8 +44,8 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void saveReadArti(long userId, long articleId) {
-        Read read = rr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
-        if(read == null){
+        Read read = rr.findByUserIdxAndArticleIdx(userId, articleId).orElse(null);
+        if (read == null) {
             read = Read.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
@@ -60,34 +60,29 @@ public class NewsServiceImpl implements NewsService{
     @Override
     @Transactional
     public void recordLike(long userId, long articleId) {
-        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
-        if(like == null){
+        Like like = lr.findByUserIdxAndArticleIdx(userId, articleId).orElse(null);
+        if (like == null) {
             like = Like.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
                     .build();
             lr.save(like);
-        }else{
+        } else {
             lr.delete(like);
         }
     }
 
     public List<Long> getLikeList(long userIdx) {
-        List<Like> list = lr.findByUserIdx(userIdx).orElse(null);
-        if(list == null || list.size() == 0){
-            return null;
-        }
-        else{
-            return list.stream()
-                    .map(m -> m.getArticleIdx())
-                    .collect(Collectors.toList());
-        }
+        return lr.findAllByUserIdx(userIdx)
+                .stream()
+                .map(item -> item.getArticleIdx())
+                .collect(Collectors.toList());
     }
 
     @Override
     public void recordDisLike(long userId, long articleId) {
-        DisLike dis = dr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
-        if(dis == null){
+        DisLike dis = dr.findByUserIdxAndArticleIdx(userId, articleId).orElse(null);
+        if (dis == null) {
             dis = DisLike.builder()
                     .userIdx(userId)
                     .articleIdx(articleId)
@@ -97,14 +92,14 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
-    public ArticleDTO getArticleInfo(long userId , long articleId) {
+    public ArticleDTO getArticleInfo(long userId, long articleId) {
         Article article = ar.findFirstByIdx(articleId).orElse(null);
-        if(article == null){
+        if (article == null) {
             return null;
         }
         ArticleDTO dto = new ArticleDTO().of(article);
-        Like like = lr.findByUserIdxAndArticleIdx(userId , articleId).orElse(null);
-        if(like != null){
+        Like like = lr.findByUserIdxAndArticleIdx(userId, articleId).orElse(null);
+        if (like != null) {
             dto.setLike(true);
         }
         return dto;
@@ -112,7 +107,7 @@ public class NewsServiceImpl implements NewsService{
 
 
     @Override
-    public String callNaver(String url){
+    public String callNaver(String url) {
         String html = nf.getArticle(url);
         return html;
     }
