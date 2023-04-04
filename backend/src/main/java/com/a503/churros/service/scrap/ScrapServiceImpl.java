@@ -33,6 +33,29 @@ public class ScrapServiceImpl implements ScrapService{
     }
 
     @Override
+    public List<ScrapFolderDTO> getFolders(long idx, long articleIdx) {
+        List<ScrapFolder> list = sfr.findByUserIdx(idx).orElse(null);
+
+        if(list == null || list.size() == 0){
+            return null;}
+        else{
+            return list.stream()
+                    .map(m -> {
+                        ScrapedArticle sa = sar.findByScrapbookIdxAndArticleIdx(m.getId() , articleIdx).orElse(null);
+                        boolean t;
+                        ScrapFolderDTO.of(m);
+                        if(sa != null){
+                            t = true;
+                        }else{
+                            t = false;
+                        }
+                        return ScrapFolderDTO.of(m , t);
+                    })
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public List<Long> getArticleList(long idx , long userIdx) {
         if(sfr.findByIdAndUserIdx(idx , userIdx).orElse(null) == null){
             return null;

@@ -7,6 +7,7 @@ import ArticleDetailModal from "../../modal/ArticleDetailModal";
 const A1 = ({ articleIdx, onClose }) => {
   const [content, setContent] = useState({});
   const [showDetail, setShowDetail] = useState(false)
+  const [url, setUrl] = useState("")
   const detailOnClick=() => {
     setShowDetail((before) => {
       return !before
@@ -14,15 +15,15 @@ const A1 = ({ articleIdx, onClose }) => {
   }
   console.log(articleIdx);
 
-  const handleArticleDetail = (event) => {
-    event.preventDefault();
+  // const handleArticleDetail = (event) => {
+  //   event.preventDefault();
 
-    console.log("show article detail");
-    const regex = /article\/(.*?)\?/;
-    const articleLocation = content.url.match(regex);
+  //   console.log("show article detail");
+  //   const regex = /article\/(.*?)\?/;
+  //   const articleLocation = content.url.match(regex);
 
-    console.log(articleLocation);
-  };
+  //   console.log(articleLocation);
+  // };
 
   const fetchData = async () => {
     try {
@@ -30,6 +31,7 @@ const A1 = ({ articleIdx, onClose }) => {
       const { result, article } = response.data;
       console.log(`loading sample article ${articleIdx}: ${result}`);
       setContent({ ...article });
+      setUrl(article.url)
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +46,7 @@ const A1 = ({ articleIdx, onClose }) => {
     <>
       <div
         className="flex flex-col w-full h-full justify-start"
-        onClick={handleArticleDetail}
+        onClick={detailOnClick}
       >
         {/* 기사 썸네일 */}
         <div className="relative w-full h-3/4 overflow-hidden">
@@ -74,7 +76,7 @@ const A1 = ({ articleIdx, onClose }) => {
           <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
-      {showDetail && <ArticleDetailModal url={content.url} articleIdx={articleIdx} /> }
+      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick}/>}
     </>
   );
 };
