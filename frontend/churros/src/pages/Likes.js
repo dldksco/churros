@@ -25,7 +25,7 @@ const LikesPage = () => {
 
   return (
     <Fragment>
-      {articleList?.length === 0 ? (
+      {articleList.length === 0 ? (
         <div className="flex flex-col w-full h-full">
           <EmptyPage
             message={"좋아요한 기사가 없습니다"}
