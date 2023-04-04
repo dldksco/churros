@@ -1,4 +1,4 @@
-import CloseButton from "../common/CloseButton";
+import ArticleCloseButton from "./ArticleCloseButton";
 import HoverBox from "../common/HoverBox";
 import { useState, useEffect } from "react";
 import { api } from "../../axios-instance/api";
@@ -53,7 +53,7 @@ const A1 = ({ articleIdx, onClose }) => {
             src={content.imgUrl}
             alt="alt"
           />
-          <CloseButton articleIdx={articleIdx} />
+          <ArticleCloseButton articleIdx={articleIdx} />
         </div>
         <div className="relative flex flex-col flex-1 justify-start items-center bg-stone-100">
           {/* 기사 타이틀 및 요약 */}
