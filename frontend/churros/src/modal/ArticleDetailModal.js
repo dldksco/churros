@@ -14,8 +14,8 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 
 const ArticleDetailContent = async ({ url }) => {
   const [htmlObject, setHtmlObject] = useState();
-
-  const regex = "/article/(.*?)?";
+  console.log(url);
+  const regex = /\/(\d{3}\/\d+)/;
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
