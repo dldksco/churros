@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
-import api from "../axios-instance/api";
+import { api } from "../axios-instance/api";
 import { useState } from "react";
 
 const ArticleDetailBackdrop = ({ hideDetail }) => {
