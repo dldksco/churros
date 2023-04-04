@@ -131,6 +131,8 @@ public class UserServiceImpl implements UserService {
     public void kakaoCallBack(String code, HttpServletResponse response) throws IOException{
         JSONObject accessTokenKakao =  getKakaoTokenFeign.getKakaoToken("authorization_code",CLIENT_ID,
                 "https://churros.site/api/user/kakao/callback",code);
+
+
         JSONObject resp = getKakaoInfoFeign.getKakaoInfo((String)accessTokenKakao.get("token_type")+" "+(String)accessTokenKakao.get("access_token"));
         //  회원 가입
         Optional<User> user = this.kakaoSignup(resp);
@@ -209,6 +211,20 @@ public class UserServiceImpl implements UserService {
         return messageResponse;
     }
 
+    @Override
+    public MessageResponse deleteUser(Long userIdx) {
+        Optional<User> user = userRepository.findById(userIdx);
+        if(user.isPresent()){
+        userRepository.delete(user.get());
+            MessageResponse messageResponse = MessageResponse.builder().result("success").msg("회원탈퇴 되었습니다.").build();
+            return messageResponse;
+        }else{
+            MessageResponse messageResponse = MessageResponse.builder().result("success").msg("회원이 없습니다.").build();
+            return messageResponse;
+        }
+
+    }
+
 
     public Optional<User> kakaoSignup(JSONObject resp){
 
@@ -217,7 +233,13 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> profile = (Map<String, Object>) map.get("profile");
         String name = (String) profile.get("nickname");
         String image_url = (String) profile.get("profile_image_url");
-        String email = (String) map.get("email");
+        String email = "";
+        if(map.get("email") == null){
+            email = name + "@churros.com";
+        }else{
+        email = (String) map.get("email");
+
+        }
         Optional<User> testUser = userRepository.findByEmail(email);
         MessageResponse messageResponse;
         if(testUser.isEmpty()){

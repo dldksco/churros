@@ -75,6 +75,12 @@ public class UserController {
         return ResponseEntity.ok().body(messageResponse);
     }
 
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token){
+        Long userIdx = userIdxFromJwtTokenService.extractIdxFromToken(token);
+        MessageResponse messageResponse = userService.deleteUser(userIdx);
+        return ResponseEntity.ok().body(messageResponse);
+    }
 
 
 
