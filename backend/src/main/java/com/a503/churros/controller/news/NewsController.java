@@ -141,6 +141,7 @@ public class NewsController {
      */
     @PostMapping("/search")
     public ResponseEntity<?> newsSearch(@RequestBody NewsSearchRequest newsSearchRequest) {
+        System.out.println("===========================================================================================");
         String text = newsSearchRequest.getText();
         int page = newsSearchRequest.getPage();
         int size = newsSearchRequest.getSize();
