@@ -124,13 +124,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public String callNaver(String url) {
-        String html = nf.getArticle(url);
-        return html;
-  @Override
-  public String callNaver(String url) {
-    String html = nf.getArticle(url);
-    return html;
-  }
+      String html = nf.getArticle(url);
+      return html;
+    }
 
   /**
    * 문장을 통해 검색 요청했을 경우 요청 페이지에 대한 검색 결과를 리턴함
