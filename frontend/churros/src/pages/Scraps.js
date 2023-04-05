@@ -12,7 +12,7 @@ const ScrapsPage = () => {
   const scrapListGet = async () => {
     try {
       const response = await api.get(`/scrap/${scrapBoxIdx}`);
-      const { result, articles } = JSON.parse(response).data;
+      const { result, articles } = response.data;
       setArticleList(articles);
       console.log(`scrap list set ${articleList}: ${result}`);
     } catch (error) {
