@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
 import { api } from "../axios-instance/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ArticleDetailBackdrop = ({ hideDetail }) => {
   return (
@@ -11,13 +11,16 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
     ></div>
   );
 };
-const ArticleDetailContent = ({ url }) => {
+const ArticleDetailContent = ({ url, hideDetail }) => {
   const [htmlObject, setHtmlObject] = useState();
 
   const regex = /(?<=article\/)(.*?)(?=\?)/;
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
+  useEffect(() => {
+    fetchData(articleLocation[0]);
+  }, []);
   const fetchData = async (url) => {
     try {
       const response = await api.get(`/news/call`, {
@@ -27,9 +30,9 @@ const ArticleDetailContent = ({ url }) => {
       });
 
       const htmlContent = response.data["html"];
-      console.log(htmlContent?.slice(0, 100));
-
+      
       htmlContent.replace(/data-src=/g, "src=");
+      console.log(htmlContent);
       setHtmlObject(
         <div
           dangerouslySetInnerHTML={{
@@ -41,7 +44,6 @@ const ArticleDetailContent = ({ url }) => {
       console.log(error);
     }
   };
-  fetchData(articleLocation[0]);
 
   const modalHolderStyle = {
     position: "fixed",
@@ -54,6 +56,10 @@ const ArticleDetailContent = ({ url }) => {
   };
   return (
     <div style={modalHolderStyle}>
+      <div className="w-full justify-between">
+        <span>header</span>
+        <div onClick={hideDetail}>닫기</div>
+      </div>
       <div className="flex flex-col w-full h-full justify-start bg-white">
         <section className="overflow-y-auto">{htmlObject}</section>
         <footer>footer</footer>
@@ -72,7 +78,7 @@ const ArticleDetailModal = ({ url, hideDetail }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ArticleDetailContent url={url} />,
+        <ArticleDetailContent url={url} hideDetail={hideDetail} />,
         document.getElementById("overlay-root")
       )}
     </Fragment>
