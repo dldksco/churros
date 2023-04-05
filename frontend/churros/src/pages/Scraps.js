@@ -7,12 +7,12 @@ import { Fragment } from "react";
 import EmptyPage from "../components/common/EmptyPage";
 
 const ScrapsPage = () => {
-  const { scrapBoxIdx } = useParams();
+  const { idx } = useParams();
   const [articleList, setArticleList] = useState([]);
   const scrapListGet = async () => {
     try {
-      const response = await api.get(`/scrap/${scrapBoxIdx}`);
-      const { result, articles } = response.data;
+      const response = await api.get(`/scrap/${idx}`);
+      const { result, articles } = JSON.parse(response).data;
       setArticleList(articles);
       console.log(`scrap list set ${articleList}: ${result}`);
     } catch (error) {
