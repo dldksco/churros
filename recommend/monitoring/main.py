@@ -28,8 +28,7 @@ with open("crawling.log", "r", encoding='utf-8') as file:
     for line in file:
         # 로그 데이터를 딕셔너리 형태로 저장
         words = line.strip().split('|')
-        date = ''
-        time = ''
+        date_time = ''
         day_of_week = ''
         level = ''
         state = ''
@@ -42,9 +41,11 @@ with open("crawling.log", "r", encoding='utf-8') as file:
         error_msg2 = ''
 
         try:
-            date_time = words[0].split(' ')
-            date = datetime.datetime.strptime(date_time[0], '%Y-%m-%d')
-            time = datetime.datetime.strptime(date_time[1], '%H:%M:%S,%f')
+            # date_time = words[0].split(' ')
+            # date = datetime.datetime.strptime(date_time[0], '%Y-%m-%d')
+            # time = datetime.datetime.strptime(date_time[1], '%H:%M:%S,%f')
+            date_time = datetime.datetime.strptime(words[0], "%Y-%m-%d %H:%M:%S,%f")
+            time = datetime.datetime.strptime(words[0].split(' ')[1], "%H:%M:%S,%f")
             level = words[1]
             state = words[2]
             category = words[3]
@@ -71,7 +72,7 @@ with open("crawling.log", "r", encoding='utf-8') as file:
                     error_msg = words[3]
                     category = ''
 
-            result = {'date':date, 'time':time, 'level':level, 'state':state,
+            result = {'date_time':date_time, 'level':level, 'state':state,
                       'category':category, 'sub_cateogory':sub_cateogory, 'running_time':running_time,
                       'cnt':cnt, 'error_msg':error_msg, 'error_msg2':error_msg2}
             # print(result)

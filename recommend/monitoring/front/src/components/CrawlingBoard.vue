@@ -33,6 +33,9 @@ export default {
         data2: [],
       }
     },
+    mounted(){
+      this.getData();
+    },
     methods:{
         getData() {
             console.log("click!")
