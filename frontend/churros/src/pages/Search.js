@@ -12,12 +12,12 @@ const SearchPage = () => {
   // 시작과 함께 axios 통신으로 리스트 받아옴
   const fetchData = async () => {
     try {
-      const response = await api.post(`/news/search`, {
-        body: JSON.stringify({ text: searchData, page: 0, size: 20 }),
-      });
-      const { result, article } = response.data;
-      console.log(`loading sample search result ${searchData}: ${result}`);
-      setSearchList([ ...article ]);
+      const response = await api.post(`/news/search`,
+        { text: searchData, page: 0, size: 20 },
+      );
+      const { content, empty, size } = response.data;
+      console.log(`loading sample search result ${searchData}: ${empty} ${size}`);
+      setSearchList({ ...content });
     } catch (error) {
       console.log(error);
     }
