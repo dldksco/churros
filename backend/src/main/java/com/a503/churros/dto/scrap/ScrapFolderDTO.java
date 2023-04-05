@@ -15,7 +15,7 @@ public class ScrapFolderDTO {
 
     private String folderName;
 
-    private boolean isScraped;
+    private boolean isScrapped;
 
     public static ScrapFolderDTO of(ScrapFolder sf){
         return ScrapFolderDTO.builder()
@@ -27,7 +27,7 @@ public class ScrapFolderDTO {
         return ScrapFolderDTO.builder()
                 .folderIdx(sf.getId())
                 .folderName(sf.getFolderName())
-                .isScraped(t)
+                .isScrapped(t)
                 .build();
     }
 }

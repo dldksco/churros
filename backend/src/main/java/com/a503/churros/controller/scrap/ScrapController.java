@@ -30,39 +30,34 @@ public class ScrapController {
     @GetMapping("")
     public ResponseEntity<?> getScrap(
             @RequestHeader("Authorization")
-                    String token
-    ){
+            String token
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
         List<ScrapFolderDTO> folderList = ss.getFolderList(userId);
-        if(folderList == null){
-            resultMap.put("empty" , true);
-        }else{
-            resultMap.put("empty" , false);
-            resultMap.put("folder" , folderList);
+        if (folderList == null) {
+            resultMap.put("empty", true);
+        } else {
+            resultMap.put("empty", false);
+            resultMap.put("folder", folderList);
         }
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/folders")
     public ResponseEntity<?> getScrap(
             @RequestHeader("Authorization")
-                    String token,
+            String token,
             @RequestParam Integer articleIdx
 
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        List<ScrapFolderDTO> folderList = ss.getFolders(userId , articleIdx);
-        if(folderList == null){
-            resultMap.put("empty" , true);
-        }else{
-            resultMap.put("empty" , false);
-            resultMap.put("folder" , folderList);
-        }
+        List<ScrapFolderDTO> folderList = ss.getFolders(userId, articleIdx);
+        resultMap.put("folder", folderList);
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/{scrapbookId}")
@@ -70,18 +65,18 @@ public class ScrapController {
             @RequestHeader("Authorization")
             String token,
             @PathVariable(value = "scrapbookId") long scrapbookId
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
         List<Long> articleList = ss.getArticleList(scrapbookId, userId);
-        if(articleList == null){
-            resultMap.put("empty" , true);
-        }else {
+        if (articleList == null) {
+            resultMap.put("empty", true);
+        } else {
             resultMap.put("empty", false);
-            resultMap.put("articles" , articleList);
+            resultMap.put("articles", articleList);
         }
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @PostMapping("/book")
@@ -89,25 +84,26 @@ public class ScrapController {
             @RequestHeader("Authorization")
             String token,
             @RequestBody ScrapInputDTO dto
-            ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        long folderIdx = ss.insertFolderName(userId , dto.getFolderName());
-        resultMap.put("folderIdx" , folderIdx);
+        long folderIdx = ss.insertFolderName(userId, dto.getFolderName());
+        resultMap.put("folderIdx", folderIdx);
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
     @PutMapping("/book")
     public ResponseEntity<?> putScrapBooK(
             @RequestHeader("Authorization")
             String token,
             @RequestBody ScrapInputDTO dto
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ss.changeFolderName(userId , dto.getFolderName() , dto.getFolderIdx());
+        ss.changeFolderName(userId, dto.getFolderName(), dto.getFolderIdx());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @DeleteMapping("/book")
@@ -115,12 +111,12 @@ public class ScrapController {
             @RequestHeader("Authorization")
             String token,
             @RequestBody ScrapInputDTO dto
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ss.deleteFolder(userId , dto.getFolderIdx());
+        ss.deleteFolder(userId, dto.getFolderIdx());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @PutMapping("/article")
@@ -128,11 +124,11 @@ public class ScrapController {
             @RequestHeader("Authorization")
             String token,
             @RequestBody ScrapInputDTO dto
-    ){
+    ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
-        ss.saveArticle(userId , dto.getFolderIdx() , dto.getArticleIdx());
+        ss.saveArticle(userId, dto.getFolderIdx(), dto.getArticleIdx());
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap , HttpStatus.OK);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }
