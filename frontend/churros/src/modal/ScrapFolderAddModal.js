@@ -45,6 +45,12 @@ const ScrapFolderAddFormContent = ({ position, onClose }) => {
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createNewScrapFolder(folderName);
+    onClose();
+  };
+
   useEffect(() => {
     const folderNameLength = folderName.trim().length;
     if (folderNameLength === 0 || folderNameLength > 20) setFormValid(false);
@@ -52,17 +58,10 @@ const ScrapFolderAddFormContent = ({ position, onClose }) => {
   }, [folderName]);
 
   return (
-    <div
+    <form
       className="absolute flex flex-row justify-between items-center w-64 h-16 p-1 z-60 bg-white drop-shadow-lg rounded-lg"
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
     >
-      <CloseButton
-        className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3"
-        onClose={() => {
-          setFolderName("");
-          onClose();
-        }}
-      />
       <div className="p-1 mr-1 flex-1 h-5/6">
         <input
           className="placeholder:italic placeholder:text-slate-400 block bg-white w-full h-full border border-slate-300 rounded-md pr-3 shadow-lg focus:outline-none focus:border-orange-500 focus:ring-orange-500 focus:ring-1 sm:text-sm"
@@ -72,23 +71,20 @@ const ScrapFolderAddFormContent = ({ position, onClose }) => {
           onClick={(e) => e.stopPropagation()}
         />
       </div>
-      <div
+      <button
         className={`mr-1 p-1 rounded-lg ${
           formValid
             ? "bg-stone-300 hover:bg-stone-500"
             : "bg-stone-200 pointer-events-none"
         }`}
-        onClick={() => {
-          createNewScrapFolder(folderName);
-          onClose();
-        }}
+        onClick={handleSubmit}
       >
         <IoAddOutline
           size={25}
           className={`${formValid ? "text-black" : "text-gray-100"}`}
         />
-      </div>
-    </div>
+      </button>
+    </form>
   );
 };
 
@@ -103,7 +99,6 @@ const ScrapFolderAddModal = ({ position, onClose }) => {
         <ScrapFolderAddFormContent position={position} onClose={onClose} />,
         document.getElementById("overlay-root")
       )}
-      
     </Fragment>
   );
 };
