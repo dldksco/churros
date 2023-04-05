@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
 import { api } from "../axios-instance/api";
-import { useState } from "react";
+import { IoClose } from "react-icons/io5";
+import { useState, useEffect } from "react";
 
 const ArticleDetailBackdrop = ({ hideDetail }) => {
   return (
@@ -19,18 +20,30 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
-  
-  try {
-    const response = await api.get("/news/call", null, {
-      headers: {
-        Accept: "application/json",
-      },
-      params: {
-        url: articleLocation[1],
-      },
-    });
+  useEffect(() => {
+    fetchData(articleLocation[0]);
+  }, []);
+  const fetchData = async (url) => {
+    try {
+      const response = await api.get(`/news/call`, {
+        params: {
+          url: url,
+        },
+      });
 
-    const htmlContent = response.data["url"];
+      const htmlContent = response.data["html"];
+      console.log(htmlContent);
+      setHtmlObject(
+        <div
+          dangerouslySetInnerHTML={{
+            __html: htmlContent.replace(/data-src=/g, "src="),
+          }}
+        />
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const modalHolderStyle = {
     position: "fixed",
@@ -58,12 +71,16 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
             <section className="overflow-y-auto">{htmlObject}</section>
           </div>
         </div>
-      </div>
-    );
-  }
+      ) : (
+        <div>Loading</div>
+      )}
+    </>
+  );
 };
 
 const ArticleDetailModal = ({ url, hideDetail }) => {
+  console.log(url);
+  console.log(typeof url);
   return (
     <Fragment>
       {ReactDOM.createPortal(
@@ -71,7 +88,7 @@ const ArticleDetailModal = ({ url, hideDetail }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ArticleDetailContent url={url} />,
+        <ArticleDetailContent url={url} hideDetail={hideDetail} />,
         document.getElementById("overlay-root")
       )}
     </Fragment>
