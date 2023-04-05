@@ -22,13 +22,38 @@ router.get('/success', async (req, res) => {
   const start_day = req.query.start_day;
   const end_day = req.query.end_day;
   try {
+    let all_result = {};
     let result = {};
+    let result2 = {};
     for(let i=0; i<category.length; i++){
       const arr = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'success', category: category[i]});
       let init = 0;
       const sum = arr.reduce((acc, cur) => acc + cur.cnt, init);
       result[category[i]] = sum;
+
+      const arr2 = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'fail', category: category[i]});
+      let init2 = 0;
+      const sum2 = arr2.reduce((acc, cur) => acc + cur.cnt, init2);
+      result2[category[i]] = sum2;
     }
+    all_result['success'] = result;
+    all_result['fail'] = result2;
+
+    res.json(all_result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.get('/error', async(req, res) => {
+  const start_day = req.query.start_day;
+  const end_day = req.query.end_day;
+  const conditions = req.query.conditions;
+
+  try {
+    const result = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, level: 'ERROR', state: {$in: conditions}});
+
     res.json(result);
   } catch (err) {
     console.error(err);
@@ -36,13 +61,15 @@ router.get('/success', async (req, res) => {
   }
 });
 
-router.get('/fail', async (req, res) => {
+router.get('/dataset', async(req, res) => {
   try {
-    // const logs = await Log.findOne({});
-    const news = await NewsData.find({ publish_date: { $gte: new Date('2023-03-28') }, cat1: '연예' });
-    // const logs = await db.collection('crawlingLog').find({ date: { $gte: new Date('2023-04-03') } }).toArray();
-    // const logs = await Log.find({ date: { $gte: new Date('2023-04-03') } });
-    res.json(news);
+    let result = {};
+    for(let i=0; i<category.length; i++){
+      const cnt = await NewsData.find({ cat1: category[i]}).count();
+      result[category[i]] = cnt;
+    }
+    console.log(result);
+    res.json(result);
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
