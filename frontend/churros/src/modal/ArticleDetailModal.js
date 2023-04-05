@@ -12,6 +12,7 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
     ></div>
   );
 };
+
 const ArticleDetailContent = ({ url, hideDetail }) => {
   const [htmlObject, setHtmlObject] = useState();
 
@@ -45,11 +46,11 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   };
 
   const modalHolderStyle = {
-    position: "absolute",
-    top: "10vh",
+    position: "fixed",
+    top: "10%",
     left: "10%",
     width: "80%",
-    height: "90vh",
+    height: "90%",
     zIndex: 100,
     overflow: "hidden",
   };
