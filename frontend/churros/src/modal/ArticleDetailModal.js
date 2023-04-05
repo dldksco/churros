@@ -13,7 +13,7 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
   );
 };
 
-const ArticleDetailContent = ({ url, hideDetail }) => {
+const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   const [htmlObject, setHtmlObject] = useState();
 
   const regex = /(?<=article\/)(.*?)(?=\?)/;
@@ -40,11 +40,20 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
           }}
         />
       );
+      fetchReadData();
     } catch (error) {
       console.log(error);
     }
   };
-
+  const fetchReadData = async () => {
+    try {
+      const response = await api.put(`/news/read`, { articleId: articleIdx });
+      const {result} = response.data;
+      console.log(`Reading status updated ${result}`)
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const modalHolderStyle = {
     position: "fixed",
     top: "10%",
@@ -78,7 +87,7 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   );
 };
 
-const ArticleDetailModal = ({ url, hideDetail }) => {
+const ArticleDetailModal = ({ url, hideDetail, articleIdx }) => {
   console.log(url);
   console.log(typeof url);
   return (
@@ -88,7 +97,11 @@ const ArticleDetailModal = ({ url, hideDetail }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ArticleDetailContent url={url} hideDetail={hideDetail} />,
+        <ArticleDetailContent
+          url={url}
+          hideDetail={hideDetail}
+          articleIdx={articleIdx}
+        />,
         document.getElementById("overlay-root")
       )}
     </Fragment>
