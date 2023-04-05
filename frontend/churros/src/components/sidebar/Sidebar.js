@@ -71,8 +71,8 @@ const Sidebar = () => {
 
   // 컴포넌트가 마운트 될 때 데이터 fetch
   useEffect(() => {
-    // fetchScrapFolderList();
-    fetchDummyScrapFolderList();
+    fetchScrapFolderList();
+    // fetchDummyScrapFolderList();
   }, []);
 
   return (
