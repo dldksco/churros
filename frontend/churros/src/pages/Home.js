@@ -27,11 +27,11 @@ const Home = () => {
   };
   
   // LocalStorage에 액세스 토큰이 없을 때만 landing으로 돌아간다
-  if(!JSON.parse(localStorage.getItem("recoil-persist"))?.accessToken) return <Navigate to={"/landing"}/>
+  // if(!JSON.parse(localStorage.getItem("recoil-persist"))?.accessToken) return <Navigate to={"/landing"}/>
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">
-      {!userInfo?.activate && <SurveyModal />}
+      {/* {!userInfo?.activate && <SurveyModal />} */}
             {searchOn && (
         <SearchModal
           searchOnClick={searchOnClick}

@@ -1,8 +1,7 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
 import { api } from "../axios-instance/api";
-import { IoClose } from "react-icons/io5";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const ArticleDetailBackdrop = ({ hideDetail }) => {
   return (
@@ -20,30 +19,18 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
-  useEffect(() => {
-    fetchData(articleLocation[0]);
-  }, []);
-  const fetchData = async (url) => {
-    try {
-      const response = await api.get(`/news/call`, {
-        params: {
-          url: url,
-        },
-      });
+  
+  try {
+    const response = await api.get("/news/call", null, {
+      headers: {
+        Accept: "application/json",
+      },
+      params: {
+        url: articleLocation[1],
+      },
+    });
 
-      const htmlContent = response.data["html"];
-      console.log(htmlContent);
-      setHtmlObject(
-        <div
-          dangerouslySetInnerHTML={{
-            __html: htmlContent.replace(/data-src=/g, "src="),
-          }}
-        />
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const htmlContent = response.data["url"];
 
   const modalHolderStyle = {
     position: "fixed",
@@ -71,16 +58,12 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
             <section className="overflow-y-auto">{htmlObject}</section>
           </div>
         </div>
-      ) : (
-        <div>Loading</div>
-      )}
-    </>
-  );
+      </div>
+    );
+  }
 };
 
 const ArticleDetailModal = ({ url, hideDetail }) => {
-  console.log(url);
-  console.log(typeof url);
   return (
     <Fragment>
       {ReactDOM.createPortal(
@@ -88,7 +71,7 @@ const ArticleDetailModal = ({ url, hideDetail }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ArticleDetailContent url={url} hideDetail={hideDetail} />,
+        <ArticleDetailContent url={url} />,
         document.getElementById("overlay-root")
       )}
     </Fragment>
