@@ -12,27 +12,27 @@ public enum ErrorCode {
     INVALID_AUTHENTICATION(400, null, "not right authentication."),
 
 
-    MALFORMED_JWT(500,null,"malformed jwt"),
-    BAD_SIGNATURE(500,null,"signature error."),
-    TOKEN_EXPIRED(500,null, "token expired."),
+    MALFORMED_JWT(403,null,"malformed jwt"),
+    BAD_SIGNATURE(403,null,"signature error."),
+    TOKEN_EXPIRED(403,null, "token expired."),
 
-    NOT_SUPPORTED_TOKEN(500,null,"not supported token."),
+    NOT_SUPPORTED_TOKEN(403,null,"not supported token."),
 
-    INVALID_TOKEN(500,null,"invalid token."),
+    INVALID_TOKEN(403,null,"invalid token."),
 
-    OTHER_JWT_ERROR(500,null,"other jwt error."),
+    OTHER_JWT_ERROR(403,null,"other jwt error."),
 
-    AUTHENTICATION_ERROR(500,null,"authentication error."),
+    AUTHENTICATION_ERROR(403,null,"authentication error."),
 
-    MALFORMED_JWT_REFRESH(500,null,"malformed jwt refresh"),
-    BAD_SIGNATURE_REFRESH(500,null,"refresh signature error ."),
-    TOKEN_EXPIRED_REFRESH(500,null, "refresh token expired."),
+    MALFORMED_JWT_REFRESH(403,null,"malformed jwt refresh"),
+    BAD_SIGNATURE_REFRESH(403,null,"refresh signature error ."),
+    TOKEN_EXPIRED_REFRESH(403,null, "refresh token expired."),
 
-    NOT_SUPPORTED_TOKEN_REFRESH(500,null,"not supported refresh token."),
+    NOT_SUPPORTED_TOKEN_REFRESH(403,null,"not supported refresh token."),
 
-    INVALID_TOKEN_REFRESH(500,null,"invalid refresh token."),
+    INVALID_TOKEN_REFRESH(403,null,"invalid refresh token."),
 
-    OTHER_JWT_ERROR_REFRESH(500,null,"other refresh jwt error.");
+    OTHER_JWT_ERROR_REFRESH(403,null,"other refresh jwt error.");
 
     private final String code;
     private final String message;
