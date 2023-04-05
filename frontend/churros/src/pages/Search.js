@@ -11,9 +11,8 @@ const SearchPage = () => {
 
   // 시작과 함께 axios 통신으로 리스트 받아옴
   const fetchData = async () => {
-    console.log(searchData)
     try {
-      const response = await api.post(`/news/search`, 
+      const response = await api.post(`/news/search`,
         { text: searchData, page: 0, size: 20 },
       );
       const { content, empty, size } = response.data;
@@ -36,7 +35,7 @@ const SearchPage = () => {
       </div>
       <div className="grid grid-cols-2 gap-4 p-5">
         {/* 검색결과 */}
-        {searchList && searchList.slice(1).map((article, idx) => (
+        {searchList && searchList.map((article, idx) => (
           <div key={idx} className="col-span-1 relative">
             <Article shape="2" articleIdx={article.idx} />
           </div>

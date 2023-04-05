@@ -15,10 +15,19 @@ public class ScrapFolderDTO {
 
     private String folderName;
 
+    private boolean isScraped;
+
     public static ScrapFolderDTO of(ScrapFolder sf){
         return ScrapFolderDTO.builder()
                 .folderIdx(sf.getId())
                 .folderName(sf.getFolderName())
+                .build();
+    }
+    public static ScrapFolderDTO of(ScrapFolder sf , boolean t){
+        return ScrapFolderDTO.builder()
+                .folderIdx(sf.getId())
+                .folderName(sf.getFolderName())
+                .isScraped(t)
                 .build();
     }
 }

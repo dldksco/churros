@@ -14,22 +14,23 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 
 const ArticleDetailContent = async ({ url }) => {
   const [htmlObject, setHtmlObject] = useState();
-  console.log(url);
-  const regex = /\/(\d{3}\/\d+)/;
+
+  const regex = /(?<=article\/)(.*?)(?=\?)/;
   const articleLocation = url.match(regex);
 
   console.log(articleLocation);
+  
   try {
     const response = await api.get(`/news/call`, {
       headers: {
         Accept: "application/json",
       },
       params: {
-        url: articleLocation,
+        url: articleLocation[1],
       },
     });
 
-    const htmlContent = response.data["url"];
+    const htmlContent = response.data["html"];
     console.log(htmlContent?.slice(0, 20));
 
     htmlContent.replace(/data-src=/g, "src=");
