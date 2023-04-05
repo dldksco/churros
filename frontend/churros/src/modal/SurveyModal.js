@@ -92,16 +92,17 @@ const SurveyContent = () => {
       try {
         console.log(item);
 
-        const response = await api.put("/news/read", {
+        const r = await api.put("/news/read", {
           articleId: item.articleId,
         });
 
-        const { result } = response.data;
+        const { result } = r.data;
         console.log(result);
 
         // user 활성화 요청
-        // const updateUserActivate = await api.post("/user/activate");
-        // console.log(updateUserActivate.data);
+        const s = await api.post("/user/activate");
+        console.log(s);
+        
       } catch (error) {
         console.log(error);
       }

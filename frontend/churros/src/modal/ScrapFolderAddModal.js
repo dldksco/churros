@@ -6,7 +6,16 @@ import { api } from "../axios-instance/api";
 import { useSetRecoilState } from "recoil";
 import { scrapFolderListState } from "../store/sidebar-global-state";
 
-const ScrapFolderAddFormContent = ({ onClose }) => {
+const ScrapFolderAddFormBackdrop = ({ onClose }) => {
+  return (
+    <div
+      className="fixed top-0 left-0 w-full h-screen z-20"
+      onClick={onClose}
+    />
+  );
+};
+
+const ScrapFolderAddFormContent = ({ position, onClose }) => {
   const setScrapFolderList = useSetRecoilState(scrapFolderListState);
   const [folderName, setFolderName] = useState("");
   const [formValid, setFormValid] = useState(false);
@@ -21,13 +30,13 @@ const ScrapFolderAddFormContent = ({ onClose }) => {
         folderName: folderName,
       });
       console.log(r);
-      const {folderIdx} = r.data;
-      setScrapFolderList(prev => [
+      const { folderIdx } = r.data;
+      setScrapFolderList((prev) => [
         ...prev,
         {
-            folderIdx: folderIdx,
-            folderName: folderName
-        }
+          folderIdx: folderIdx,
+          folderName: folderName,
+        },
       ]);
     } catch (error) {
       console.log(error);
@@ -44,8 +53,8 @@ const ScrapFolderAddFormContent = ({ onClose }) => {
 
   return (
     <div
-      className="absolute flex flex-row justify-between items-center w-64 h-16 p-1 z-60 bg-stone-200 rounded-lg"
-      style={{ left: "100%", top: 0 }}
+      className="absolute flex flex-row justify-between items-center w-64 h-16 p-1 z-60 bg-white drop-shadow-lg rounded-lg"
+      style={{ left: `${position.x}px`, top: `${position.y}px` }}
     >
       <CloseButton
         className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3"
@@ -56,7 +65,7 @@ const ScrapFolderAddFormContent = ({ onClose }) => {
       />
       <div className="p-1 mr-1 flex-1 h-5/6">
         <input
-          className="placeholder:italic placeholder:text-slate-400 block bg-white w-full h-full border border-slate-300 rounded-md pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+          className="placeholder:italic placeholder:text-slate-400 block bg-white w-full h-full border border-slate-300 rounded-md pr-3 shadow-lg focus:outline-none focus:border-orange-500 focus:ring-orange-500 focus:ring-1 sm:text-sm"
           placeholder="새 스크랩 폴더 제목..."
           type="text"
           onChange={handleInputChange}
@@ -69,7 +78,10 @@ const ScrapFolderAddFormContent = ({ onClose }) => {
             ? "bg-stone-300 hover:bg-stone-500"
             : "bg-stone-200 pointer-events-none"
         }`}
-        onClick={() => createNewScrapFolder(folderName)}
+        onClick={() => {
+          createNewScrapFolder(folderName);
+          onClose();
+        }}
       >
         <IoAddOutline
           size={25}
@@ -80,8 +92,20 @@ const ScrapFolderAddFormContent = ({ onClose }) => {
   );
 };
 
-const ScrapFolderAddModal = ({ onClose }) => {
-  return <ScrapFolderAddFormContent onClose={onClose} />;
+const ScrapFolderAddModal = ({ position, onClose }) => {
+  return (
+    <Fragment>
+      {ReactDOM.createPortal(
+        <ScrapFolderAddFormBackdrop onClose={onClose} />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(
+        <ScrapFolderAddFormContent position={position} onClose={onClose} />,
+        document.getElementById("overlay-root")
+      )}
+      
+    </Fragment>
+  );
 };
 
 export default ScrapFolderAddModal;
