@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import { Fragment } from "react";
 import { api } from "../axios-instance/api";
+import { IoClose } from "react-icons/io5";
 import { useState, useEffect } from "react";
 
 const ArticleDetailBackdrop = ({ hideDetail }) => {
@@ -20,7 +21,7 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   console.log(articleLocation);
   useEffect(() => {
     fetchData(articleLocation[0]);
-  }, [articleLocation]);
+  }, []);
   const fetchData = async (url) => {
     try {
       const response = await api.get(`/news/call`, {
@@ -30,8 +31,6 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
       });
 
       const htmlContent = response.data["html"];
-
-      htmlContent.replace(/data-src=/g, "src=");
       console.log(htmlContent);
       setHtmlObject(
         <div
@@ -56,14 +55,18 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   };
   return (
     <div style={modalHolderStyle}>
-      <div className="flex flex-row w-full justify-between">
+      <div className="flex flex-row justify-between">
         <span>header</span>
-        <div onClick={hideDetail}>닫기</div>
+        <div
+          className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white transition duration-300"
+          onClick={hideDetail}
+        >
+          <IoClose size={30} />
+        </div>
       </div>
       <div className="flex flex-col w-full h-full justify-start bg-white">
         <section className="overflow-y-auto">{htmlObject}</section>
       </div>
-      <footer>footer</footer>
     </div>
   );
 };
