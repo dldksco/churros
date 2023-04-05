@@ -14,15 +14,15 @@ services:
       - "9999:9999"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-  churros-crs:
-    container_name: churros-crs
-    build:
-      context: ./recommend/pyrecommend-server
-      dockerfile: Dockerfile
-    ports:
-      - "5555:8000"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
+#  churros-crs:
+#    container_name: churros-crs
+#    build:
+#      context: ./recommend/pyrecommend-server
+#      dockerfile: Dockerfile
+#    ports:
+#      - "5555:8000"
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
 networks:
   default:
     name: cd_network
