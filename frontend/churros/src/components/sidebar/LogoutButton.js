@@ -1,10 +1,24 @@
 import React from "react";
 import { IoLogOutOutline } from "react-icons/io5";
+import { api } from "../../axios-instance/api";
+import { useNavigate } from "react-router-dom";
 
 const LogoutButton = () => {
+  const navigate = useNavigate();
+  const fetchData = async () => {
+    try {
+      const response = await api.post(`/user/logout`,
+      );
+      const { result } = response.data;
+      console.log(`logout result : ${result}`);
+      navigate("/landing")
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleLogout = (event) => {
     event.preventDefault();
-    console.log("handling logout");
+    fetchData();
   };
 
   return (
