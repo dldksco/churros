@@ -127,7 +127,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             ErrorCode errorCode
     ){
         ObjectMapper objectMapper = new ObjectMapper();
-        response.setStatus(500);
+        response.setStatus(403);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getStatus(), errorCode.getMessage());
         try{
