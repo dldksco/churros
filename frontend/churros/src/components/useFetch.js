@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from "react";
 import { api } from "../axios-instance/api";
 function useFetch(searchData, pageNum) {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [searchList, setSearchList] = useState([]);
+  const [last, setLast] = useState(false);
   const fetchData = async () => {
     try {
       const response = await api.post(`/news/search`, {
@@ -12,23 +12,23 @@ function useFetch(searchData, pageNum) {
         page: pageNum,
         size: 10,
       });
-      const { content, empty, size } = response.data;
+      const { content, empty, size, last } = response.data;
       console.log(
         `loading sample search result ${searchData}: ${empty} ${size}`
       );
       setSearchList((prev) => [...prev, ...content]);
+      setLast(last)
     } catch (error) {
       console.log(error);
     }
   };
-  const sendQuery = useCallback(async () => {
+  const sendQuery = useCallback(() => {
     try {
-      await setLoading(true);
-      await setError(false);
+      setLoading(true);
       fetchData();
       setLoading(false);
     } catch (err) {
-      setError(err);
+      console.log(err);
     }
   }, [searchData, pageNum]);
 
@@ -36,7 +36,7 @@ function useFetch(searchData, pageNum) {
     sendQuery(searchData);
   }, [searchData, sendQuery, pageNum]);
 
-  return { loading, error, searchList };
+  return { loading, searchList, last };
 }
 
 export default useFetch;
