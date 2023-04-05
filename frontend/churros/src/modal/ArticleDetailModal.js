@@ -54,20 +54,26 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
     overflow: "hidden",
   };
   return (
-    <div style={modalHolderStyle}>
-      <div className="flex flex-row justify-between">
-        <span>header</span>
-        <div
-          className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white transition duration-300"
-          onClick={hideDetail}
-        >
-          <IoClose size={30} />
+    <>
+      {htmlObject ? (
+        <div style={modalHolderStyle}>
+          <div className="flex flex-row justify-between">
+            <span>header</span>
+            <div
+              className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white transition duration-300"
+              onClick={hideDetail}
+            >
+              <IoClose size={30} />
+            </div>
+          </div>
+          <div className="flex flex-col w-full h-full justify-start bg-white">
+            <section className="overflow-y-auto">{htmlObject}</section>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-col w-full h-full justify-start bg-white">
-        <section className="overflow-y-auto">{htmlObject}</section>
-      </div>
-    </div>
+      ) : (
+        <div>Loading</div>
+      )}
+    </>
   );
 };
 
