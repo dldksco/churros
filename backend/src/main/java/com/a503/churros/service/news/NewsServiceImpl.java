@@ -14,6 +14,7 @@ import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -89,10 +90,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     public List<Long> getLikeList(long userIdx) {
-        return lr.findAllByUserIdx(userIdx)
+
+
+        List<Long> result =  lr.findAllByUserIdx(userIdx)
                 .stream()
                 .map(item -> item.getArticleIdx())
                 .collect(Collectors.toList());
+        Collections.reverse(result);
+        return result;
     }
 
     @Override
