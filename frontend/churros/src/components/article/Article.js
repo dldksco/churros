@@ -2,7 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import HoverBox from "../common/HoverBox";
 import ArticleCloseButton from "./ArticleCloseButton";
+import ArticleDetailModal from "../../modal/ArticleDetailModal";
 import { api } from "../../axios-instance/api";
+
 const Article = ({ shape, articleIdx }) => {
   let sizename = "max-w w-90 lg:flex place-content-center rounded-tl-xl rounded-bl-xl";
   console.log(articleIdx);
@@ -21,12 +23,20 @@ const Article = ({ shape, articleIdx }) => {
 
   // article content
   const [content, setContent] = useState({});
+  const [showDetail, setShowDetail] = useState(false)
+  const [url, setUrl] = useState("")
+  const detailOnClick=() => {
+    setShowDetail((before) => {
+      return !before
+    })
+  }
   const fetchData = async () => {
     try {
       const response = await api.get(`/news/${articleIdx}`);
       const { result, article } = response.data;
       console.log(`loading sample article ${articleIdx}: ${result}`);
       setContent({ ...article });
+      setUrl(article.url)
     } catch (error) {
       console.log(error);
     }
@@ -44,9 +54,10 @@ const Article = ({ shape, articleIdx }) => {
           backgroundImage: `url(${content.imgUrl})`,
         }}
         title="기사 사진"
+        onClick={detailOnClick}
       ></div>
       <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white p-4 flex flex-col justify-between leading-normal relative rounded-br-xl rounded-tr-xl">
-        <div className="mb-8">
+        <div className="mb-8" onClick={detailOnClick}>
           <ArticleCloseButton articleIdx={articleIdx} />
           <div className="text-black font-bold text-xl mb-2">
             {content.title}
@@ -57,6 +68,8 @@ const Article = ({ shape, articleIdx }) => {
           <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
+      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick}/>}
+
     </div>
   );
 };
