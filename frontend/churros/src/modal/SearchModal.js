@@ -37,7 +37,7 @@ const SearchContent = ({ searchOnClick, searchOffClick }) => {
   };
   return (
     <div className="" style={modalHolderStyle}>
-      <div class="flex flex-col justify-center bg-white shadow dark:bg-gray-700 bg-white rounded-lg relative">
+      <div class="flex flex-col justify-center bg-stone-200 shadow dark:bg-gray-700 bg-white rounded-lg relative">
         <form className="flex items-center">
           <label htmlFor="voice-search" className="sr-only">
             검색
