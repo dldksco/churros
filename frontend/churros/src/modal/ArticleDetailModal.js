@@ -12,7 +12,7 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
   );
 };
 
-const ArticleDetailContent = async ({ url }) => {
+const ArticleDetailContent = ({ url }) => {
   const [htmlObject, setHtmlObject] = useState();
 
   const regex = /(?<=article\/)(.*?)(?=\?)/;
@@ -21,7 +21,7 @@ const ArticleDetailContent = async ({ url }) => {
   console.log(articleLocation);
   
   try {
-    const response = await api.get(`/news/call`, {
+    const response = api.get(`/news/call`, {
       headers: {
         Accept: "application/json",
       },
