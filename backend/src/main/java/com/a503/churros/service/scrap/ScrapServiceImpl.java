@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,9 +66,13 @@ public class ScrapServiceImpl implements ScrapService{
             return null;
         }
         else{
-            return list.stream()
+
+            List<Long> result = list.stream()
                     .map(m -> m.getArticleIdx())
                     .collect(Collectors.toList());
+            Collections.reverse(result);
+            return result;
+
         }
     }
 
