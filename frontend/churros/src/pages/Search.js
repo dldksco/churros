@@ -17,11 +17,12 @@ const SearchPage = () => {
       );
       const { content, empty, size } = response.data;
       console.log(`loading sample search result ${searchData}: ${empty} ${size}`);
-      setSearchList({ ...content });
+      setSearchList([ ...content ]);
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(searchList)
   useEffect(() => {
     fetchData();
   }, []);
