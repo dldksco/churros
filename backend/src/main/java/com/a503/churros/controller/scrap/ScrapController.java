@@ -1,6 +1,7 @@
 package com.a503.churros.controller.scrap;
 
 
+import com.a503.churros.dto.scrap.ScrapArticleRequestDTO;
 import com.a503.churros.dto.scrap.ScrapFolderDTO;
 import com.a503.churros.dto.scrap.ScrapInputDTO;
 import com.a503.churros.service.scrap.ScrapService;
@@ -123,12 +124,21 @@ public class ScrapController {
     public ResponseEntity<?> putScrapArticle(
             @RequestHeader("Authorization")
             String token,
-            @RequestBody ScrapInputDTO dto
+            @RequestBody ScrapArticleRequestDTO dto
     ) {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<>();
         long userId = ts.extractIdxFromToken(token);
-        ss.saveArticle(userId, dto.getFolderIdx(), dto.getArticleIdx());
+        if(dto.getScrapped()){
+            ss.saveArticle(userId, dto.getFolderIdx(), dto.getArticleIdx());
+            resultMap.put("message", String.format("article %d added into folder %d (%s)", dto.getArticleIdx(), dto.getFolderIdx(), dto.getFolderName()));
+        }
+        else{
+            ss.deleteScrapArticle(userId, dto.getFolderIdx(), dto.getArticleIdx());
+            resultMap.put("message", String.format("article %d removed from folder %d (%s)", dto.getArticleIdx(), dto.getFolderIdx(), dto.getFolderName()));
+        }
+
         resultMap.put("result", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+
+        return ResponseEntity.ok(resultMap);
     }
 }
