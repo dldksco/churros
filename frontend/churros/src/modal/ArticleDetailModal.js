@@ -12,6 +12,7 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
     ></div>
   );
 };
+
 const ArticleDetailContent = ({ url, hideDetail }) => {
   const [htmlObject, setHtmlObject] = useState();
 
@@ -46,10 +47,10 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
 
   const modalHolderStyle = {
     position: "fixed",
-    top: "10vh",
+    top: "10%",
     left: "10%",
     width: "80%",
-    height: "90vh",
+    height: "90%",
     zIndex: 100,
     overflow: "hidden",
   };
@@ -57,8 +58,8 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
     <>
       {htmlObject ? (
         <div style={modalHolderStyle}>
-          <div className="flex flex-row justify-between">
-            <span>header</span>
+          <div className="flex flex-row justify-between bg-white">
+            <span>상세 기사 내용</span>
             <div
               className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white transition duration-300"
               onClick={hideDetail}

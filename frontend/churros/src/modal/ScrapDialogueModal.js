@@ -30,16 +30,21 @@ const ScrapDialogueItem = ({
   };
 
   // Todo: 현재 폴더에 해당 기사가 스크랩된 상태가 변하면 api 요청 보내기
-  useEffect(async () => {
+  const requestScrap = async () => {
     try {
       const response = await api.put("/scrap/article", {
-        articleId: articleId,
+        articleIdx: articleId,
         folderIdx: folderIdx,
+        folderName: folderName,
       });
       console.log(response);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    requestScrap();
   }, [scrapped]);
 
   return (
@@ -62,6 +67,7 @@ const ScrapDialogueItem = ({
 };
 
 const ScrapDialogueList = ({ items }) => {
+  console.log(items);
   return (
     <div className="flex flex-col flex-1 overflow-y-auto">
       {items.map(({ articleId, folderIdx, folderName, isScrapped }) => {
@@ -107,7 +113,6 @@ const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
         folderName: folderName,
       });
       console.log(s);
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -163,29 +168,28 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
   const [isFormOpen, setFormOpen] = useState(false);
   const [scrapDialogueItems, setScrapDialogueItems] = useState([]);
 
-  const scrapFolders = useRecoilValue(scrapFolderListState);
-  console.log(scrapFolders);
-
   const fetchData = async () => {
     try {
+      const response = await api.get("/scrap/folders", {
+        params: {
+          articleIdx: articleId,
+        },
+      });
+      console.log(response);
+
+      const { folder } = response.data;
       setScrapDialogueItems(
-        scrapFolders.map(async ({ folderIdx, folderName }) => {
-          const response = await api.get(`/scrap/${folderIdx}`);
-          console.log(response);
-
-          const { empty, articles } = response.data;
-          if(!empty) console.log(`scrap/${folderIdx} articles: ${articles}`);
-
-          return {
-            articleId: articleId,
-            folderIdx: folderIdx,
-            folderName: folderName,
-            isScrapped: articles?.includes(articleId),
-          };
-        })
+        folder.map((f) => ({
+          articleId: articleId,
+          folderIdx: f.folderIdx,
+          folderName: f.folderName,
+          isScrapped: f.isScrapped,
+        }))
       );
     } catch (error) {
       console.log(error);
+    } finally {
+      console.log(scrapDialogueItems);
     }
   };
 
