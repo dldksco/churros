@@ -77,7 +77,7 @@ const A1 = ({ articleIdx, onClose }) => {
           <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
-      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick}/>}
+      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick} articleIdx={articleIdx} />}
     </>
   );
 };
