@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const logSchema = new mongoose.Schema({
-  date: {
-    type: Date,
-    required: true,
-  },
-  time: {
+  date_time: {
     type: Date,
     required: true,
   },

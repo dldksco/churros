@@ -5,20 +5,26 @@
     <label for="datepicker_end">검색 종료일</label>
     <b-form-datepicker id="datepicker_end" v-model="end_day" :min="start_day" class="mb-2"></b-form-datepicker>
     
-    <b-form-group label="Using options array:" v-slot="{ ariaDescribedby }">
+    <b-form-group v-slot="{ ariaDescribedby }">
       <b-form-checkbox-group
         id="checkbox-group-1"
         v-model="selected"
         :options="options"
+        class="mb-3"
         :aria-describedby="ariaDescribedby"
         name="flavour-1"
       ></b-form-checkbox-group>
     </b-form-group>
     
     <b-button variant="outline-secondary" @click="getData" >조회하기</b-button>
-    <p>Res: {{ result }} </p>
-    <p>Data: {{ data }} </p>
 
+    <b-form-textarea
+      id="textarea"
+      v-model="result"
+      placeholder="확인하고 싶은 에러를 선택해주세요"
+      rows="3"
+      max-rows="20"
+    ></b-form-textarea>
   </div>
 </template>
 
@@ -39,8 +45,7 @@ export default {
           { text: 'DB', value: 'DB' },
           { text: 'ETC', value: 'ETC' },
         ],
-        result: {},
-        data: [],
+        result: '',
       }
     },
     methods:{

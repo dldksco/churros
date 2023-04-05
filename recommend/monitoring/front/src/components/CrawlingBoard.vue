@@ -5,12 +5,11 @@
     <label for="datepicker_end">검색 종료일</label>
     <b-form-datepicker id="datepicker_end" v-model="end_day" :min="start_day" class="mb-2"></b-form-datepicker>
     <b-button variant="outline-secondary" @click="getData" >조회하기</b-button>
-    <p>Res: {{ result }} </p>
-    <p>Data: {{ data }} </p>
-    <p> 데이터 수집 성공 </p>
-    <BarChart :news="data"/>
-    <p> 데이터 수집 실패 </p>
-    <BarChart :news="data2"/>
+
+    <!-- <p> 데이터 수집 성공 </p> -->
+    <BarChart :news="data" :info="success"/>
+    <!-- <p> 데이터 수집 실패 </p> -->
+    <BarChart :news="data2" :info="fail"/>
   </div>
 </template>
 
@@ -31,6 +30,8 @@ export default {
         data: [],
         result2: {},
         data2: [],
+        success: 0,
+        fail: 1,
       }
     },
     mounted(){

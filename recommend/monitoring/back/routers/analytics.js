@@ -26,12 +26,12 @@ router.get('/success', async (req, res) => {
     let result = {};
     let result2 = {};
     for(let i=0; i<category.length; i++){
-      const arr = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'success', category: category[i]});
+      const arr = await Log.find({ date_time: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'success', category: category[i]});
       let init = 0;
       const sum = arr.reduce((acc, cur) => acc + cur.cnt, init);
       result[category[i]] = sum;
 
-      const arr2 = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'fail', category: category[i]});
+      const arr2 = await Log.find({ date_time: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'fail', category: category[i]});
       let init2 = 0;
       const sum2 = arr2.reduce((acc, cur) => acc + cur.cnt, init2);
       result2[category[i]] = sum2;
@@ -52,7 +52,8 @@ router.get('/error', async(req, res) => {
   const conditions = req.query.conditions;
 
   try {
-    const result = await Log.find({ date: { $gte: new Date(start_day), $lte: new Date(end_day) }, level: 'ERROR', state: {$in: conditions}});
+    const result = await Log.find({ date_time: { $gte: new Date(start_day), $lte: new Date(end_day) }, level: 'ERROR', state: {$in: conditions}})
+    .select('date_time level state category subcategory error_msg error_msg2');
 
     res.json(result);
   } catch (err) {
