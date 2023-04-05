@@ -33,7 +33,6 @@ const HoverBox = ({ articleIdx }) => {
   const handleScrap = (event) => {
     event.preventDefault();
     setOpenScrapDialogue(true);
-    console.log("스크랩 모달 띄우기");
   };
 
   const likeSetting = async () => {
