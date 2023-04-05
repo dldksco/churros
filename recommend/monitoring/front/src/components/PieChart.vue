@@ -26,7 +26,7 @@ export default {
         labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
         datasets: [
             {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+            backgroundColor: ['#FDF7C3', '#FFDEB4', '#FFB4B4', '#B2A4FF', '#B0DAFF', '#E9EDC9'],
             data: [40, 20, 80, 10]
             }
         ]
@@ -45,7 +45,7 @@ export default {
         this.chartData = Object.assign({}, this.chartData, {
             labels : Object.keys(newValue),
             datasets: [{
-                backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+                backgroundColor: ['#FDF7C3', '#FFDEB4', '#FFB4B4', '#B2A4FF', '#B0DAFF', '#E9EDC9'],
                 data: Object.values(newValue)
             }]
         });

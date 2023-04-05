@@ -69,7 +69,7 @@ router.get('/dataset', async(req, res) => {
       const cnt = await NewsData.find({ cat1: category[i]}).count();
       result[category[i]] = cnt;
     }
-    console.log(result);
+    
     res.json(result);
   } catch (err) {
     console.error(err);

@@ -38,8 +38,6 @@ export default {
       chartOptions: {
         responsive: false,
         maintainAspectRatio: false,
-        height: '1000px',
-        width: '800px'
       }
     }
   },

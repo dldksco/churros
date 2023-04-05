@@ -1,22 +1,23 @@
 <template>
   <div id="id">
     <label for="datepicker_start">검색 시작일</label>
-    <b-form-datepicker id="datepicker_start" v-model="start_day" :max="end_day" class="mb-2"></b-form-datepicker>
+    <b-form-datepicker id="datepicker_start" v-model="start_day" :max="end_day" class="my-2"></b-form-datepicker>
     <label for="datepicker_end">검색 종료일</label>
-    <b-form-datepicker id="datepicker_end" v-model="end_day" :min="start_day" class="mb-2"></b-form-datepicker>
+    <b-form-datepicker id="datepicker_end" v-model="end_day" :min="start_day" class="my-2"></b-form-datepicker>
     
-    <b-form-group v-slot="{ ariaDescribedby }">
+    <b-form-group v-slot="{ ariaDescribedby }"> 
       <b-form-checkbox-group
-        id="checkbox-group-1"
+        id="checkbox-group"
         v-model="selected"
         :options="options"
-        class="mb-3"
         :aria-describedby="ariaDescribedby"
-        name="flavour-1"
+        name="flavour"
+        :size="size"
+        class="mb-1 d-flex"
       ></b-form-checkbox-group>
     </b-form-group>
     
-    <b-button variant="outline-secondary" @click="getData" >조회하기</b-button>
+    <b-button variant="outline-secondary" @click="getData" class="my-2">조회하기</b-button>
 
     <b-form-textarea
       id="textarea"
@@ -46,6 +47,7 @@ export default {
           { text: 'ETC', value: 'ETC' },
         ],
         result: '',
+        size: 'lg' 
       }
     },
     methods:{
@@ -61,7 +63,7 @@ export default {
 </script>
 
 <style scoped>
-    .row {
-        display: flex;
+    .line {
+        padding: 0 1rem 0 0 !important;
     }
 </style>

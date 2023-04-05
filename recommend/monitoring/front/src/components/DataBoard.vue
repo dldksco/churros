@@ -1,10 +1,7 @@
 <template>
   <div id="id">
-    
-    <p>Res: {{ result }} </p>
-
-    <PieChart :dataset="result"/>
-
+    <!-- <p>Res: {{ result }} </p> -->
+    <PieChart :dataset="result" :height="500" :width="800" class="my-5"/>
   </div>
 </template>
 

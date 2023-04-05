@@ -1,15 +1,18 @@
 <template>
   <div id="id">
     <label for="datepicker_start">검색 시작일</label>
-    <b-form-datepicker id="datepicker_start" v-model="start_day" :max="end_day" class="mb-2"></b-form-datepicker>
+    <b-form-datepicker id="datepicker_start" v-model="start_day" :max="end_day" class="my-2"></b-form-datepicker>
     <label for="datepicker_end">검색 종료일</label>
-    <b-form-datepicker id="datepicker_end" v-model="end_day" :min="start_day" class="mb-2"></b-form-datepicker>
-    <b-button variant="outline-secondary" @click="getData" >조회하기</b-button>
+    <b-form-datepicker id="datepicker_end" v-model="end_day" :min="start_day" class="my-2"></b-form-datepicker>
+    <b-button variant="outline-secondary" @click="getData" class="my-2">조회하기</b-button>
 
-    <!-- <p> 데이터 수집 성공 </p> -->
-    <BarChart :news="data" :info="success"/>
-    <!-- <p> 데이터 수집 실패 </p> -->
-    <BarChart :news="data2" :info="fail"/>
+    <div class="d-flex justify-content-around">
+      <!-- <p> 데이터 수집 성공 </p> -->
+      <BarChart :news="data" :info="success" :height="500" :width="800"/>
+      <!-- <p> 데이터 수집 실패 </p> -->
+      <BarChart :news="data2" :info="fail" :height="500" :width="800"/>
+    </div>
+    
   </div>
 </template>
 
