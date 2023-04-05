@@ -20,7 +20,7 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   console.log(articleLocation);
   useEffect(() => {
     fetchData(articleLocation[0]);
-  }, []);
+  }, [articleLocation]);
   const fetchData = async (url) => {
     try {
       const response = await api.get(`/news/call`, {
@@ -30,13 +30,13 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
       });
 
       const htmlContent = response.data["html"];
-      
+
       htmlContent.replace(/data-src=/g, "src=");
       console.log(htmlContent);
       setHtmlObject(
         <div
           dangerouslySetInnerHTML={{
-            __html: htmlContent,
+            __html: htmlContent.replace(/data-src=/g, "src="),
           }}
         />
       );
@@ -56,14 +56,14 @@ const ArticleDetailContent = ({ url, hideDetail }) => {
   };
   return (
     <div style={modalHolderStyle}>
-      <div className="w-full justify-between">
+      <div className="flex flex-row w-full justify-between">
         <span>header</span>
         <div onClick={hideDetail}>닫기</div>
       </div>
       <div className="flex flex-col w-full h-full justify-start bg-white">
         <section className="overflow-y-auto">{htmlObject}</section>
-        <footer>footer</footer>
       </div>
+      <footer>footer</footer>
     </div>
   );
 };
