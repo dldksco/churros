@@ -2,21 +2,22 @@ import React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import Article from "../components/article/Article";
-import { api } from "../axios-instance/api";
 import useFetch from "../components/useFetch";
 
 const SearchPage = () => {
   const location = useLocation();
   const searchData = location.state;
   const [pageNum, setPageNum] = useState(0);
-  const { loading, error, searchList } = useFetch(searchData, pageNum);
-  const loader = useRef(null);
+  const { loading, searchList, last } = useFetch(searchData, pageNum);
+  const loader = useRef();
   // 시작과 함께 axios 통신으로 리스트 받아옴
 
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
-    if (target.isIntersecting) {
-      setPageNum((prev) => prev + 1);
+    if (!last) {
+      if (target.isIntersecting) {
+        setPageNum((prev) => prev + 1);
+      }
     }
   }, []);
 
@@ -24,7 +25,7 @@ const SearchPage = () => {
     const option = {
       root: null,
       rootMargin: "20px",
-      threshold: 0
+      threshold: 0,
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
@@ -42,9 +43,9 @@ const SearchPage = () => {
               <Article shape="2" articleIdx={article.idx} />
             </div>
           ))}
+        {loading && <p className="col-span-2">Loading...</p>}
+        <div id="loader" ref={loader} />
       </div>
-      {loading && <p>Loading...</p>}
-      <div ref={loader} />
     </div>
   );
 };
