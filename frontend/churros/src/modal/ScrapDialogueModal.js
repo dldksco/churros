@@ -78,7 +78,9 @@ const ScrapDialogueList = ({ items }) => {
   );
 };
 
-const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
+const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
+  const setScrapFolderList = useSetRecoilState(scrapFolderListState);
+
   const [folderName, setFolderName] = useState("");
   const [formValid, setFormValid] = useState(false);
 
@@ -94,8 +96,13 @@ const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
       console.log(r);
       const { folderIdx } = r.data;
 
+      setScrapFolderList((prev) => [
+        ...prev,
+        { folderIdx: folderIdx, folderName: folderName },
+      ]);
+
       const s = await api.put("/scrap/article", {
-        articleId: articleId,
+        articleIdx: articleId,
         folderIdx: folderIdx,
         folderName: folderName,
       });
@@ -104,7 +111,8 @@ const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
       console.log(error);
     } finally {
       setFolderName("");
-      onMenuClose();
+      onFormClose();
+      onDialogueClose();
     }
   };
 
@@ -121,7 +129,7 @@ const ScrapFolderAddForm = ({ articleId, onMenuClose }) => {
         className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3"
         onClose={() => {
           setFolderName("");
-          onMenuClose();
+          onFormClose();
         }}
       />
       <div className="p-1 mr-1 flex-1 h-5/6">
@@ -215,7 +223,11 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           </p>
         </div>
         {isFormOpen && (
-          <ScrapFolderAddForm articleId={articleId} onMenuClose={closeForm} />
+          <ScrapFolderAddForm
+            articleId={articleId}
+            onFormClose={closeForm}
+            onDialogueClose={onClose}
+          />
         )}
       </div>
     </div>
