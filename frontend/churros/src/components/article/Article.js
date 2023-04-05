@@ -58,7 +58,7 @@ const Article = ({ shape, articleIdx }) => {
       ></div>
       <div className="w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white p-4 flex flex-col justify-between leading-normal relative rounded-br-xl rounded-tr-xl">
         <div className="mb-8" onClick={detailOnClick}>
-          <ArticleCloseButton articleIdx={articleIdx} />
+          <ArticleCloseButton articleIdx={articleIdx} className="z-5" />
           <div className="text-black font-bold text-xl mb-2">
             {content.title}
           </div>
@@ -68,7 +68,7 @@ const Article = ({ shape, articleIdx }) => {
           <HoverBox articleIdx={articleIdx} />
         </div>
       </div>
-      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick}/>}
+      {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick} articleIdx={articleIdx}/>}
 
     </div>
   );

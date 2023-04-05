@@ -26,26 +26,24 @@ const ScrapDialogueItem = ({
 
   const toggleCheckbox = (e) => {
     e.preventDefault();
+    requestScrap(!scrapped);
     setScrapped((prev) => !prev);
   };
 
   // Todo: 현재 폴더에 해당 기사가 스크랩된 상태가 변하면 api 요청 보내기
-  const requestScrap = async () => {
+  const requestScrap = async (isScrapped) => {
     try {
       const response = await api.put("/scrap/article", {
         articleIdx: articleId,
         folderIdx: folderIdx,
         folderName: folderName,
+        scrapped: isScrapped
       });
       console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    requestScrap();
-  }, [scrapped]);
 
   return (
     <div className="flex flex-row w-full h-max my-2 px-4">
@@ -111,6 +109,7 @@ const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
         articleIdx: articleId,
         folderIdx: folderIdx,
         folderName: folderName,
+        scrapped: true,
       });
       console.log(s);
     } catch (error) {
@@ -183,7 +182,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           articleId: articleId,
           folderIdx: f.folderIdx,
           folderName: f.folderName,
-          isScrapped: f.isScrapped,
+          isScrapped: f.scrapped,
         }))
       );
     } catch (error) {

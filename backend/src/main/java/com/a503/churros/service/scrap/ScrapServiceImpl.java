@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ScrapServiceImpl implements ScrapService{
+public class ScrapServiceImpl implements ScrapService {
 
     private final ScrapFolderRepository sfr;
     private final ScrapedArticleRepository sar;
@@ -24,9 +26,9 @@ public class ScrapServiceImpl implements ScrapService{
     @Override
     public List<ScrapFolderDTO> getFolderList(long idx) {
         List<ScrapFolder> list = sfr.findByUserIdx(idx).orElse(null);
-        if(list == null || list.size() == 0){
-            return null;}
-        else{
+        if (list == null || list.size() == 0) {
+            return null;
+        } else {
             return list.stream()
                     .map(m -> ScrapFolderDTO.of(m))
                     .collect(Collectors.toList());
@@ -37,32 +39,32 @@ public class ScrapServiceImpl implements ScrapService{
     public List<ScrapFolderDTO> getFolders(long idx, long articleIdx) {
         List<ScrapFolder> list = sfr.findByUserIdx(idx).orElse(null);
 
-        if(list == null || list.size() == 0){
-            return null;}
-        else{
+        if (list == null || list.size() == 0) {
+            return null;
+        } else {
             return list.stream()
                     .map(m -> {
-                        ScrapedArticle sa = sar.findByScrapbookIdxAndArticleIdx(m.getId() , articleIdx).orElse(null);
+                        ScrapedArticle sa = sar.findByScrapbookIdxAndArticleIdx(m.getId(), articleIdx).orElse(null);
                         boolean t;
                         ScrapFolderDTO.of(m);
-                        if(sa != null){
+                        if (sa != null) {
                             t = true;
-                        }else{
+                        } else {
                             t = false;
                         }
-                        return ScrapFolderDTO.of(m , t);
+                        return ScrapFolderDTO.of(m, t);
                     })
                     .collect(Collectors.toList());
         }
     }
 
     @Override
-    public List<Long> getArticleList(long idx , long userIdx) {
-        if(sfr.findByIdAndUserIdx(idx , userIdx).orElse(null) == null){
+    public List<Long> getArticleList(long idx, long userIdx) {
+        if (sfr.findByIdAndUserIdx(idx, userIdx).orElse(null) == null) {
             return null;
         }
         List<ScrapedArticle> list = sar.findByScrapbookIdx(idx).orElse(null);
-        if(list == null || list.size() == 0){
+        if (list == null || list.size() == 0) {
             return null;
         }
         else{
@@ -78,7 +80,7 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public Long insertFolderName(long userIdx, String folderName) {
-        if(sfr.findByFolderNameAndUserIdx(folderName , userIdx).orElse(null) != null){
+        if (sfr.findByFolderNameAndUserIdx(folderName, userIdx).orElse(null) != null) {
             throw new ScrapFolderInsertException("이미 존재하는 폴더입니다");
         }
         ScrapFolder sf = ScrapFolder.builder()
@@ -91,45 +93,55 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public void saveArticle(long userIdx, long folderIdx, long articleIdx) {
-        if(sfr.findByIdAndUserIdx(folderIdx , userIdx).orElse(null) == null){
-            throw new ScrapFolderInsertException("폴더가 존재하지 않습니다.");
-        }
-        ScrapedArticle sa = sar.findByScrapbookIdxAndArticleIdx(folderIdx , articleIdx).orElse(null);
-        if(sa == null){
-            sa = ScrapedArticle.builder()
-                    .articleIdx(articleIdx)
-                    .scrapbookIdx(folderIdx)
-                    .build();
-            sar.save(sa);
-        }else
-            sar.deleteById(sa.getId());
+        ScrapFolder scrapFolder = sfr.findByIdAndUserIdx(folderIdx, userIdx)
+                .orElseThrow(() -> new NoSuchElementException("폴더가 존재하지 않습니다"));
+
+        ScrapedArticle scrapedArticle = sar.findByScrapbookIdxAndArticleIdx(folderIdx, articleIdx)
+                .orElse(ScrapedArticle.builder()
+                        .articleIdx(articleIdx)
+                        .scrapbookIdx(folderIdx)
+                        .build());
+
+        sar.save(scrapedArticle);
     }
 
     @Override
     @Transactional
     public void deleteFolder(long userIdx, long folderIdx) {
-        if(sfr.findByIdAndUserIdx(folderIdx , userIdx).orElse(null) == null){
+        if (sfr.findByIdAndUserIdx(folderIdx, userIdx).orElse(null) == null) {
             throw new ScrapFolderInsertException("폴더가 존재하지 않습니다.");
         }
         sfr.deleteById(folderIdx);
         List<ScrapedArticle> list = sar.findByScrapbookIdx(folderIdx).orElse(null);
-        if(list != null){
+        if (list != null) {
 
         }
         sar.deleteAllByIdIn(list.stream()
                 .map(m -> m.getId())
                 .collect(Collectors.toList()));
-
     }
 
     @Override
     @Transactional
     public void changeFolderName(long userIdx, String folderName, long folderIdx) {
-        ScrapFolder sf = sfr.findByIdAndUserIdx(userIdx , folderIdx).orElse(null);
-        if(sf == null){
+        ScrapFolder sf = sfr.findByIdAndUserIdx(userIdx, folderIdx).orElse(null);
+        if (sf == null) {
             throw new ScrapFolderInsertException("폴더가 존재하지 않습니다.");
         }
         sf.setFolderName(folderName);
         sfr.save(sf);
+    }
+
+    @Override
+    @Transactional
+    public void deleteScrapArticle(long userIdx, long folderIdx, long articleIdx) {
+
+        ScrapFolder scrapFolder = sfr.findById(folderIdx)
+                .orElseThrow(() -> new NoSuchElementException("스크랩 폴더가 존재하지 않습니다"));
+
+        ScrapedArticle scrapArticle = sar
+                .findByScrapbookIdxAndArticleIdx(folderIdx, articleIdx).orElseThrow(() -> new NoSuchElementException("스크랩 아티클이 존재하지 않습니다"));
+
+        sar.delete(scrapArticle);
     }
 }

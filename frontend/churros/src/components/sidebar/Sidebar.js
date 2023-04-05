@@ -48,9 +48,31 @@ const Sidebar = () => {
     }
   };
 
+  const fetchDummyScrapFolderList = () => {
+    setScrapFolderList([
+      {
+        folderIdx: 1,
+        folderName: "정치"
+      },
+      {
+        folderIdx: 2,
+        folderName: "IT"
+      },
+      {
+        folderIdx: 3,
+        folderName: "시사"
+      },
+      {
+        folderIdx: 4,
+        folderName: "연예"
+      },
+    ])
+  }
+
   // 컴포넌트가 마운트 될 때 데이터 fetch
   useEffect(() => {
     fetchScrapFolderList();
+    // fetchDummyScrapFolderList();
   }, []);
 
   return (
@@ -68,7 +90,7 @@ const Sidebar = () => {
 
       <ScrapFolderTab key={keys.scrapFolderTab} />
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="relative flex-1 overflow-y-auto">
         {showScrapFolderList &&
           scrapFolderList?.length > 0 &&
           scrapFolderList.map((item) => (

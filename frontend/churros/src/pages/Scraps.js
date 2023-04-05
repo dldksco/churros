@@ -7,22 +7,30 @@ import { Fragment } from "react";
 import EmptyPage from "../components/common/EmptyPage";
 
 const ScrapsPage = () => {
-  const { scrapBoxIdx } = useParams();
+  const { idx } = useParams();
   const [articleList, setArticleList] = useState([]);
-  const scrapListGet = async () => {
+  const scrapListGet = async (scrapFolderIdx) => {
     try {
-      const response = await api.get(`/scrap/${scrapBoxIdx}`);
-      const { result, articles } = response.data;
-      setArticleList(articles);
-      console.log(`scrap list set ${articleList}: ${result}`);
+      const response = await api.get(`/scrap/${scrapFolderIdx}`);
+      const { result, empty, articles } = response.data;
+      
+      if(empty){
+        setArticleList([]);
+      }
+      else{
+        setArticleList(articles);
+      }
+
+      console.log(`scrap list set ${articles}: ${result}`);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     // 시작과 함께 axios 통신으로 리스트 받아옴
-    scrapListGet();
-  }, []);
+    scrapListGet(idx);
+  }, [idx]);
+
   return (
     <Fragment>
       {articleList.length === 0 ? (
