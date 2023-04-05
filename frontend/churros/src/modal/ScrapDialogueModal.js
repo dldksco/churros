@@ -183,7 +183,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           articleId: articleId,
           folderIdx: f.folderIdx,
           folderName: f.folderName,
-          isScrapped: f.isScrapped,
+          isScrapped: f.scrapped,
         }))
       );
     } catch (error) {

@@ -13,9 +13,8 @@ const ScrapFolderListItem = ({ title, folderIdx }) => {
   const [modalPosition, setModalPosition] = useState({x: 0, y: 0});
 
   const showEditForm = (e) => {
-    e.preventDefault();
     e.stopPropagation();
-    
+
     const buttonRect = e.target.getBoundingClientRect();
     setModalPosition({x: buttonRect.left + buttonRect.width, y: buttonRect.top});
     setModalOpen(true);
