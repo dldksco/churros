@@ -50,6 +50,7 @@ const HoverBox = ({ articleIdx }) => {
   useEffect(() => {
     likeSetting();
   }, []);
+  
   return (
     <div className="absolute right-0 bottom-0 w-22 h-10 z-10 flex flex-row justify-center items-center bg-white rounded-lg drop-shadow-md m-2" onClick={handleHoverBoxClick}>
       {openScrapDialogue && <ScrapDialogueModal target={articleIdx} onClose={() => setOpenScrapDialogue(false)}/>}
