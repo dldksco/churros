@@ -31,7 +31,7 @@ const ArticleDetailContent = async ({ url }) => {
     });
 
     const htmlContent = response.data["html"];
-    console.log(htmlContent?.slice(0, 20));
+    console.log(htmlContent?.slice(0, 100));
 
     htmlContent.replace(/data-src=/g, "src=");
     setHtmlObject(
@@ -65,6 +65,8 @@ const ArticleDetailContent = async ({ url }) => {
 };
 
 const ArticleDetailModal = ({ url, hideDetail }) => {
+  console.log(url)
+  console.log(typeof url)
   return (
     <Fragment>
       {ReactDOM.createPortal(
