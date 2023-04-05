@@ -5,7 +5,10 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 // constants
 import { SIDEBAR_TAB_KEYS as keys } from "../../constants/sidebar-constants";
 // global state
-import { showScrapFolderListState, scrapFolderListState } from "../../store/sidebar-global-state";
+import {
+  showScrapFolderListState,
+  scrapFolderListState,
+} from "../../store/sidebar-global-state";
 // components
 import LogoTab from "./LogoTab";
 import UserProfileTab from "./UserProfileTab";
@@ -15,7 +18,7 @@ import ScrapFolderTab from "./ScrapFolderTab";
 import ScrapFolderListItem from "./ScrapFolderListItem";
 import LogoutButton from "./LogoutButton";
 
-import {api} from "../../axios-instance/api"
+import { api } from "../../axios-instance/api";
 import { useEffect } from "react";
 
 const Sidebar = () => {
@@ -24,21 +27,26 @@ const Sidebar = () => {
   const setScrapFolderList = useSetRecoilState(scrapFolderListState);
 
   const fetchScrapFolderList = async () => {
-    try{
+    try {
       const res = await api.get("/scrap");
       console.log(res.data);
 
-      const { folder } = res.data;
+      const { empty, folder } = res.data;
+      console.log(`is folder empty: ${empty}`)
+      console.log(`scrap folder: ${folder}`);
 
-      setScrapFolderList(folder.map(f => ({
-        folderIdx: f.folderIdx,
-        folderName: f.folderName
-      })));
-    }
-    catch(error){
+      if (!empty) {
+        setScrapFolderList(
+          folder?.map((f) => ({
+            folderIdx: f.folderIdx,
+            folderName: f.folderName,
+          }))
+        );
+      }
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // 컴포넌트가 마운트 될 때 데이터 fetch
   useEffect(() => {
@@ -46,9 +54,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <aside
-      className="flex flex-col justify-start w-64 h-screen bg-stone-100"
-    >
+    <aside className="flex flex-col justify-start w-64 h-screen bg-stone-100">
       <LogoTab key={keys.logoTab} />
 
       <UserProfileTab key={keys.userProfileTab} />
@@ -63,7 +69,8 @@ const Sidebar = () => {
       <ScrapFolderTab key={keys.scrapFolderTab} />
 
       <div className="flex-1 overflow-y-auto">
-        {showScrapFolderList && scrapFolderList?.length > 0 &&
+        {showScrapFolderList &&
+          scrapFolderList?.length > 0 &&
           scrapFolderList.map((item) => (
             <ScrapFolderListItem
               key={item.folderIdx}
@@ -72,8 +79,8 @@ const Sidebar = () => {
             />
           ))}
       </div>
-      
-      <LogoutButton/>
+
+      <LogoutButton />
     </aside>
   );
 };

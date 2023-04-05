@@ -107,6 +107,7 @@ const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
         folderName: folderName,
       });
       console.log(s);
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -163,6 +164,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
   const [scrapDialogueItems, setScrapDialogueItems] = useState([]);
 
   const scrapFolders = useRecoilValue(scrapFolderListState);
+  console.log(scrapFolders);
 
   const fetchData = async () => {
     try {
@@ -170,7 +172,9 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
         scrapFolders.map(async ({ folderIdx, folderName }) => {
           const response = await api.get(`/scrap/${folderIdx}`);
           console.log(response);
-          const { articles } = response.data;
+
+          const { empty, articles } = response.data;
+          if(!empty) console.log(`scrap/${folderIdx} articles: ${articles}`);
 
           return {
             articleId: articleId,
