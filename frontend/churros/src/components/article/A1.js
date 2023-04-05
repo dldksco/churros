@@ -38,6 +38,7 @@ const A1 = ({ articleIdx, onClose }) => {
   };
 
   console.log(content);
+  console.log(url)
   useEffect(() => {
     fetchData();
   }, []);
