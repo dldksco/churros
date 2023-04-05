@@ -33,8 +33,9 @@ const ScrapDialogueItem = ({
   const requestScrap = async () => {
     try {
       const response = await api.put("/scrap/article", {
-        articleId: articleId,
+        articleIdx: articleId,
         folderIdx: folderIdx,
+        folderName: folderName,
       });
       console.log(response);
     } catch (error) {
@@ -169,7 +170,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get("/scrap/folders", null, {
+      const response = await api.get("/scrap/folders", {
         params: {
           articleIdx: articleId,
         },
