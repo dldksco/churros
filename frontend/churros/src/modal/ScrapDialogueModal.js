@@ -109,6 +109,7 @@ const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
         articleIdx: articleId,
         folderIdx: folderIdx,
         folderName: folderName,
+        scrapped: true,
       });
       console.log(s);
     } catch (error) {
