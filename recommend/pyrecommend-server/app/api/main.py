@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 # from app.db.mock_database import SessionLocal
-from app.db.mongo_database import collection
+# from app.db.mongo_database import collection
 from app.common.crud import read_user
 from app.recommend_models.model_LDA import LDAmodel
 import logging
@@ -56,19 +56,19 @@ async def get_sample_articles():
         recommendList.append(remodel.sample_article(samplelist[i]))
     return {"recommendList":recommendList}
 
-@app.get("/recommend/search/{value}")
-async def search_value(value: str):
-    start_time = datetime.now()
-    logging.info(f"시작 시간 : {start_time}")
-
-    data = list(collection.find({"$text": {"$search": value}}))
-
-    end_time = datetime.now()
-    logging.info(f"종료 시간 : {end_time}")
-    logging.info(f"소요 시간 : {end_time - start_time}")
-    logging.info(f"결과 : {len(data)}")
-
-    return {"result" : len(data)}
+# @app.get("/recommend/search/{value}")
+# async def search_value(value: str):
+#     start_time = datetime.now()
+#     logging.info(f"시작 시간 : {start_time}")
+#
+#     data = list(collection.find({"$text": {"$search": value}}))
+#
+#     end_time = datetime.now()
+#     logging.info(f"종료 시간 : {end_time}")
+#     logging.info(f"소요 시간 : {end_time - start_time}")
+#     logging.info(f"결과 : {len(data)}")
+#
+#     return {"result" : len(data)}
 
 @app.get("/recommend/{user_id}")
 async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
