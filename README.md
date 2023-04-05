@@ -103,9 +103,6 @@ Server : AWS EC2 `Ubuntu 20.04 LTS`
 ### i. 크롤링
 
 기술 스택(버전) : Python3 `3.9.2`
-
-<img src="./picture/python.png" width="100" height="100"/>
-
 , MongoDB `4.2`, Crontab, Sehll Script
 사용 툴 : PyCharm `2022.3.2`, Mobaxterm
 
@@ -113,6 +110,7 @@ Server : AWS EC2 `Ubuntu 20.04 LTS`
 
 기술 스택(버전) : Python `3.9` , Numpy `1.24`, Pandas `1.5`, konlpy `0.6`, gensim `4.3.1`, seaborn `0.12`, matplotlib `3.7`, pyLDAvis `3.4` , MongoDB `4.2`
 사용 툴 : JupyterNotebook `5.3` , MongoDB, JVM
+
 <img src="picture/python.png" width="100" height="100"/>
 <img src="picture/numpy.png" width="100" height="100"/>
 <img src="picture/pandas.png" width="100" height="100"/>
