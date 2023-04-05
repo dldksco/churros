@@ -12,7 +12,7 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
   );
 };
 
-const ArticleDetailContent = async ({ url }) => {
+const ArticleDetailContent = ({ url, hideDetail }) => {
   const [htmlObject, setHtmlObject] = useState();
 
   const regex = /(?<=article\/)(.*?)(?=\?)/;
@@ -32,30 +32,31 @@ const ArticleDetailContent = async ({ url }) => {
 
     const htmlContent = response.data["url"];
 
-    setHtmlObject(
-      <div
-        dangerouslySetInnerHTML={{
-          __html: htmlContent?.replace(/data-src=/g, "src="),
-        }}
-      />
-    );
-  } catch (error) {
-    console.log(error);
-  } finally {
-    const modalHolderStyle = {
-      position: "fixed",
-      top: "10vh",
-      left: "10%",
-      width: "80%",
-      height: "90vh",
-      zIndex: 100,
-      overflow: "hidden",
-    };
-    return (
-      <div style={modalHolderStyle}>
-        <div className="flex flex-col w-full h-full justify-start bg-white">
-          <section className="overflow-y-auto">{htmlObject}</section>
-          <footer>footer</footer>
+  const modalHolderStyle = {
+    position: "fixed",
+    top: "10%",
+    left: "10%",
+    width: "80%",
+    height: "90%",
+    zIndex: 100,
+    overflow: "hidden",
+  };
+  return (
+    <>
+      {htmlObject ? (
+        <div style={modalHolderStyle}>
+          <div className="flex flex-row justify-between bg-white">
+            <span>상세 기사 내용</span>
+            <div
+              className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white transition duration-300"
+              onClick={hideDetail}
+            >
+              <IoClose size={30} />
+            </div>
+          </div>
+          <div className="flex flex-col w-full h-full justify-start bg-white">
+            <section className="overflow-y-auto">{htmlObject}</section>
+          </div>
         </div>
       </div>
     );
