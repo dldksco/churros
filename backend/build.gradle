@@ -29,7 +29,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 
 	// for web client
@@ -53,13 +52,23 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
+	testImplementation 'org.springframework.security:spring-security-test:5.7.7'
+
+
 	// SQL 실행 파라미터 표현 라이브러리
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 
-//	//elasticsearch
-//	implementation 'co.elastic.clients:elasticsearch-java:7.17.9'
-//	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
-//	implementation 'org.springframework.data:spring-data-elasticsearch'
+	//elasticsearch
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	implementation 'org.springframework.data:spring-data-elasticsearch:4.4.9'
+	implementation 'org.elasticsearch:elasticsearch:7.17.9'
+	//elasticsearch test container
+	testImplementation "org.testcontainers:elasticsearch:1.15.3"
 
 
 	// for swagger
