@@ -71,8 +71,8 @@ const SurveyContent = () => {
       const res = await api.get("/news/sample");
       const { result, articles } = res.data;
 
-      console.log(result);
-      console.log(articles);
+      // console.log(result);
+      // console.log(artiscles);
 
       setSampleArticles(
         articles.map((id, idx) => ({
@@ -96,18 +96,18 @@ const SurveyContent = () => {
     const selectedArticles = sampleArticles.filter(({ selected }) => selected);
     selectedArticles.forEach(async (item) => {
       try {
-        console.log(item);
+        // console.log(item);
 
         const r = await api.put("/news/read", {
           articleId: item.articleId,
         });
 
         const { result } = r.data;
-        console.log(result);
+        // console.log(result);
 
         // user 활성화 요청
         const s = await api.post("/user/activate");
-        console.log(s);
+        // console.log(s);
         
       } catch (error) {
         console.log(error);
@@ -135,7 +135,7 @@ const SurveyContent = () => {
   // 샘플 기사가 변경될 때마다 SubmitButtonActive 상태가 갱신된다
   useEffect(() => {
     setIsOpen(true);
-    console.log(sampleArticles);
+    // console.log(sampleArticles);
     const count = sampleArticles.filter(({ selected }) => selected).length;
 
     if (count >= 2) setSubmitButtonActive(true);

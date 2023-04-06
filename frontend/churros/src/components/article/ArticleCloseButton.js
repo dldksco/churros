@@ -6,7 +6,7 @@ const ArticleCloseButton = ({ onClose, articleIdx }) => {
     try {
       const response = await api.post(`/news/dislike`, {articleId: articleIdx});
       const { result } = response.data;
-      console.log(`disliked ${articleIdx}: ${result}`);
+      // console.log(`disliked ${articleIdx}: ${result}`);
     } catch (error) {
       console.log(error);
     }
