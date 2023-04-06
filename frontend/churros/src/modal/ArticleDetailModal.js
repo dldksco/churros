@@ -96,7 +96,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
               <IoClose size={30} />
             </div>
           </div>
-          <div className="flex flex-col w-full h-full justify-start bg-white">
+          <div className="flex flex-col w-full h-full justify-start bg-white pointer-events-none">
             <section className="w-full h-full overflow-y-auto">{htmlObject}</section>
           </div>
         </div>
