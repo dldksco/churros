@@ -10,7 +10,7 @@ import { userInfoState } from "../store/user";
 import { accessTokenState, refreshTokenState } from "../store/auth";
 import { scrapFolderListState, showScrapFolderListState } from "../store/sidebar-global-state";
 
-const ScrapsPage = () => {
+const ScrapsPage = (props) => {
   const { idx } = useParams();
 
   const resetUserInfo = useResetRecoilState(userInfoState);
@@ -64,7 +64,7 @@ const ScrapsPage = () => {
     // 시작과 함께 axios 통신으로 리스트 받아옴
     scrapListGet(idx);
     likeListGet();
-  }, [idx]);
+  }, [props.url]);
 
   return (
     <Fragment>
