@@ -12,8 +12,10 @@ import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.article.ArticleRepository;
 import com.a503.churros.repository.news.DisLikeRepository;
 import com.a503.churros.repository.news.LikeRepository;
+import com.a503.churros.repository.news.NewsDocumentationRepository;
 import com.a503.churros.repository.news.ReadRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class NewsServiceImpl implements NewsService {
-
+  private final NewsDocumentationRepository newsDocumentationRepository;
   private final ReadRepository rr;
   private final LikeRepository lr;
   private final DisLikeRepository dr;
@@ -142,29 +144,19 @@ public class NewsServiceImpl implements NewsService {
    * @author Lee an chae
    */
   public Slice<NewsDocumentationDTO> searchByTitleAndDescription(String query, Pageable pageable) {
-    QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(query, "title", "description");
-//        QueryBuilder queryBuilder = QueryBuilders.matchQuery("title", query);
-    NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withQuery(queryBuilder)
-        .withPageable(pageable)
-        .withSort(SortBuilders.scoreSort().order(SortOrder.DESC))
-        .build();
-
-    SearchHits<NewsDocumentation> searchHits = elasticsearchOperations.search(searchQuery,
-        NewsDocumentation.class);
-    List<NewsDocumentationDTO> newsDocumentationDTOs = searchHits.stream()
-        .map(SearchHit::getContent)
-        .map(this::convertToDto)
-        .collect(Collectors.toList());
-
-    if (newsDocumentationDTOs.isEmpty()) {
-      return new SliceImpl<>(newsDocumentationDTOs, pageable, false);
+    List<NewsDocumentation> newsDocumentationList = newsDocumentationRepository.findByTitleAndDescription(query, pageable);
+    List<NewsDocumentationDTO> newsDocumentationDTOList = new ArrayList<>();
+    for (NewsDocumentation newsDocumentation : newsDocumentationList) {
+      newsDocumentationDTOList.add(convertToDto(newsDocumentation));
     }
 
-    boolean hasNext = newsDocumentationDTOs.size() == pageable.getPageSize();
-    return new SliceImpl<>(newsDocumentationDTOs, pageable, hasNext);
-  }
+    if (newsDocumentationDTOList.isEmpty()) {
+      return new SliceImpl<>(newsDocumentationDTOList, pageable, false);
+    }
 
+    boolean hasNext = newsDocumentationDTOList.size() == pageable.getPageSize();
+    return new SliceImpl<>(newsDocumentationDTOList, pageable, hasNext);
+  }
 
   /**
    * NewsDocumentation Entity를 NewsDocumentationDTO로 변환
@@ -183,5 +175,9 @@ public class NewsServiceImpl implements NewsService {
         imgSrc(newsDocumentation.getImgSrc()).
         build();
   }
+
+
+
+
 
 }

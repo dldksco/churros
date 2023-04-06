@@ -62,7 +62,7 @@ const Article = ({ shape, articleIdx }) => {
           <div className="text-black font-bold text-xl mb-2">
             {content.title}
           </div>
-          <p className={`text-grey-darker text-base line-clamp ${shape === 3 ? "line-clamp-3" : "line-clamp-5"}`}>
+          <p className={`text-grey-darker text-base line-clamp ${shape === "3" ? "line-clamp-3" : "line-clamp-5"}`}>
             {content.description}
           </p>
           <HoverBox articleIdx={articleIdx} />
