@@ -12,8 +12,19 @@ const Main = () => {
   const [firstRowArticles, setFirstRowArticles] = useState([]);
   const [secondRowArticles, setSecondRowArticles] = useState([]);
   const [thirdRowArticles, setThirdRowArticles] = useState([]);
+  const [likeList, setLikeList] = useState([]);
 
   // userInfo가 초기화 되고 userInfo.activate가 true가 될 때 데이터를 fetch 해야한다
+  const likeListGet = async () => {
+    try {
+      const response = await api.get(`/news/like`);
+      const { result, articles } = response.data;
+      setLikeList(articles);
+      console.log(`likes list set ${likeList}: ${result}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchMainPageArticles = async () => {
     try {
       const res = await api.get("/news");
@@ -49,18 +60,19 @@ const Main = () => {
   useEffect(() => {
     if (userInfo?.activate) {
       fetchMainPageArticles();
+      likeListGet();
     }
   }, [userInfo]);
 
   return (
     <div className="flex-1 flex-col justify-start w-full h-full p-2 overflow-y-auto">
       <div className="block w-full h-[34rem] mb-4 shadow-lg">
-        <A1Carousel slides={carouselArticles} />
+        <A1Carousel slides={carouselArticles}  likelist={likeList} />
       </div>
       <div className="grid grid-cols-4 gap-4 w-full mb-2">
         {firstRowArticles?.map((articleIdx, idx) => (
           <div className="col-span-2 h-64">
-            <Article key={idx} shape="2" articleIdx={articleIdx} />
+            <Article key={idx} shape="2" articleIdx={articleIdx} likelist={likeList}/>
           </div>
         ))}
       </div>
@@ -68,7 +80,7 @@ const Main = () => {
       <div className="grid grid-cols-4 gap-4 w-full mb-2">
         {secondRowArticles?.map((articleIdx, idx) => (
           <div className="col-span-2 h-64">
-            <Article key={idx} shape="2" articleIdx={articleIdx} />
+            <Article key={idx} shape="2" articleIdx={articleIdx}  likelist={likeList}/>
           </div>
         ))}
       </div>
@@ -76,7 +88,7 @@ const Main = () => {
       <div className="grid grid-cols-4 gap-4 w-full">
         {thirdRowArticles?.map((articleIdx, idx) => (
           <div className="col-span-1 h-64">
-            <Article key={idx} shape="3" articleIdx={articleIdx} />
+            <Article key={idx} shape="3" articleIdx={articleIdx}  likelist={likeList}/>
           </div>
         ))}
       </div>

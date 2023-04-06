@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Carousel = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -13,6 +13,16 @@ const Carousel = ({ slides }) => {
     );
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      nextSlide();
+    }, 5000); // 5초마다 슬라이드 변경
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className="relative flex w-full h-full overflow-hidden">
       <button
@@ -26,9 +36,12 @@ const Carousel = ({ slides }) => {
           key={idx}
           className={`${
             idx === currentSlide
-              ? "relative w-full h-full overflow-hidden"
+              ? "relative w-full h-full overflow-hidden transition-transform duration-1000 ease-in-out"
               : "hidden"
           }`}
+          style={{
+            transform: `translateX(${(idx - currentSlide) * 100}%)`,
+          }}
         >
           <img
             src={`${slide.src}`}
