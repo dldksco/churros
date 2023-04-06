@@ -34,13 +34,16 @@ class LDAmodel():
             self.top_docs_by_topic[topic] = top_doc
         logging.info(f'추천용 리스트 생성 완료')
     
-    def user_recommend(self,user_history:list,dislikes:list,read_idx:list, N:int): # corpus, dictionary 필요
+    def user_recommend(self,user_history:list,dislikes:set,read_idx:list, N:int): # corpus, dictionary 필요
         logging.info(f"Start user recommendation process.")
         corpus_lda_model = self.lda_model[self.corpus]
 
         # 유저 기록의 주제 관련 평균 계산
         user_topics = np.zeros(self.TOPIC_NUM)
         for i in user_history:
+            # 임시 조치
+            if i >= 30:
+                i = 10
             single_corpus = corpus_lda_model[i]
             for word in single_corpus:
                 user_topics[word[0]] += word[1]
