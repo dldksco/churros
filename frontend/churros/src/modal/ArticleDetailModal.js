@@ -14,11 +14,13 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 };
 
 const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
+  console.log(url);
   const [htmlObject, setHtmlObject] = useState();
 
   // read?oid=117&aid=0003716035
   const isEntertainArticle = url.match(/(entertain.naver.com)/);
-  
+  console.log(isEntertainArticle);
+
   let articleLocation;
   let ent;
   
@@ -32,9 +34,11 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   }
   
   console.log(articleLocation);
+
   useEffect(() => {
     fetchData(articleLocation[0]);
   }, []);
+
   const fetchData = async (url) => {
     try {
       const response = await api.get(`/news/call`, {
