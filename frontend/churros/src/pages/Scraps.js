@@ -65,11 +65,6 @@ const ScrapsPage = (props) => {
     scrapListGet(idx);
     likeListGet();
   }, [idx]);
-  useEffect(() => {
-    // 시작과 함께 axios 통신으로 리스트 받아옴
-    scrapListGet(idx);
-    likeListGet();
-  }, []);
   return (
     <Fragment>
       {articleList.length === 0 ? (
