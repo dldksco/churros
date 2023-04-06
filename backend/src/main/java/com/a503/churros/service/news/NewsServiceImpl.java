@@ -138,21 +138,23 @@ public class NewsServiceImpl implements NewsService {
     public String callNaver(String url , boolean t) throws PatternSyntaxException {
         System.out.println("callNaver: url = " + url);
         if(t){
-            String extractOidRegex = "oid=([^&]+)";
-            Pattern patternExtractingOid = Pattern.compile(extractOidRegex);
-            Matcher oidMatcher = patternExtractingOid.matcher(url);
+            String extractingOidValueRegex = "(?<=oid=)([^&]+)";
+            Pattern extractingOidValuePattern = Pattern.compile(extractingOidValueRegex);
+            Matcher extractedOid = extractingOidValuePattern.matcher(url);
 
-            System.out.println("oidMatcher group count = " + oidMatcher.groupCount());
-            System.out.println("oid = " + oidMatcher.group(1));
+            String extractingAidValueRegex = "(?<=aid=)(.*)";
+            Pattern extractingAidValuePattern = Pattern.compile(extractingAidValueRegex);
+            Matcher extractedAid = extractingAidValuePattern.matcher(url);
 
-            String extractAidRegex = "aid=([^&]+)";
-            Pattern patternExtractingAid = Pattern.compile(extractAidRegex);
-            Matcher aidMatcher = patternExtractingAid.matcher(url);
+            System.out.println("oid value found = " + extractedOid.find());
+            String oidValue = extractedOid.group();
+            System.out.println("oid = " + oidValue);
 
-            System.out.println("aidMatcher group count = " + aidMatcher.groupCount());
-            System.out.println("oid = " + aidMatcher.group(1));
+            System.out.println("aid value found = " + extractedAid.find());
+            String aidValue = extractedAid.group();
+            System.out.println("aid = " + aidValue);
 
-            return ef.getArticle(oidMatcher.group(1), aidMatcher.group(1));
+            return ef.getArticle(oidValue, aidValue);
         }else{
             return nf.getArticle(url);
         }
