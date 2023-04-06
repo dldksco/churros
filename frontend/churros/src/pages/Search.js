@@ -30,6 +30,9 @@ const SearchPage = () => {
       }
     }
   }, []);
+  useEffect(()=>{
+    setPageNum(0);
+  },[searchData])
 
   useEffect(() => {
     likeListGet();
