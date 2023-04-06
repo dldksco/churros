@@ -97,7 +97,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
             </div>
           </div>
           <div className="flex flex-col w-full h-full justify-start bg-white">
-            <section className="overflow-y-auto">{htmlObject}</section>
+            <section className="w-full h-full overflow-y-auto">{htmlObject}</section>
           </div>
         </div>
       ) : (

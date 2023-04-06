@@ -14,16 +14,6 @@ const A1Carousel = ({ slides, likelist }) => {
     );
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      nextSlide();
-    }, 5000); // 5초마다 슬라이드 변경
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
   return (
     <div className="relative flex w-full h-full overflow-hidden">
       <button
@@ -37,7 +27,7 @@ const A1Carousel = ({ slides, likelist }) => {
           key={idx}
           className={`${
             idx === currentSlide
-              ? "relative w-full h-full overflow-hidden transition-transform duration-1000 ease-in-out"
+              ? "relative w-full h-full overflow-hidden"
               : "hidden"
           }`}
           style={{
