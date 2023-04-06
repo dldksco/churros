@@ -25,12 +25,13 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   let ent;
   
   if(!isEntertainArticle){
-    ent = true;
-    articleLocation = url.match(/(?<=entertain.naver.com\/)(.*)/);
-  }
-  else{
     ent = false;
     articleLocation = url.match(/(?<=article\/)(.*?)(?=\?)/);
+    
+  }
+  else{
+    ent = true;
+    articleLocation = url.match(/(?<=entertain.naver.com\/)(.*)/);
   }
   
   console.log(articleLocation);
