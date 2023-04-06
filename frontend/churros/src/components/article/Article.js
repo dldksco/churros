@@ -5,7 +5,7 @@ import ArticleCloseButton from "./ArticleCloseButton";
 import ArticleDetailModal from "../../modal/ArticleDetailModal";
 import { api } from "../../axios-instance/api";
 
-const Article = ({ shape, articleIdx }) => {
+const Article = ({ shape, articleIdx, likelist }) => {
   let sizename = "max-w w-90 lg:flex place-content-center rounded-tl-xl rounded-bl-xl";
   console.log(articleIdx);
   if (shape === "1") {
@@ -65,7 +65,7 @@ const Article = ({ shape, articleIdx }) => {
           <p className={`text-grey-darker text-base line-clamp ${shape === "3" ? "line-clamp-3" : "line-clamp-5"}`}>
             {content.description}
           </p>
-          <HoverBox articleIdx={articleIdx} />
+          <HoverBox articleIdx={articleIdx} likelist={likelist} />
         </div>
       </div>
       {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick} articleIdx={articleIdx}/>}

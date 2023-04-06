@@ -9,6 +9,17 @@ import EmptyPage from "../components/common/EmptyPage";
 const ScrapsPage = () => {
   const { idx } = useParams();
   const [articleList, setArticleList] = useState([]);
+  const [likeList, setLikeList] = useState([]);
+  const likeListGet = async () => {
+    try {
+      const response = await api.get(`/news/like`);
+      const { result, articles } = response.data;
+      setLikeList(articles);
+      console.log(`likes list set ${likeList}: ${result}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const scrapListGet = async (scrapFolderIdx) => {
     try {
       const response = await api.get(`/scrap/${scrapFolderIdx}`);
@@ -29,6 +40,7 @@ const ScrapsPage = () => {
   useEffect(() => {
     // 시작과 함께 axios 통신으로 리스트 받아옴
     scrapListGet(idx);
+    likeListGet();
   }, [idx]);
 
   return (
@@ -43,13 +55,13 @@ const ScrapsPage = () => {
       ) : (
         <div className="grid grid-cols-2 gap-4 p-5">
           <div className="col-span-full place-content-center">
-            <Article shape="1" articleIdx={articleList[0]} />
+            <Article shape="1" articleIdx={articleList[0]}  likelist={likeList}/>
           </div>
           {articleList &&
             articleList.length > 0 &&
             articleList.slice(1).map((article, idx) => (
               <div key={idx} className="col-span-1">
-                <Article shape="2" articleIdx={article} />
+                <Article shape="2" articleIdx={article}  likelist={likeList}/>
               </div>
             ))}
         </div>

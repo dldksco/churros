@@ -35,13 +35,13 @@ const LikesPage = () => {
       ) : (
         <div className="grid grid-cols-2 gap-4 p-5">
           <div className="col-span-full place-content-center">
-            <Article shape="1" articleIdx={articleList[0]} />
+            <Article shape="1" articleIdx={articleList[0]}  likelist={articleList}/>
           </div>
           {articleList &&
             articleList.length > 0 &&
             articleList.slice(1).map((article, idx) => (
               <div key={idx} className="col-span-1">
-                <Article shape="2" articleIdx={article} />
+                <Article shape="2" articleIdx={article}  likelist={articleList}/>
               </div>
             ))}
         </div>
