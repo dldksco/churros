@@ -17,7 +17,7 @@ const ScrapFolderEditFormBackdrop = ({ onClose }) => {
 };
 
 const ScrapFolderEditFormContent = ({ position, folderIdx, onClose }) => {
-  console.log(`ScrapFolderEditFormContent folderIdx:${folderIdx}`);
+  // console.log(`ScrapFolderEditFormContent folderIdx:${folderIdx}`);
   return (
     <div
       className="absolute flex flex-col justify-start z-60 w-64 p-1 bg-white drop-shadow-lg rounded-lg"

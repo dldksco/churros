@@ -29,7 +29,7 @@ const ScrapFolderAddFormContent = ({ position, onClose }) => {
       const r = await api.post("/scrap/book", {
         folderName: folderName,
       });
-      console.log(r);
+      // console.log(r);
       const { folderIdx } = r.data;
       setScrapFolderList((prev) => [
         ...prev,

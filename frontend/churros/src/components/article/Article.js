@@ -8,7 +8,7 @@ import { api } from "../../axios-instance/api";
 const Article = ({ shape, articleIdx, likelist }) => {
   let sizename =
     "max-w w-90 lg:flex place-content-center rounded-tl-xl rounded-bl-xl";
-  console.log(articleIdx);
+  // console.log(articleIdx);
   if (shape === "1") {
     sizename += " h-60";
   } else {
@@ -35,7 +35,7 @@ const Article = ({ shape, articleIdx, likelist }) => {
     try {
       const response = await api.get(`/news/${articleIdx}`);
       const { result, article } = response.data;
-      console.log(`loading sample article ${articleIdx}: ${result}`);
+      // console.log(`loading sample article ${articleIdx}: ${result}`);
       setContent({ ...article });
       setUrl(article.url);
       setImgstate(article.imgUrl === "" ? false : true);
@@ -43,7 +43,7 @@ const Article = ({ shape, articleIdx, likelist }) => {
       console.log(error);
     }
   };
-  console.log(content);
+  // console.log(content);
   useEffect(() => {
     fetchData();
   }, []);

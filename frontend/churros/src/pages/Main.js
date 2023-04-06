@@ -35,11 +35,11 @@ const Main = () => {
       const response = await api.get(`/news/like`);
       const { result, articles } = response.data;
       setLikeList(articles);
-      console.log(`likes list set ${likeList}: ${result}`);
+      // console.log(`likes list set ${likeList}: ${result}`);
     } catch (error) {
       console.log(error);
       if(error.response && (error.response.status === 401 || error.response.status === 403)){
-        console.log("User not authorized");
+        // console.log("User not authorized");
         logout();
       }
     }
@@ -47,11 +47,11 @@ const Main = () => {
   const fetchMainPageArticles = async () => {
     try {
       const res = await api.get("/news");
-      console.log(res.data);
+      // console.log(res.data);
 
       const { result, articles } = res.data;
-      console.log("main", result);
-      console.log("main", articles);
+      // console.log("main", result);
+      // console.log("main", articles);
 
       let startIdx = 0;
       setCarouselArticles(

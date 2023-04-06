@@ -28,8 +28,8 @@ const LogoutButton = () => {
     try {
       const response = await api.post(`/user/logout`);
       const { result } = response.data;
-      console.log(`logout result : ${result}`);
-      console.log("reset recoil-persist");
+      // console.log(`logout result : ${result}`);
+      // console.log("reset recoil-persist");
       logout();
       navigate("/landing")
     } catch (error) {

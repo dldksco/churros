@@ -17,7 +17,7 @@ const SearchPage = () => {
       const response = await api.get(`/news/like`);
       const { result, articles } = response.data;
       setLikeList(articles);
-      console.log(`likes list set ${likeList}: ${result}`);
+      // console.log(`likes list set ${likeList}: ${result}`);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +52,7 @@ const SearchPage = () => {
       <div className="grid grid-cols-2 gap-4 p-5">
         {/* 검색결과 */}
         {searchList &&
-          searchList.map((article, idx) => (
+          searchList.slice(1).map((article, idx) => (
             <div key={idx} className="col-span-1 relative">
               <Article shape="2" articleIdx={article.idx} likelist={likeList}/>
             </div>

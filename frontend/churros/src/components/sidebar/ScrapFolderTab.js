@@ -21,14 +21,14 @@ const ScrapFolderTab = () => {
   };
 
   const showScrapFolderAddModal = (e) => {
-    console.log("show scrap folder modal")
+    // console.log("show scrap folder modal")
     const buttonRect = e.target.getBoundingClientRect();
     setModalPosition({x: buttonRect.left + buttonRect.width, y: buttonRect.top});
     setModalOpen(true);
   }
 
   const hideScrapFolderAddModal = () => {
-    console.log("hide scrap folder modal")
+    // console.log("hide scrap folder modal")
     setModalOpen(false);
   }
 

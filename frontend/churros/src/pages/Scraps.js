@@ -34,7 +34,7 @@ const ScrapsPage = () => {
       const response = await api.get(`/news/like`);
       const { result, articles } = response.data;
       setLikeList(articles);
-      console.log(`likes list set ${likeList}: ${result}`);
+      // console.log(`likes list set ${likeList}: ${result}`);
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +51,7 @@ const ScrapsPage = () => {
         setArticleList(articles);
       }
 
-      console.log(`scrap list set ${articles}: ${result}`);
+      // console.log(`scrap list set ${articles}: ${result}`);
     } catch (error) {
       console.log(error);
       if(error.response && (error.response.status === 401 || error.response.status === 403)){

@@ -31,11 +31,11 @@ const LikesPage = () => {
       const response = await api.get(`/news/like`);
       const { result, articles } = response.data;
       setArticleList(articles);
-      console.log(`likes list set ${articleList}: ${result}`);
+      // console.log(`likes list set ${articleList}: ${result}`);
     } catch (error) {
       console.log(error);
       if(error.response && (error.response.status === 401 || error.response.status === 403)){
-        console.log("User not authorized");
+        // console.log("User not authorized");
         logout();
       }
     }
