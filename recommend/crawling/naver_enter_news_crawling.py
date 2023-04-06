@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 import datetime
-from tokenizer import tokenstart
+# from tokenizer import tokenstart
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')
 
@@ -176,8 +176,8 @@ def main():
     logging.info(f'start|연예|{start_time.strftime("%H:%M:%S")}')
     logging.info(f'success|연예|{lastcounter - startcounter}')
     logging.info(f'fail|연예|{except_count}')
-    if startcounter < lastcounter:
-        tokenstart(startcounter, lastcounter)
+    # if startcounter < lastcounter:
+    #     tokenstart(startcounter, lastcounter)
 
 if __name__ == '__main__':
     main()
