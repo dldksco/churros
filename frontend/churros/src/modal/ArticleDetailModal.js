@@ -90,7 +90,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
         <div style={modalHolderStyle}>
           <div className="flex flex-row justify-between bg-white">
             <div
-              className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white transition duration-300"
+              className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white"
               onClick={hideDetail}
             >
               <IoClose size={30} />
@@ -101,7 +101,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
           </div>
         </div>
       ) : (
-        <div>Loading</div>
+        <div></div>
       )}
     </>
   );
