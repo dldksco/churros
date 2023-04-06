@@ -60,7 +60,7 @@ const Article = ({ shape, articleIdx, likelist }) => {
       ></div>
       <div className={`w-4/6 border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white p-4 flex flex-col justify-between leading-normal relative rounded-br-xl rounded-tr-xl ${!imgstate ? "w-full" : ""}`}>
         <div className="mb-8 cursor-pointer" onClick={detailOnClick}>
-          <ArticleCloseButton articleIdx={articleIdx} className="z-5" />
+          <ArticleCloseButton articleIdx={articleIdx} />
           <div className={`text-black font-bold mb-2 ${shape==="3" ? "text-lg line-clamp-3" : "text-xl"}`}>
             {content.title}
           </div>
