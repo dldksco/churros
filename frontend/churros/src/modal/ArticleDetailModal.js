@@ -33,9 +33,13 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
 
       const htmlContent = response.data["html"];
       setHtmlObject(
-        <div
-          dangerouslySetInnerHTML={{
-            __html: htmlContent.replace(/data-src=/g, "src="),
+        <iframe
+          srcDoc={htmlContent}
+          title="Article Detail"
+          style={{
+            width: "100%",
+            height: "100%",
+            border: "none",
           }}
         />
       );
@@ -47,8 +51,8 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   const fetchReadData = async () => {
     try {
       const response = await api.put(`/news/read`, { articleId: articleIdx });
-      const {result} = response.data;
-      console.log(`Reading status updated ${result}`)
+      const { result } = response.data;
+      console.log(`Reading status updated ${result}`);
     } catch (error) {
       console.log(error);
     }
@@ -56,8 +60,8 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   const modalHolderStyle = {
     position: "fixed",
     top: "10%",
-    left: "10%",
-    width: "80%",
+    left: "15%",
+    width: "70%",
     height: "90%",
     zIndex: 100,
     overflow: "hidden",
