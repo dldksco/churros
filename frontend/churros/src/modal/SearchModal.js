@@ -6,7 +6,7 @@ import { Fragment } from "react";
 const SearchBackdrop = ({ searchOnClick, searchOffClick }) => {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-screen z-20"
+      className="fixed top-0 left-0 w-full h-screen z-30"
       onClick={searchOffClick}
     />
   );

@@ -9,7 +9,7 @@ import { scrapFolderListState } from "../store/sidebar-global-state";
 const ScrapFolderAddFormBackdrop = ({ onClose }) => {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-screen z-20"
+      className="fixed top-0 left-0 w-full h-screen z-30"
       onClick={onClose}
     />
   );

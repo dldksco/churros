@@ -10,7 +10,7 @@ import { IoTrash, IoCreateOutline } from "react-icons/io5";
 const ScrapFolderEditFormBackdrop = ({ onClose }) => {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-screen z-20"
+      className="fixed top-0 left-0 w-full h-screen z-30"
       onClick={onClose}
     />
   );
