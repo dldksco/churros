@@ -7,6 +7,7 @@ import com.a503.churros.entity.news.DisLike;
 import com.a503.churros.entity.news.Like;
 import com.a503.churros.entity.news.NewsDocumentation;
 import com.a503.churros.entity.news.Read;
+import com.a503.churros.feign.news.EnterFeign;
 import com.a503.churros.feign.news.NaverFeign;
 import com.a503.churros.feign.news.NewsFeign;
 import com.a503.churros.repository.article.ArticleRepository;
@@ -48,6 +49,7 @@ public class NewsServiceImpl implements NewsService {
   private final ElasticsearchOperations elasticsearchOperations;
   private final NewsFeign fc;
   private final NaverFeign nf;
+  private final EnterFeign ef;
 
 
     public List<Integer> sendRecommend(long userId) {
@@ -130,9 +132,12 @@ public class NewsServiceImpl implements NewsService {
 
 
     @Override
-    public String callNaver(String url) {
-      String html = nf.getArticle(url);
-      return html;
+    public String callNaver(String url , boolean t) {
+        if(t){
+            return ef.getArticle(url);
+        }else{
+            return nf.getArticle(url);
+        }
     }
 
   /**
