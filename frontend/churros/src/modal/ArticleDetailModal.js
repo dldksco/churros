@@ -32,7 +32,6 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
       });
 
       const htmlContent = response.data["html"];
-      console.log(htmlContent);
       setHtmlObject(
         <div
           dangerouslySetInnerHTML={{
