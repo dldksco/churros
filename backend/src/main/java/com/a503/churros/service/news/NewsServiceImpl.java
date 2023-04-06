@@ -143,14 +143,14 @@ public class NewsServiceImpl implements NewsService {
             Matcher oidMatcher = patternExtractingOid.matcher(url);
 
             System.out.println("oidMatcher group count = " + oidMatcher.groupCount());
-            System.out.println("oid = " + oidMatcher.group(1));
+            System.out.println("oid = " + oidMatcher.group(0));
 
             String extractAidRegex = "aid=([^&]+)";
             Pattern patternExtractingAid = Pattern.compile(extractAidRegex);
             Matcher aidMatcher = patternExtractingAid.matcher(url);
 
             System.out.println("aidMatcher group count = " + aidMatcher.groupCount());
-            System.out.println("oid = " + aidMatcher.group(1));
+            System.out.println("aid = " + aidMatcher.group(0));
 
             return ef.getArticle(oidMatcher.group(1), aidMatcher.group(1));
         }else{
