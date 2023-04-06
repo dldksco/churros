@@ -4,7 +4,7 @@ import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
 export const userInfoState = atom({
-  key: "userInfoState",
+  key: "userInfo",
   default: {},
   effects: [persistAtom],
 });
