@@ -16,9 +16,21 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   const [htmlObject, setHtmlObject] = useState();
 
-  const regex = /(?<=article\/)(.*?)(?=\?)/;
-  const articleLocation = url.match(regex);
-
+  // read?oid=117&aid=0003716035
+  const isEntertainArticle = url.match(/(entertain.naver.com)/);
+  
+  let articleLocation;
+  let ent;
+  
+  if(!isEntertainArticle){
+    ent = true;
+    articleLocation = url.match(/(?<=entertain.naver.com\/)(.*)/);
+  }
+  else{
+    ent = false;
+    articleLocation = url.match(/(?<=article\/)(.*?)(?=\?)/);
+  }
+  
   console.log(articleLocation);
   useEffect(() => {
     fetchData(articleLocation[0]);
@@ -28,6 +40,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
       const response = await api.get(`/news/call`, {
         params: {
           url: url,
+          ent: ent
         },
       });
 
