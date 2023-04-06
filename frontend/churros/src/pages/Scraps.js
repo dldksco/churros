@@ -5,9 +5,28 @@ import Article from "../components/article/Article";
 import { api } from "../axios-instance/api";
 import { Fragment } from "react";
 import EmptyPage from "../components/common/EmptyPage";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import { userInfoState } from "../store/user";
+import { accessTokenState, refreshTokenState } from "../store/auth";
+import { scrapFolderListState, showScrapFolderListState } from "../store/sidebar-global-state";
 
 const ScrapsPage = () => {
   const { idx } = useParams();
+
+  const resetUserInfo = useResetRecoilState(userInfoState);
+  const resetAccessToken = useResetRecoilState(accessTokenState);
+  const resetRefreshToken = useResetRecoilState(refreshTokenState);
+  const resetShowScrapFolderList = useResetRecoilState(showScrapFolderListState);
+  const resetScrapFolderList = useResetRecoilState(scrapFolderListState);
+
+  const logout = () => {
+    resetAccessToken();
+    resetRefreshToken();
+    resetUserInfo();
+    resetShowScrapFolderList();
+    resetScrapFolderList();
+  }
+
   const [articleList, setArticleList] = useState([]);
   const [likeList, setLikeList] = useState([]);
   const likeListGet = async () => {
@@ -35,6 +54,10 @@ const ScrapsPage = () => {
       console.log(`scrap list set ${articles}: ${result}`);
     } catch (error) {
       console.log(error);
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        console.log("User not authorized");
+        logout();
+      }
     }
   };
   useEffect(() => {
