@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,9 +64,9 @@ public class NewsController {
     public ResponseEntity<?> getNewsHtml(
             @RequestParam String url,
             @RequestParam boolean ent
-    ) {
+    ) throws UnsupportedEncodingException {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String html = ns.callNaver(url , ent);
+        String html = ns.callNaver(URLDecoder.decode(url , "UTF-8") , ent);
         resultMap.put("result", SUCCESS);
         resultMap.put("html", html);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
