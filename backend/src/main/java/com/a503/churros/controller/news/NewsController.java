@@ -60,14 +60,16 @@ public class NewsController {
 
     @GetMapping("/call")
     public ResponseEntity<?> getNewsHtml(
-            @RequestParam String url
+            @RequestParam String url,
+            @RequestParam boolean ent
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String html = ns.callNaver(url);
+        String html = ns.callNaver(url , ent);
         resultMap.put("result", SUCCESS);
         resultMap.put("html", html);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
 
     @GetMapping("/sample")
     public ResponseEntity<?> getNewsSample() {
