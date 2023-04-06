@@ -6,7 +6,7 @@ const EmptyPage = ({ message, className }) => {
     <div
       className={`flex flex-col justify-center items-center h-full w-full text-gray-500`}
     >
-      <GiKnot className="text-3xl text-[#CBA870]"/>
+      <GiKnot className="text-6xl text-[#CBA870] m-4"/>
       <h2 className="text-lg font-medium text-center">{message}</h2>
     </div>
   );
