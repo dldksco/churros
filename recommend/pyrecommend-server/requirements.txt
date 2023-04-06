@@ -4,4 +4,5 @@ sqlalchemy
 pymysql
 numpy
 gensim
-pymongo
+psutil
+subprocess
