@@ -56,13 +56,13 @@ function useFetch(searchData, pageNum) {
     } catch (err) {
       console.log(err);
     }
-  }, [searchData, pageNum]);
+  }, [searchData]);
   useEffect(() => {
     sendQuery(searchData);
   }, [sendQuery, pageNum]);
   useEffect(() => {
     sendnewQuery(searchData)
-  },[searchData])
+  },[sendnewQuery, searchData])
   return { loading, searchList, last };
 }
 
