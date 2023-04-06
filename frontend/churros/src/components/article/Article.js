@@ -21,9 +21,6 @@ const Article = ({ shape, articleIdx, likelist }) => {
   } else
     picturename =
       "lg:h-auto lg:w-48 cursor-pointer flex-none bg-cover rounded-t  text-center overflow-hidden rounded-tl-xl rounded-bl-xl";
-  if (!imgstate) {
-    picturename += " hidden";
-  }
   // article content
   const [content, setContent] = useState({});
   const [showDetail, setShowDetail] = useState(false);
