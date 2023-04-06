@@ -9,7 +9,7 @@ const LogoTab = () => {
   };
   return (
     <SidebarItem className={`${SIDEBAR_ITEM_SIZE.lg} bg-stone-200`}>
-      <div onClick={homeOnClick} className="inline-block flex ">
+      <div onClick={homeOnClick} className="inline-block flex cursor-pointer">
         <img
           src="/favicon.ico"
           alt="logo"
