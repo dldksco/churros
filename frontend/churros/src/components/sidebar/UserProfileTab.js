@@ -6,7 +6,7 @@ import CircleImageFrame from "../common/CircleImageFrame";
 
 const UserProfileTab = () => {
   const userInfo = useRecoilValue(userInfoState);
-  console.log(userInfo);
+  // console.log(userInfo);
 
 
   return (

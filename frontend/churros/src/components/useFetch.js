@@ -13,9 +13,9 @@ function useFetch(searchData, pageNum) {
         size: 10,
       });
       const { content, empty, size, last } = response.data;
-      console.log(
-        `loading sample search result ${searchData}: ${empty} ${size}`
-      );
+      // console.log(
+      //   `loading sample search result ${searchData}: ${empty} ${size}`
+      // );
       setSearchList((prev) => [...prev, ...content]);
       setLast(last)
     } catch (error) {
@@ -30,9 +30,9 @@ function useFetch(searchData, pageNum) {
         size: 10,
       });
       const { content, empty, size, last } = response.data;
-      console.log(
-        `loading sample search result ${searchData}: ${empty} ${size}`
-      );
+      // console.log(
+      //   `loading sample search result ${searchData}: ${empty} ${size}`
+      // );
       setSearchList([content]);
       setLast(last)
     } catch (error) {

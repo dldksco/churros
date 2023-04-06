@@ -14,12 +14,12 @@ const ArticleDetailBackdrop = ({ hideDetail }) => {
 };
 
 const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
-  console.log(url);
+  // console.log(url);
   const [htmlObject, setHtmlObject] = useState();
 
   // read?oid=117&aid=0003716035
   const isEntertainArticle = url.match(/(entertain.naver.com)/);
-  console.log(isEntertainArticle);
+  // console.log(isEntertainArticle);
 
   let articleLocation;
   let ent;
@@ -34,7 +34,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
     articleLocation = url.match(/(?<=entertain.naver.com\/)(.*)/);
   }
   
-  console.log(articleLocation);
+  // console.log(articleLocation);
 
   useEffect(() => {
     fetchData(articleLocation[0]);
@@ -70,7 +70,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
     try {
       const response = await api.put(`/news/read`, { articleId: articleIdx });
       const { result } = response.data;
-      console.log(`Reading status updated ${result}`);
+      // console.log(`Reading status updated ${result}`);
     } catch (error) {
       console.log(error);
     }
@@ -108,8 +108,8 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
 };
 
 const ArticleDetailModal = ({ url, hideDetail, articleIdx }) => {
-  console.log(url);
-  console.log(typeof url);
+  // console.log(url);
+  // console.log(typeof url);
   return (
     <Fragment>
       {ReactDOM.createPortal(

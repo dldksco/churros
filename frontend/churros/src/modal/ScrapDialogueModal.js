@@ -39,7 +39,7 @@ const ScrapDialogueItem = ({
         folderName: folderName,
         scrapped: isScrapped
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +65,7 @@ const ScrapDialogueItem = ({
 };
 
 const ScrapDialogueList = ({ items }) => {
-  console.log(items);
+  // console.log(items);
   return (
     <div className="flex flex-col flex-1 overflow-y-auto">
       {items.map(({ articleId, folderIdx, folderName, isScrapped }) => {
@@ -97,7 +97,7 @@ const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
       const r = await api.post("/scrap/book", {
         folderName: folderName,
       });
-      console.log(r);
+      // console.log(r);
       const { folderIdx } = r.data;
 
       setScrapFolderList((prev) => [
@@ -111,7 +111,7 @@ const ScrapFolderAddForm = ({ articleId, onFormClose, onDialogueClose }) => {
         folderName: folderName,
         scrapped: true,
       });
-      console.log(s);
+      // console.log(s);
     } catch (error) {
       console.log(error);
     } finally {
@@ -174,7 +174,7 @@ const ScrapDialogueContent = ({ articleId, onClose }) => {
           articleIdx: articleId,
         },
       });
-      console.log(response);
+      // console.log(response);
 
       const { folder } = response.data;
       setScrapDialogueItems(

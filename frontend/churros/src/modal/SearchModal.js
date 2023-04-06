@@ -17,7 +17,7 @@ const SearchContent = ({ searchOnClick, searchOffClick }) => {
   const [searchWord, setSearchWord] = useState("");
   const searchWordOnChange = (e) => {
     setSearchWord(e.target.value);
-    console.log(searchWord);
+    // console.log(searchWord);
   };
   const searchGo = (e) => {
     e.preventDefault();

@@ -24,7 +24,7 @@ const HoverBox = ({ articleIdx, likelist }) => {
     try {
       const response = await api.put(`/news/like`, {articleId: articleIdx});
       const { result } = response.data;
-      console.log(`liked ${articleIdx}: ${result}`);
+      // console.log(`liked ${articleIdx}: ${result}`);
     } catch (error) {
       console.log(error);
     }

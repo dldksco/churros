@@ -13,23 +13,13 @@ const A1 = ({ articleIdx, likelist }) => {
       return !before
     })
   }
-  console.log(articleIdx);
-
-  // const handleArticleDetail = (event) => {
-  //   event.preventDefault();
-
-  //   console.log("show article detail");
-  //   const regex = /article\/(.*?)\?/;
-  //   const articleLocation = content.url.match(regex);
-
-  //   console.log(articleLocation);
-  // };
+  // console.log(articleIdx);
 
   const fetchData = async () => {
     try {
       const response = await api.get(`/news/${articleIdx}`);
       const { result, article } = response.data;
-      console.log(`loading sample article ${articleIdx}: ${result}`);
+      // console.log(`loading sample article ${articleIdx}: ${result}`);
       setContent({ ...article });
       setUrl(article.url)
     } catch (error) {
@@ -37,8 +27,8 @@ const A1 = ({ articleIdx, likelist }) => {
     }
   };
 
-  console.log(content);
-  console.log(url)
+  // console.log(content);
+  // console.log(url)
   useEffect(() => {
     fetchData();
   }, []);
@@ -50,7 +40,7 @@ const A1 = ({ articleIdx, likelist }) => {
         onClick={detailOnClick}
       >
         {/* 기사 썸네일 */}
-        <div className="relative w-full h-3/4 overflow-hidden">
+        <div className="relative w-full h-3/4 overflow-hidden cursor-pointer">
           <img
             className="absolute w-full h-auto left-1/2 transform -translate-x-1/2"
             src={content.imgUrl}
@@ -58,7 +48,7 @@ const A1 = ({ articleIdx, likelist }) => {
           />
           <ArticleCloseButton articleIdx={articleIdx} />
         </div>
-        <div className="relative flex flex-col flex-1 justify-start items-center bg-stone-100">
+        <div className="relative flex flex-col flex-1 justify-start items-center bg-stone-100 cursor-pointer">
           {/* 기사 타이틀 및 요약 */}
           <div className="flex flex-col w-4/5 h-full justify-center">
             <p

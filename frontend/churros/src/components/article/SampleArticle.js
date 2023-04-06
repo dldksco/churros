@@ -8,7 +8,7 @@ const SampleArticle = ({ articleId }) => {
     try {
       const response = await api.get(`/news/${articleId}`);
       const { result, article } = response.data;
-      console.log(`loading sample article ${articleId}: ${result}`);
+      // console.log(`loading sample article ${articleId}: ${result}`);
       setContent({ ...article });
     } catch (error) {
       console.log(error);

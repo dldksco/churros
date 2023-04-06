@@ -13,7 +13,7 @@ import { userInfoState } from "../store/user";
 const Home = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [searchOn, setSearchOn] = useState(false);
-  console.log(accessToken);
+  // console.log(accessToken);
 
   const userInfo = useRecoilValue(userInfoState);
   // Todo: access token validation

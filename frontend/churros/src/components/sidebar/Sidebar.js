@@ -29,11 +29,11 @@ const Sidebar = () => {
   const fetchScrapFolderList = async () => {
     try {
       const res = await api.get("/scrap");
-      console.log(res.data);
+      // console.log(res.data);
 
       const { empty, folder } = res.data;
-      console.log(`is folder empty: ${empty}`)
-      console.log(`scrap folder: ${folder}`);
+      // console.log(`is folder empty: ${empty}`)
+      // console.log(`scrap folder: ${folder}`);
 
       if (!empty) {
         setScrapFolderList(
