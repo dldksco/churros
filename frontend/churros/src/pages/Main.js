@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import A1Carousel from "../components/article/A1Carousel";
 import { api } from "../axios-instance/api";
 import Article from "../components/article/Article";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { userInfoState } from "../store/user";
+import { accessTokenState, refreshTokenState } from "../store/auth";
+import { scrapFolderListState, showScrapFolderListState } from "../store/sidebar-global-state";
 
 const Main = () => {
   const userInfo = useRecoilValue(userInfoState);
@@ -14,6 +16,19 @@ const Main = () => {
   const [thirdRowArticles, setThirdRowArticles] = useState([]);
   const [likeList, setLikeList] = useState([]);
 
+  const resetUserInfo = useResetRecoilState(userInfoState);
+  const resetAccessToken = useResetRecoilState(accessTokenState);
+  const resetRefreshToken = useResetRecoilState(refreshTokenState);
+  const resetShowScrapFolderList = useResetRecoilState(showScrapFolderListState);
+  const resetScrapFolderList = useResetRecoilState(scrapFolderListState);
+
+  const logout = () => {
+    resetAccessToken();
+    resetRefreshToken();
+    resetUserInfo();
+    resetShowScrapFolderList();
+    resetScrapFolderList();
+  }
   // userInfo가 초기화 되고 userInfo.activate가 true가 될 때 데이터를 fetch 해야한다
   const likeListGet = async () => {
     try {
@@ -23,6 +38,10 @@ const Main = () => {
       console.log(`likes list set ${likeList}: ${result}`);
     } catch (error) {
       console.log(error);
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        console.log("User not authorized");
+        logout();
+      }
     }
   };
   const fetchMainPageArticles = async () => {
@@ -54,9 +73,13 @@ const Main = () => {
         articles.slice(startIdx, startIdx + subArraySizes[3])
       );
     } catch (error) {
-      console.log(error);
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        console.log("User not authorized");
+        logout();
+      }
     }
   };
+
   useEffect(() => {
     if (userInfo?.activate) {
       fetchMainPageArticles();
