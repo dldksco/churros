@@ -3,11 +3,12 @@ import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
 import { useSetRecoilState, useResetRecoilState } from "recoil";
-import { accessTokenState } from "../store/auth";
-import { userInfoState } from "../store/user";
 import SampleArticle from "../components/article/SampleArticle";
 import { IoCheckbox } from "react-icons/io5";
 import { api } from "../axios-instance/api";
+import { userInfoState } from "../store/user";
+import { accessTokenState, refreshTokenState } from "../store/auth";
+import { showScrapFolderListState, scrapFolderListState } from "../store/sidebar-global-state";
 
 const SurveyBackdrop = () => {
   return (
@@ -47,6 +48,18 @@ const SurveyContent = () => {
   // Recoil state
   const setUserInfo = useSetRecoilState(userInfoState);
   const resetAccessToken = useResetRecoilState(accessTokenState);
+  const resetUserInfo = useResetRecoilState(userInfoState);
+  const resetRefreshToken = useResetRecoilState(refreshTokenState);
+  const resetShowScrapFolderList = useResetRecoilState(showScrapFolderListState);
+  const resetScrapFolderList = useResetRecoilState(scrapFolderListState);
+
+  const logout = () => {
+    resetAccessToken();
+    resetRefreshToken();
+    resetUserInfo();
+    resetShowScrapFolderList();
+    resetScrapFolderList();
+  }
 
   // state
   const [isOpen, setIsOpen] = useState(false);
@@ -71,15 +84,8 @@ const SurveyContent = () => {
     } catch (error) {
       console.log(error);
 
-      if (error?.response) {
-        const { status } = error?.response;
-        switch (status) {
-          case 401:
-            resetAccessToken();
-            break;
-          default:
-            break;
-        }
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        logout();
       }
     }
   };
