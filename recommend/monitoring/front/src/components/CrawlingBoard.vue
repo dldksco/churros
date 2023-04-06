@@ -8,8 +8,10 @@
 
     <div class="d-flex justify-content-around">
       <!-- <p> 데이터 수집 성공 </p> -->
+      <p> 성공 : {{success_total | numberWithCommas}} </p>
       <BarChart :news="data" :info="success" :height="500" :width="800"/>
       <!-- <p> 데이터 수집 실패 </p> -->
+      <p> 실패 : {{fail_total | numberWithCommas}} </p>
       <BarChart :news="data2" :info="fail" :height="500" :width="800"/>
     </div>
     
@@ -35,6 +37,13 @@ export default {
         data2: [],
         success: 0,
         fail: 1,
+        success_total: 0,
+        fail_total: 0,
+      }
+    },
+    filters: {
+      numberWithCommas(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
     },
     mounted(){
@@ -49,6 +58,8 @@ export default {
                 this.data = Object.values(this.result);
                 this.result2 = res.data.fail;
                 this.data2 = Object.values(this.result2);
+                this.success_total = res.data.success_total;
+                this.fail_total = res.data.fail_total;
             });
             
         }

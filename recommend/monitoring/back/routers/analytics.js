@@ -18,24 +18,30 @@ const sub_category = {
 
 connect();
 
-router.get('/success', async (req, res) => {
+router.get('/database/crawling', async (req, res) => {
   const start_day = req.query.start_day;
   const end_day = req.query.end_day;
   try {
     let all_result = {};
     let result = {};
     let result2 = {};
+    let total1 = 0;
+    let total2 = 0;
     for(let i=0; i<category.length; i++){
       const arr = await Log.find({ date_time: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'success', category: category[i]});
       let init = 0;
       const sum = arr.reduce((acc, cur) => acc + cur.cnt, init);
       result[category[i]] = sum;
+      total1 += sum;
 
       const arr2 = await Log.find({ date_time: { $gte: new Date(start_day), $lte: new Date(end_day) }, state: 'fail', category: category[i]});
       let init2 = 0;
       const sum2 = arr2.reduce((acc, cur) => acc + cur.cnt, init2);
       result2[category[i]] = sum2;
+      total2 += sum2;
     }
+    all_result['success_total'] = total1;
+    all_result['fail_total'] = total2;
     all_result['success'] = result;
     all_result['fail'] = result2;
 
@@ -46,7 +52,7 @@ router.get('/success', async (req, res) => {
   }
 });
 
-router.get('/error', async(req, res) => {
+router.get('/database/error', async(req, res) => {
   const start_day = req.query.start_day;
   const end_day = req.query.end_day;
   const conditions = req.query.conditions;
@@ -62,15 +68,19 @@ router.get('/error', async(req, res) => {
   }
 });
 
-router.get('/dataset', async(req, res) => {
+router.get('/database/dataset', async(req, res) => {
   try {
     let result = {};
+    let all_result = {};
+    let total = 0;
     for(let i=0; i<category.length; i++){
       const cnt = await NewsData.find({ cat1: category[i]}).count();
       result[category[i]] = cnt;
+      total += cnt;
     }
-    
-    res.json(result);
+    all_result['result'] = result;
+    all_result['total'] = total;
+    res.json(all_result);
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
