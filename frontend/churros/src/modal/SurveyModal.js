@@ -3,11 +3,12 @@ import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
 import { useSetRecoilState, useResetRecoilState } from "recoil";
-import { accessTokenState } from "../store/auth";
-import { userInfoState } from "../store/user";
 import SampleArticle from "../components/article/SampleArticle";
 import { IoCheckbox } from "react-icons/io5";
 import { api } from "../axios-instance/api";
+import { userInfoState } from "../store/user";
+import { accessTokenState, refreshTokenState } from "../store/auth";
+import { showScrapFolderListState, scrapFolderListState } from "../store/sidebar-global-state";
 
 const SurveyBackdrop = () => {
   return (
