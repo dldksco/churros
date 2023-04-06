@@ -1,9 +1,9 @@
 package com.a503.churros.controller.news;
 
 import com.a503.churros.dto.article.ArticleDTO;
+import com.a503.churros.dto.news.ArticleInputDTO;
 import com.a503.churros.dto.news.NewsDocumentationDTO;
 import com.a503.churros.dto.news.NewsSearchRequest;
-import com.a503.churros.dto.news.ArticleInputDTO;
 import com.a503.churros.service.news.NewsService;
 import com.a503.churros.service.user.UserIdxFromJwtTokenService;
 import io.swagger.annotations.Api;
@@ -36,7 +36,7 @@ public class NewsController {
     @GetMapping("")
     public ResponseEntity<?> getNews(
             @RequestHeader("Authorization")
-                    String token
+            String token
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
@@ -49,7 +49,7 @@ public class NewsController {
     @GetMapping("/{articleId}")
     public ResponseEntity<?> getNewsArti(
             @RequestHeader("Authorization")
-                    String token,
+            String token,
             @PathVariable(value = "articleId") Integer articleId
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -65,8 +65,13 @@ public class NewsController {
             @RequestParam String url,
             @RequestParam boolean ent
     ) throws UnsupportedEncodingException {
+
+        System.out.println("encoded url = " + url);
+        String decodedUrl = URLDecoder.decode(url, "UTF-8");
+        System.out.println("decodedUrl = " + decodedUrl);
+
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String html = ns.callNaver(URLDecoder.decode(url , "UTF-8") , ent);
+        String html = ns.callNaver(decodedUrl, ent);
         resultMap.put("result", SUCCESS);
         resultMap.put("html", html);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
@@ -85,7 +90,7 @@ public class NewsController {
     @PutMapping("/read")
     public ResponseEntity<?> putRead(
             @RequestHeader("Authorization")
-                    String token,
+            String token,
             @RequestBody ArticleInputDTO dto
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -99,7 +104,7 @@ public class NewsController {
     @PutMapping("/like")
     public ResponseEntity<?> postLike(
             @RequestHeader("Authorization")
-                    String token,
+            String token,
             @RequestBody ArticleInputDTO dto
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -112,7 +117,7 @@ public class NewsController {
     @GetMapping("/like")
     public ResponseEntity<?> getLike(
             @RequestHeader("Authorization")
-                    String token
+            String token
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         long userId = ts.extractIdxFromToken(token);
@@ -125,7 +130,7 @@ public class NewsController {
     @PostMapping("/dislike")
     public ResponseEntity<?> postDisLike(
             @RequestHeader("Authorization")
-                    String token,
+            String token,
             @RequestBody ArticleInputDTO dto
     ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -136,12 +141,11 @@ public class NewsController {
     }
 
     /**
-     *
      * 현재 저장된 news의 검색결과를 반환합니다
      *
-     * @author Lee an chae
      * @param newsSearchRequest 뉴스 서치에 필요한 요청값
      * @return 검색된 결과와 상태코드
+     * @author Lee an chae
      */
     @PostMapping("/search")
     public ResponseEntity<?> newsSearch(@RequestBody NewsSearchRequest newsSearchRequest) {
