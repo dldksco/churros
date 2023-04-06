@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface EnterFeign {
 
     @RequestMapping(method = RequestMethod.GET)
-    String getArticle(@RequestParam String oid, @RequestParam String aid);
+    String getArticle(@RequestParam("oid") String oid, @RequestParam("aid") String aid);
 }
