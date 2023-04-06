@@ -87,7 +87,7 @@ const ArticleDetailContent = ({ url, hideDetail, articleIdx }) => {
   return (
     <>
       {htmlObject ? (
-        <div style={modalHolderStyle}>
+        <div className="drop-shadow-lg" style={modalHolderStyle}>
           <div className="flex flex-row justify-between bg-white">
             <div
               className="p-1 text-gray-500 rounded-lg hover:bg-red-500 transition duration-300 hover:text-white"
