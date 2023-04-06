@@ -47,6 +47,18 @@ const SurveyContent = () => {
   // Recoil state
   const setUserInfo = useSetRecoilState(userInfoState);
   const resetAccessToken = useResetRecoilState(accessTokenState);
+  const resetUserInfo = useResetRecoilState(userInfoState);
+  const resetRefreshToken = useResetRecoilState(refreshTokenState);
+  const resetShowScrapFolderList = useResetRecoilState(showScrapFolderListState);
+  const resetScrapFolderList = useResetRecoilState(scrapFolderListState);
+
+  const logout = () => {
+    resetAccessToken();
+    resetRefreshToken();
+    resetUserInfo();
+    resetShowScrapFolderList();
+    resetScrapFolderList();
+  }
 
   // state
   const [isOpen, setIsOpen] = useState(false);
@@ -71,15 +83,8 @@ const SurveyContent = () => {
     } catch (error) {
       console.log(error);
 
-      if (error?.response) {
-        const { status } = error?.response;
-        switch (status) {
-          case 401:
-            resetAccessToken();
-            break;
-          default:
-            break;
-        }
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        logout();
       }
     }
   };
