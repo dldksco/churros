@@ -4,8 +4,8 @@ import { IoFolderSharp } from "react-icons/io5";
 import ScrapDialogueModal from "../../modal/ScrapDialogueModal";
 import { api } from "../../axios-instance/api";
 
-const HoverBox = ({ articleIdx }) => {
-  const [like, setLike] = useState(false);
+const HoverBox = ({ articleIdx, likelist }) => {
+  const [like, setLike] = useState(likelist.indexOf(articleIdx) === -1 ? false : true);
   const [openScrapDialogue, setOpenScrapDialogue] = useState(false);
 
   const handleHoverBoxClick = (event) => {
@@ -34,21 +34,6 @@ const HoverBox = ({ articleIdx }) => {
     event.preventDefault();
     setOpenScrapDialogue(true);
   };
-
-  const likeSetting = async () => {
-    try {
-      const response = await api.get(`/news/like`);
-      const { result, articles } = response.data;
-      setLike(articles.indexOf(articleIdx) === -1 ? false : true);
-      console.log(`like set ${result}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    likeSetting();
-  }, []);
   
   return (
     <div className="absolute right-0 bottom-0 w-22 h-10 z-10 flex flex-row justify-center items-center bg-white rounded-lg drop-shadow-md m-2" onClick={handleHoverBoxClick}>
