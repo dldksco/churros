@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { api } from "../../axios-instance/api";
 import ArticleDetailModal from "../../modal/ArticleDetailModal";
 
-const A1 = ({ articleIdx, onClose }) => {
+const A1 = ({ articleIdx, likelist }) => {
   const [content, setContent] = useState({});
   const [showDetail, setShowDetail] = useState(false)
   const [url, setUrl] = useState("")
@@ -74,7 +74,7 @@ const A1 = ({ articleIdx, onClose }) => {
               {content.description}
             </p>
           </div>
-          <HoverBox articleIdx={articleIdx} />
+          <HoverBox articleIdx={articleIdx} likelist={likelist}/>
         </div>
       </div>
       {showDetail && <ArticleDetailModal url={url} hideDetail={detailOnClick} articleIdx={articleIdx} />}

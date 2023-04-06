@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import A1 from "./A1";
 
-const A1Carousel = ({ slides }) => {
+const A1Carousel = ({ slides, likelist }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
@@ -44,7 +44,7 @@ const A1Carousel = ({ slides }) => {
             transform: `translateX(${(idx - currentSlide) * 100}%)`,
           }}
         >
-          <A1 articleIdx={slide} />
+          <A1 articleIdx={slide} likelist={likelist} />
         </div>
       ))}
       <button
