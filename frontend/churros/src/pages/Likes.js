@@ -4,8 +4,27 @@ import Article from "../components/article/Article";
 import { api } from "../axios-instance/api";
 import EmptyPage from "../components/common/EmptyPage";
 
+import { useResetRecoilState } from "recoil";
+import { userInfoState } from "../store/user";
+import { accessTokenState, refreshTokenState } from "../store/auth";
+import { showScrapFolderListState, scrapFolderListState } from "../store/sidebar-global-state";
+
 const LikesPage = () => {
   const [articleList, setArticleList] = useState([]);
+
+  const resetUserInfo = useResetRecoilState(userInfoState);
+  const resetAccessToken = useResetRecoilState(accessTokenState);
+  const resetRefreshToken = useResetRecoilState(refreshTokenState);
+  const resetShowScrapFolderList = useResetRecoilState(showScrapFolderListState);
+  const resetScrapFolderList = useResetRecoilState(scrapFolderListState);
+
+  const logout = () => {
+    resetAccessToken();
+    resetRefreshToken();
+    resetUserInfo();
+    resetShowScrapFolderList();
+    resetScrapFolderList();
+  }
 
   const likeListGet = async () => {
     try {
@@ -15,6 +34,10 @@ const LikesPage = () => {
       console.log(`likes list set ${articleList}: ${result}`);
     } catch (error) {
       console.log(error);
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        console.log("User not authorized");
+        logout();
+      }
     }
   };
 

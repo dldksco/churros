@@ -15,35 +15,3 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
-const logout = () => {
-  
-  const initialized = {
-    accessToken: null,
-    refreshToken: null,
-    userInfo: {},
-    showScrapFolderListState: false,
-    scrapFolderList: []
-  }
-
-  localStorage.setItem("recoil-persist", JSON.stringify(initialized));
-
-  window.location.href = "httsp://churros.site/landing";
-};
-
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    console.log(error);
-
-    if (
-      error.response &&
-      (error.response.status === 401 || error.response.status === 403)
-    ) {
-      logout();
-    }
-    return Promise.reject(error);
-  }
-);
