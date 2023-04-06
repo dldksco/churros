@@ -19,6 +19,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -132,9 +135,17 @@ public class NewsServiceImpl implements NewsService {
 
 
     @Override
-    public String callNaver(String url , boolean t) {
+    public String callNaver(String url , boolean t) throws PatternSyntaxException {
         if(t){
-            return ef.getArticle(url);
+            String extractOidRegex = "oid=([^&]+)";
+            Pattern patternExtractingOid = Pattern.compile(extractOidRegex);
+            Matcher oidMatcher = patternExtractingOid.matcher(url);
+
+            String extractAidRegex = "aid=([^&]+)";
+            Pattern patternExtractingAid = Pattern.compile(extractAidRegex);
+            Matcher aidMatcher = patternExtractingAid.matcher(url);
+
+            return ef.getArticle(oidMatcher.group(1), aidMatcher.group(1));
         }else{
             return nf.getArticle(url);
         }
