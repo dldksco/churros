@@ -68,7 +68,7 @@ public class NewsController {
 
         System.out.println("encoded url = " + url);
         String decodedUrl = URLDecoder.decode(url, "UTF-8");
-        System.out.println("decodedUrl = " + decodedUrl);
+        System.out.println("decoded url = " + decodedUrl);
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String html = ns.callNaver(decodedUrl, ent);

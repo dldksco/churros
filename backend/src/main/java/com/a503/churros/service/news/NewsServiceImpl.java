@@ -136,14 +136,21 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public String callNaver(String url , boolean t) throws PatternSyntaxException {
+        System.out.println("callNaver: url = " + url);
         if(t){
             String extractOidRegex = "oid=([^&]+)";
             Pattern patternExtractingOid = Pattern.compile(extractOidRegex);
             Matcher oidMatcher = patternExtractingOid.matcher(url);
 
+            System.out.println("oidMatcher group count = " + oidMatcher.groupCount());
+            System.out.println("oid = " + oidMatcher.group(1));
+
             String extractAidRegex = "aid=([^&]+)";
             Pattern patternExtractingAid = Pattern.compile(extractAidRegex);
             Matcher aidMatcher = patternExtractingAid.matcher(url);
+
+            System.out.println("aidMatcher group count = " + aidMatcher.groupCount());
+            System.out.println("oid = " + aidMatcher.group(1));
 
             return ef.getArticle(oidMatcher.group(1), aidMatcher.group(1));
         }else{
