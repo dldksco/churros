@@ -105,8 +105,8 @@ async def get_recommend_articles(user_id: int, db: Session = Depends(get_db)):
         N = _MIN_VLUE
     for i in range(0, len(read_idx), _SLICING_NUM):
         cur_articles = read_idx[0 : i + _SLICING_NUM]
-        cur_recommendations:list = remodel.user_recommend(cur_articles, dislikes, read_idx, N)
-        recommendations += cur_recommendations
+        cur_recommendations:list = remodel.user_recommend(cur_articles, dislikes, read_idx+recommendations, N)
+        recommendations += cur_recommendations  
         if len(set(recommendations)) >= _RECOMMEND_ARTICLE_CNT:
             break
     return {"recommendList": recommendations[:_RECOMMEND_ARTICLE_CNT]}
