@@ -46,7 +46,7 @@ const Article = ({ shape, articleIdx, likelist }) => {
   // console.log(content);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [articleIdx]);
 
   return (
     <div className={sizename}>
