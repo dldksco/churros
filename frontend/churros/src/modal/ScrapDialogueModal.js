@@ -10,7 +10,7 @@ import CloseButton from "../components/common/CloseButton";
 const ScrapDialogueBackdrop = ({ onClose }) => {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-screen z-20 bg-black opacity-75"
+      className="fixed top-0 left-0 w-full h-screen z-30 bg-black opacity-75"
       onClick={onClose}
     />
   );
