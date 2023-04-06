@@ -36,9 +36,12 @@ const Carousel = ({ slides }) => {
           key={idx}
           className={`${
             idx === currentSlide
-              ? "relative w-full h-full overflow-hidden"
+              ? "relative w-full h-full overflow-hidden transition-transform duration-1000 ease-in-out"
               : "hidden"
           }`}
+          style={{
+            transform: `translateX(${(idx - currentSlide) * 100}%)`,
+          }}
         >
           <img
             src={`${slide.src}`}

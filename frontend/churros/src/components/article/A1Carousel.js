@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import A1 from "./A1";
 
 const A1Carousel = ({ slides }) => {
@@ -14,6 +14,16 @@ const A1Carousel = ({ slides }) => {
     );
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      nextSlide();
+    }, 5000); // 5초마다 슬라이드 변경
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className="relative flex w-full h-full overflow-hidden">
       <button
@@ -27,13 +37,14 @@ const A1Carousel = ({ slides }) => {
           key={idx}
           className={`${
             idx === currentSlide
-              ? "relative w-full h-full overflow-hidden"
+              ? "relative w-full h-full overflow-hidden transition-transform duration-1000 ease-in-out"
               : "hidden"
           }`}
+          style={{
+            transform: `translateX(${(idx - currentSlide) * 100}%)`,
+          }}
         >
-          <A1
-            articleIdx={slide}
-          />
+          <A1 articleIdx={slide} />
         </div>
       ))}
       <button
