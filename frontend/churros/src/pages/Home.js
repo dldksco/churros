@@ -13,8 +13,7 @@ import { userInfoState } from "../store/user";
 const Home = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [searchOn, setSearchOn] = useState(false);
-  console.log(accessToken);
-  const isAuthenticated = accessToken > 0;
+  // console.log(accessToken);
 
   const userInfo = useRecoilValue(userInfoState);
   // Todo: access token validation
@@ -27,7 +26,8 @@ const Home = () => {
     setSearchOn(false);
   };
   
-  if(!accessToken) return <Navigate to={"/landing"}/>
+  // LocalStorage에 액세스 토큰이 없을 때만 landing으로 돌아간다
+  if(!JSON.parse(localStorage.getItem("recoil-persist"))?.accessToken) return <Navigate to={"/landing"}/>
 
   return (
     <div className="w-screen h-screen flex flex-row justify-start bg-stone-50">

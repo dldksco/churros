@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import A1 from "./A1";
 
-const A1Carousel = ({ slides }) => {
+const A1Carousel = ({ slides, likelist }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
@@ -22,7 +22,7 @@ const A1Carousel = ({ slides }) => {
       >
         &larr;
       </button>
-      {slides.map((slide, idx) => (
+      {slides?.map((slide, idx) => (
         <div
           key={idx}
           className={`${
@@ -30,14 +30,11 @@ const A1Carousel = ({ slides }) => {
               ? "relative w-full h-full overflow-hidden"
               : "hidden"
           }`}
+          style={{
+            transform: `translateX(${(idx - currentSlide) * 100}%)`,
+          }}
         >
-          <A1
-            articleId={slide.idx}
-            url={slide.url}
-            imgUrl={slide.imgUrl}
-            title={slide.title}
-            description={slide.description}
-          />
+          <A1 articleIdx={slide} likelist={likelist} />
         </div>
       ))}
       <button

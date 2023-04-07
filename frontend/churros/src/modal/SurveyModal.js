@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import { Fragment } from "react";
-import { useRecoilValue, useSetRecoilState, useResetRecoilState } from "recoil";
-import { accessTokenState } from "../store/auth";
-import { userInfoState } from "../store/user";
+import { useSetRecoilState, useResetRecoilState } from "recoil";
 import SampleArticle from "../components/article/SampleArticle";
-import { test } from "../axios-instance/api";
 import { IoCheckbox } from "react-icons/io5";
 import { api } from "../axios-instance/api";
+import { userInfoState } from "../store/user";
+import { accessTokenState, refreshTokenState } from "../store/auth";
+import { showScrapFolderListState, scrapFolderListState } from "../store/sidebar-global-state";
 
 const SurveyBackdrop = () => {
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-20 bg-black opacity-75" />
+    <div className="fixed top-0 left-0 w-full h-screen z-30 bg-black opacity-75" />
   );
 };
 
@@ -48,51 +48,44 @@ const SurveyContent = () => {
   // Recoil state
   const setUserInfo = useSetRecoilState(userInfoState);
   const resetAccessToken = useResetRecoilState(accessTokenState);
+  const resetUserInfo = useResetRecoilState(userInfoState);
+  const resetRefreshToken = useResetRecoilState(refreshTokenState);
+  const resetShowScrapFolderList = useResetRecoilState(showScrapFolderListState);
+  const resetScrapFolderList = useResetRecoilState(scrapFolderListState);
+
+  const logout = () => {
+    resetAccessToken();
+    resetRefreshToken();
+    resetUserInfo();
+    resetShowScrapFolderList();
+    resetScrapFolderList();
+  }
 
   // state
   const [isOpen, setIsOpen] = useState(false);
   const [sampleArticles, setSampleArticles] = useState([]);
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
 
-  const fetchDummySampleArticles = () => {
-    const articles = [169937, 169936, 169935, 169934, 169933, 169932];
-    setSampleArticles(
-      articles.map((articleId, index) => ({
-        index: index,
-        articleId: articleId,
-        selected: false,
-      }))
-    );
-  };
-
   const fetchSampleArticles = async () => {
     try {
       const res = await api.get("/news/sample");
-      const { result, articleIds } = res.data;
+      const { result, articles } = res.data;
 
-      console.log(result);
-      console.log(articleIds);
+      // console.log(result);
+      // console.log(artiscles);
 
       setSampleArticles(
-        articleIds.map((id, idx) => ({
+        articles.map((id, idx) => ({
           index: idx,
           articleId: id,
           selected: false,
         }))
       );
-      console.log(sampleArticles);
-    } catch ({ name, code, message, response }) {
-      console.log(`[error] ${name} code: ${code} message: ${message}`);
+    } catch (error) {
+      console.log(error);
 
-      if (response) {
-        const {status} = response;
-        switch (status) {
-          case 401:
-            resetAccessToken();
-            break;
-          default:
-            break;
-        }
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        logout();
       }
     }
   };
@@ -103,11 +96,19 @@ const SurveyContent = () => {
     const selectedArticles = sampleArticles.filter(({ selected }) => selected);
     selectedArticles.forEach(async (item) => {
       try {
-        const response = await api.put("/news/read", {
+        // console.log(item);
+
+        const r = await api.put("/news/read", {
           articleId: item.articleId,
         });
-        const { result } = response.data;
-        console.log(result);
+
+        const { result } = r.data;
+        // console.log(result);
+
+        // user 활성화 요청
+        const s = await api.post("/user/activate");
+        // console.log(s);
+        
       } catch (error) {
         console.log(error);
       }
@@ -127,13 +128,14 @@ const SurveyContent = () => {
   // 컴포넌트 마운트 시 isOpen 상태를 변경시킨다
   // 모달 창 Slide Up transition 실행된다
   useEffect(() => {
-    fetchDummySampleArticles();
-    // fetchSampleArticles();
-    setIsOpen(true);
+    // fetchDummySampleArticles();
+    fetchSampleArticles();
   }, []);
 
   // 샘플 기사가 변경될 때마다 SubmitButtonActive 상태가 갱신된다
   useEffect(() => {
+    setIsOpen(true);
+    // console.log(sampleArticles);
     const count = sampleArticles.filter(({ selected }) => selected).length;
 
     if (count >= 2) setSubmitButtonActive(true);
@@ -151,8 +153,8 @@ const SurveyContent = () => {
 
   return (
     <div
-      className={`fixed top-[10%] left-[25%] w-1/2 h-4/5 z-50 ${
-        isOpen ? "" : "translate-y-[1080px]"
+      className={`fixed w-1/2 h-auto z-50 top-1/2 left-1/2 -translate-x-1/2 ${
+        isOpen ? "-translate-y-1/2" : "translate-y-[50vh]"
       } transition delay-300 ease-in-out`}
     >
       <div className="flex flex-col w-full h-full justify-start bg-white rounded-2xl">

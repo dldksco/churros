@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import SidebarItem from "./SidebarItem";
 import {
@@ -8,23 +8,34 @@ import {
 } from "react-icons/io5";
 import { SIDEBAR_ITEM_SIZE } from "../../constants/sidebar-constants";
 import { showScrapFolderListState } from "../../store/sidebar-global-state";
+import ScrapFolderAddModal from "../../modal/ScrapFolderAddModal";
+import ScrapFolderEditModal from "../../modal/ScrapFolderEditModal";
 
 const ScrapFolderTab = () => {
   const setShowScrapFolderList = useSetRecoilState(showScrapFolderListState);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState({x: 0, y: 0});
 
   const toggleScrapFolderList = () => {
     setShowScrapFolderList((prev) => !prev);
   };
 
-  const addNewScrapFolder = (event) => {
-    event.preventDefault();
+  const showScrapFolderAddModal = (e) => {
+    // console.log("show scrap folder modal")
+    const buttonRect = e.target.getBoundingClientRect();
+    setModalPosition({x: buttonRect.left + buttonRect.width, y: buttonRect.top});
+    setModalOpen(true);
+  }
 
-    // show scrap folder add menu
-  };
+  const hideScrapFolderAddModal = () => {
+    // console.log("hide scrap folder modal")
+    setModalOpen(false);
+  }
 
   return (
     <SidebarItem className={`${SIDEBAR_ITEM_SIZE.sm}`}>
-      <div className="w-full h-full flex flex-row justify-between items-center">
+      <div className="relative w-full h-full flex flex-row justify-between items-center">
+        { modalOpen && <ScrapFolderAddModal position={modalPosition} onClose={hideScrapFolderAddModal}/>}
         <div
           className={`flex flex-row justify-start items-center w-full hover:bg-stone-300`}
           onClick={toggleScrapFolderList}
@@ -46,7 +57,7 @@ const ScrapFolderTab = () => {
         <IoAddOutline
           className="w-10 h-full p-2 hover:bg-stone-300"
           style={{ color: "837F79" }}
-          onClick={addNewScrapFolder}
+          onClick={showScrapFolderAddModal}
         />
       </div>
     </SidebarItem>

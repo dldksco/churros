@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 import datetime
-from tokenizer import tokenstart
+# from tokenizer import tokenstart
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(message)s')
 
@@ -219,8 +219,8 @@ def crawlingGeneralNews(lastcounter):
 def main():
     lastcounter = collection.estimated_document_count()
     lastcounter_new = crawlingGeneralNews(lastcounter)
-    if lastcounter < lastcounter_new:
-        tokenstart(lastcounter, lastcounter_new)
+    # if lastcounter < lastcounter_new:
+    #     tokenstart(lastcounter, lastcounter_new)
 
 if __name__ == '__main__':
     main()

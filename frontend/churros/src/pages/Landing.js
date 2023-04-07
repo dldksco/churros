@@ -8,17 +8,17 @@ const Landing = () => {
   const images = [
     {
       id: 1,
-      src: "/images/sample-img-00.jpeg",
+      src: "/images/landing1.jpg",
       alt: "image",
     },
     {
       id: 2,
-      src: "/images/churros.jpg",
+      src: "/images/landing2.jpg",
       alt: "image",
     },
     {
       id: 3,
-      src: "/images/newspaper.jpeg",
+      src: "/images/landing3.jpg",
       alt: "image",
     },
   ];
