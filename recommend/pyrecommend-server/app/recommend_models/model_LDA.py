@@ -5,10 +5,10 @@ from gensim import models, similarities, corpora
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 class LDAmodel():
-    def __init__(self):
+    def __init__(self, name):
         logging.info(f'LDAmodel init...')
         self.TOPIC_NUM = 30
-        self.change_model_files()
+        self.name = name
         logging.info(f'LDAmodel init 완료!')
         
     def change_model_files(self):
@@ -34,7 +34,7 @@ class LDAmodel():
             self.top_docs_by_topic[topic] = top_doc
         logging.info(f'추천용 리스트 생성 완료')
     
-    def user_recommend(self,user_history:list,dislikes:list,read_idx:list, N:int): # corpus, dictionary 필요
+    def user_recommend(self,user_history:list,dislikes:set,read_idx:list, N:int): # corpus, dictionary 필요
         logging.info(f"Start user recommendation process.")
         corpus_lda_model = self.lda_model[self.corpus]
 
@@ -57,12 +57,19 @@ class LDAmodel():
 
         # 상위 N개의 기사 추천 N개 이상이 될 때까지 반복
         top_n_indices = []
-        while len(top_n_indices) < N:
-            top_n_indices.extend([i[0] for i in sim_scores[0:N+1] if i[0] not in set(read_idx) and i[0] not in dislikes])
+        for i in range(0, len(sim_scores)):
+            article_idx = sim_scores[i][0]
+            if article_idx not in set(read_idx) and article_idx not in dislikes:
+                top_n_indices.append(article_idx)
+            if len(top_n_indices) >= N:
+                break
         
         logging.debug(f"Top {N} recommended article indices: {top_n_indices[:N]}")
         logging.info(f"User recommendation process completed.")
-        return top_n_indices[:N]
+        return top_n_indices
     
     def sample_article(self,topic_num):
-        return self.top_docs_by_topic[topic_num]
+        print("들어온 값", topic_num)
+        print("결과 값",self.top_docs_by_topic.get(topic_num))
+        print("타입은?", type(topic_num))
+        return self.top_docs_by_topic.get(topic_num)
