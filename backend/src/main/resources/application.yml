@@ -104,7 +104,7 @@ spring:
       client:
         registration:
           naver:
-            client-id: AYc5QWixliEFjnGd6Llt
+            client-id: ${NAVER_CLIENT_ID}
             client-secret: vr_Oowemll
             redirect-uri: http://localhost:9999/oauth2/callback/naver
             client-authentication-method: post
@@ -135,7 +135,7 @@ springdoc:
 # jwt 토큰
 app:
   auth:
-    tokenSecret: ewfkjasjfklawelfaefiefjelafjlalfialfesfsfdfefsefsefsefsedfsedfsefaefasefaefaefasefaefaesfaesfasefaefaefaweggerhrthrthdrtgrsgsrgsrgsgrsgrfgsrfsrfser
+    tokenSecret: ${TOKEN_KEY}
     accessTokenExpirationMsec: 20000000
     refreshTokenExpirationMsec: 600000000
   cors:
@@ -144,5 +144,5 @@ app:
     authorizedRedirectUris: http://localhost:3000/oauth2/redirect
 
 kakao:
-  client-id: 1a06069f5798412103d829ce3ec3a3a0
-  client-secret: eKmMwAle5wR5XRqWdZDCXpybrhiaZsti
+  client-id: ${KAKAO_CLIENT_ID}
+  client-secret: ${KAKAO_CLIENT_SECRET_KEY}
