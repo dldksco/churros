@@ -37,11 +37,6 @@
 
 Server : AWS EC2 `Ubuntu 20.04 LTS`
 <br/>
-<img src="picture/jira.png" width="150" height="100"/>
-<img src="picture/git.png" width="160" height="100"/>
-<img src="picture/mattermost.png" width="100" height="100"/>
-<img src="picture/webex.jpg" width="100" height="100"/>
-<img src="picture/amazonec2.png" width="100" height="100"/>
 
 ## FE
 
@@ -49,11 +44,6 @@ Server : AWS EC2 `Ubuntu 20.04 LTS`
 
 사용 툴 : visual studio
 
-<img src="picture/react.png" width="100" height="100"/>
-<img src="picture/react-router-dom.png" width="100" height="100"/>
-<img src="picture/axios.jpeg" width="200" height="100"/>
-<img src="picture/recoil.png" width="200" height="100"/>
-<img src="picture/visualstudiocode.jpg" width="100" height="100"/>
 
 ## C. BE
 
@@ -63,27 +53,12 @@ Server : AWS EC2 `Ubuntu 20.04 LTS`
 
 사용 툴 : IntelliJ
 
-<img src="picture/openjdk.jpg" width="200" height="100"/>
-<img src="picture/springboot.png" width="100" height="100"/>
-<img src="picture/oauth.png" width="100" height="100"/>
-<img src="picture/kakao.png" width="100" height="100"/>
-<img src="picture/intelliJ.png" width="100" height="100"/>
 
 ### ii. CRS (Contents Recommendation Server)
 
 기술 스택(버전) : Python3 `3.9.2`, fastapi `0.95.0`, uvicorn `0.21.1`, SQLAlchemy `2.0.8`, PyMySQL `1.0.3`, numpy `1.24.2`, gensim `4.3.1`, pytest `7.1.2`
 사용 툴 : PyCharm `2022.3.2`
 
-<img src="picture/python.png" width="100" height="100"/>
-<img src="picture/fastapi.png" width="100" height="100"/>
-<img src="picture/uvicorn.png" width="100" height="100"/>
-<img src="picture/SQLAlchemy.jpg" width="100" height="100"/>
-<img src="picture/pymysql.jpg" width="100" height="100"/>
-
-<img src="picture/numpy.png" width="100" height="100"/>
-<img src="picture/gensim.png" width="100" height="100"/>
-<img src="picture/pytest.png" width="100" height="100"/>
-<img src="picture/pycharm.jpg" width="100" height="100"/>
 
 ### iii. DevOps
 
@@ -91,10 +66,6 @@ Server : AWS EC2 `Ubuntu 20.04 LTS`
 
 사용 툴 : Mobaxterm
 
-<img src="picture/nginx.png" width="100" height="100"/>
-<img src="picture/jenkins.png" width="100" height="100"/>
-<img src="picture/docker.png" width="100" height="100"/>
-<img src="picture/mobaxterm.jpg" width="100" height="100"/>
 
 ## D. DATA
 
@@ -109,24 +80,11 @@ Server : AWS EC2 `Ubuntu 20.04 LTS`
 기술 스택(버전) : Python `3.9` , Numpy `1.24`, Pandas `1.5`, konlpy `0.6`, gensim `4.3.1`, seaborn `0.12`, matplotlib `3.7`, pyLDAvis `3.4` , MongoDB `4.2`
 사용 툴 : JupyterNotebook `5.3` , MongoDB, JVM
 
-<img src="picture/python.png" width="100" height="100"/>
-<img src="picture/numpy.png" width="100" height="100"/>
-<img src="picture/pandas.png" width="100" height="100"/>
-<img src="picture/konlpy.png" width="100" height="100"/>
-<img src="picture/gensim.png" width="100" height="100"/>
-<img src="picture/seaborn.png" width="100" height="100"/>
 
-<img src="picture/matplotlib.png" width="100" height="100"/>
-<img src="picture/pyLDAvis.png" width="100" height="100"/>
-<img src="picture/mongodb.webp" width="100" height="100"/>
-<img src="picture/jupyternotebook.png" width="100" height="100"/>
-<img src="picture/JVM.jpg" width="100" height="100"/>
 
 ### iii. 검색 시스템
 
 기술 스택 : ElasticSearch 7.15.7, Monstache
-
-<img src="picture/elasticsearch.png" width="100" height="100"/>
 
 ### 역할
 
