@@ -30,15 +30,15 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3307/churros?serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true
     username: root
-    password: A708
+    password: ${MARIADB_PASSWORD}
   data:
     mongodb:
       uri: mongodb://localhost:27017/newsdb
 elasticsearch:
   host: localhost
   port: 9200
-  username: elastic
-  password: A503!23
+  username: ${ELASTICSEARCH_ID}
+  password: ${ELASTICSEARCH_PASSWORD}
 
 crs:
   uri: http://churros-crs:8080
